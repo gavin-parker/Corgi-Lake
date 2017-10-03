@@ -14,6 +14,6 @@ public:
 	~BenchmarkRunner();
 
 private:
-	std::vector<uint64_t> load_assembly_file(std::ofstream assembly_file);
+	std::vector<uint64_t> load_assembly_file(std::ifstream assembly_file);
 };
 

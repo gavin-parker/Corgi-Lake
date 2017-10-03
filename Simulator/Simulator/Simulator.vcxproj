@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="alu.h" />
+    <ClInclude Include="assembler.h" />
     <ClInclude Include="benchmark_runner.h" />
     <ClInclude Include="memory.h" />
     <ClInclude Include="register_file.h" />
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alu.cpp" />
+    <ClCompile Include="assembler.cpp" />
     <ClCompile Include="benchmark_runner.cpp" />
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="RegisterFile.cpp" />
