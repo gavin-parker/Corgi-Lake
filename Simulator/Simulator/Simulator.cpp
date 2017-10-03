@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "simulator.h"
 
-Simulator::Simulator(std::vector<uint64_t> boot_disk) : memory(boot_disk)
+Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk)
 {
 }
 

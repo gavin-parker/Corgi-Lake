@@ -1,15 +1,22 @@
 #pragma once
 #include <stdint.h>
 #include <vector>
+#include "instruction.h"
+struct Data {
+	bool isData = true;
+	Instruction instruction;
+	uint64_t data;
+};
+
 class Memory
 {
 private:
-	std::vector<uint64_t> main_memory;
+	std::vector<Data> main_memory;
 public:
-	Memory(std::vector<uint64_t> program_memory);
+	Memory(std::vector<Data> program_memory);
 	~Memory();
-	uint64_t operator [](uint64_t i) const {
-
+	Data operator [](uint64_t i) const {
+		return main_memory[i];
 	};
 };
 

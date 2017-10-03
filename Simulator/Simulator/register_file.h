@@ -1,12 +1,13 @@
 #pragma once
 #include <stdint.h>
+#include "memory.h"
 class RegisterFile
 {
 public:
 	RegisterFile();
 	~RegisterFile();
 	uint64_t MAR;
-	uint64_t MDR;
+	Data MDR;
 	uint64_t CIR;
 };
 

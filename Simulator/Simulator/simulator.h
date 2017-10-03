@@ -2,6 +2,9 @@
 #include "register_file.h"
 #include "alu.h"
 #include "memory.h"
+#include "instruction.h"
+
+
 class Simulator
 {
 private:
@@ -11,7 +14,7 @@ public:
 	Memory memory;
 	int program_counter = 0;
 	ALU alu;
-	Simulator(std::vector<uint64_t> boot_disk);
+	Simulator(std::vector<Data> boot_disk);
 	~Simulator();
 	void simulate();
 };

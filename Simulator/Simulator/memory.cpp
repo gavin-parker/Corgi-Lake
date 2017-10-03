@@ -2,7 +2,7 @@
 #include "memory.h"
 
 
-Memory::Memory(std::vector<uint64_t> program) : main_memory(program)
+Memory::Memory(std::vector<Data> program) : main_memory(program)
 {
 }
 
