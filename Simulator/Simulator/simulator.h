@@ -8,7 +8,7 @@
 class Simulator
 {
 private:
-	uint64_t fetch();
+	void fetch();
 public:	
 	RegisterFile register_file;
 	Memory memory;

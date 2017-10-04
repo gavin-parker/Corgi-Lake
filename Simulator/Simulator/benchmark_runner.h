@@ -6,14 +6,17 @@
 #include <fstream>
 #include <string>
 #include <vector>
-
+#include "assembler.h"
+#include "memory.h"
 class BenchmarkRunner
 {
 public:
 	BenchmarkRunner();
 	~BenchmarkRunner();
+	Assembler assembler;
+	std::vector<Data> load_assembly_file(std::string path);
 
 private:
-	std::vector<uint64_t> load_assembly_file(std::ifstream assembly_file);
 };
+
 

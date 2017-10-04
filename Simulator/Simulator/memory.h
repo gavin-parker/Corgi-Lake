@@ -16,7 +16,6 @@ public:
 	Memory(std::vector<Data> program_memory);
 	~Memory();
 	Data operator [](uint64_t i) const {
-		return main_memory[i];
+		return main_memory[(size_t)i];
 	};
 };
-
