@@ -8,6 +8,7 @@ public:
 	~RegisterFile();
 	uint64_t MAR;
 	Data MDR;
-	uint64_t CIR;
+	Data CIR;
+	Data gp[64];
 };
 
