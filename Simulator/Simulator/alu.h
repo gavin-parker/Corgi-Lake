@@ -1,11 +1,18 @@
 #pragma once
 #include "instruction.h"
 #include "register_file.h"
-class ALU
+#include "component.h"
+#include "register_file.h"
+class ALU : public Component
 {
+private:
+	RegisterFile register_file;
+	Data result;
+	Instruction current_instruction;
 public:
-	ALU();
+	ALU(RegisterFile register_file);
 	~ALU();
-	void execute(Instruction instruction, RegisterFile registers);
+	Data execute(Instruction instruction);
+	void tick();
 };
 
