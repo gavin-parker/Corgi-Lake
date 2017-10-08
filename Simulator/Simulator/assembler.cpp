@@ -5,6 +5,7 @@
 Data Assembler::assemble(std::string opcode, std::string operand) {
 	int i = 0;
 	Data data;
+	data.line = opcode + " " + operand;
 	data.instruction.opcode = opcodes[opcode];
 	if (data.instruction.opcode == DATA) {
 		data.isData = true;

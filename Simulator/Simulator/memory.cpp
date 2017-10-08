@@ -10,7 +10,7 @@ Memory::Memory(std::vector<Data> program) : main_memory(program)
 Memory::~Memory()
 {
 }
-void Memory::tick() {
+int Memory::tick() {
 	switch (state) {
 	case READY:
 		wait_cycles = 1;
@@ -27,4 +27,5 @@ void Memory::tick() {
 	case DONE:
 		break;
 	}
+	return 0;
 }

@@ -8,8 +8,8 @@ public:
 	State state = DONE;
 	Component();
 	~Component();
-	virtual void tick() {
-		
+	virtual int tick() {
+		return 0;
 	};
 
 	virtual void start() {

@@ -76,6 +76,11 @@ int Simulator::execute() {
 			return HALT_PROGRAM;
 		}
 		break;
+	case HALTEQ:
+		if (register_file.gp[r0].data == r1) {
+			return HALT_PROGRAM;
+		}
+		break;
 	default:
 		alu.state = READY;
 		state = WAIT_FOR_ALU;
@@ -85,7 +90,7 @@ int Simulator::execute() {
 	return 0;
 };
 
-void Simulator::tick() {
+int Simulator::tick() {
 	switch (state) {
 	case READY:
 		if (alu.state != DONE) { //only continue if ALU has finished
@@ -112,7 +117,7 @@ void Simulator::tick() {
 	case EXECUTING:
 		if (wait_cycles <= 1) {
 			if (execute() == HALT_PROGRAM) {
-				throw std::runtime_error("Program halted!");
+				return HALT_PROGRAM;
 			}
 		}
 		else {
@@ -127,23 +132,23 @@ void Simulator::tick() {
 	case DONE:
 		break;
 	}
+	return 0;
 }
 
 void Simulator::simulate() {
 	state = READY;
 	while (true) {
-		try {
-			ticks++;
-			tick();
-			memory.tick();
-			alu.tick();
-			if (debug) {
-				print_state();
-			}
-		}
-		catch (std::runtime_error e) {
-			dump();
+		int err = 0;
+		ticks++;
+		err = tick();
+		if (err == HALT_PROGRAM)
+		{
 			return;
+		}
+		memory.tick();
+		alu.tick();
+		if (debug) {
+			print_state();
 		}
 	}
 }
@@ -168,8 +173,9 @@ void Simulator::dump() {
 	std::cout << std::endl;
 }
 void Simulator::print_state() {
-	std::cout << "r3: " << register_file.gp[3].data << std::endl;
-	std::cout << "r0: " << register_file.gp[0].data << std::endl;
+	std::cout << register_file.CIR.line << std::endl;
+	//std::cout << "r3: " << register_file.gp[3].data << std::endl;
+	//std::cout << "r0: " << register_file.gp[0].data << std::endl;
 	//std::cout << "state: " << state;
 	//std::cout << " PC: " << program_counter;
 	//std::cout << " tick: " << ticks << std::endl;

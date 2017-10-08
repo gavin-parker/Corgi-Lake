@@ -175,7 +175,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="benchmark_suite.corg" />
+    <None Include="vector_add.corg" />
+    <None Include="vector_sum.corg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

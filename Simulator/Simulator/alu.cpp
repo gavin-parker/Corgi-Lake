@@ -41,7 +41,7 @@ Data ALU::execute(Instruction instruction) {
 	}
 	return result;
 }
-void ALU::tick() {
+int ALU::tick() {
 	switch (state) {
 	case READY:
 		current_instruction = register_file->CIR.instruction;
@@ -60,4 +60,5 @@ void ALU::tick() {
 	case DONE:
 		break;
 	}
+	return 0;
 }

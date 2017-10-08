@@ -82,7 +82,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="benchmark_suite.corg">
+    <None Include="vector_add.corg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="vector_sum.corg">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

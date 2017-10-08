@@ -7,6 +7,7 @@ struct Data {
 	bool isData = true;
 	Instruction instruction;
 	int64_t data;
+	std::string line;
 };
 
 class Memory : public Component
@@ -21,5 +22,5 @@ public:
 		wait_cycles = 1;
  		return main_memory[(size_t)i];
 	};
-	void tick();
+	int tick();
 };

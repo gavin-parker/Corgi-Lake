@@ -18,7 +18,7 @@ public:
 	Simulator(std::vector<Data> boot_disk);
 	~Simulator();
 	void simulate();
-	void tick();
+	int tick();
 	bool debug = true;
 	void dump();
 };

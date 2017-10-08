@@ -13,6 +13,6 @@ public:
 	ALU(RegisterFile *register_file);
 	~ALU();
 	Data execute(Instruction instruction);
-	void tick();
+	int tick();
 };
 
