@@ -6,7 +6,7 @@ class Instruction
 {
 public:
 	Opcode opcode;
-	uint32_t operands[3] = { 0,0,0 };
+	int32_t operands[3] = { 0,0,0 };
 	Instruction();
 	~Instruction();
 

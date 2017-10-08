@@ -6,11 +6,11 @@
 class ALU : public Component
 {
 private:
-	RegisterFile register_file;
+	RegisterFile *register_file;
 	Data result;
 	Instruction current_instruction;
 public:
-	ALU(RegisterFile register_file);
+	ALU(RegisterFile *register_file);
 	~ALU();
 	Data execute(Instruction instruction);
 	void tick();

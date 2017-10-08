@@ -3,9 +3,10 @@
 
 #include "stdafx.h"
 #include "simulator.h"
+#include <string>
 #include <iostream>
 
-Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(register_file)
+Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(&register_file)
 {
 }
 
@@ -20,9 +21,9 @@ void Simulator::fetch() {
 //mega code smell
 int Simulator::execute() {
 	Instruction current_instruction = register_file.CIR.instruction;
-	uint64_t r0 = current_instruction.operands[0];
-	uint64_t r1 = current_instruction.operands[1];
-	uint64_t r2 = current_instruction.operands[2];
+	int64_t r0 = current_instruction.operands[0];
+	int64_t r1 = current_instruction.operands[1];
+	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
 	switch (current_instruction.opcode)
 	{
@@ -35,9 +36,8 @@ int Simulator::execute() {
 		state = READY;
 		break;
 	case BLT:
-		std::cout << "reached BLT!";
 		if (register_file.gp[r0].data < register_file.gp[r1].data) {
-			program_counter += r0;
+			program_counter += r2;
 		}
 		state = READY;
 		break;
@@ -77,7 +77,7 @@ int Simulator::execute() {
 		}
 		break;
 	default:
-		alu.execute(current_instruction);
+		alu.state = READY;
 		state = WAIT_FOR_ALU;
 		return 0;
 	}
@@ -132,19 +132,47 @@ void Simulator::tick() {
 void Simulator::simulate() {
 	state = READY;
 	while (true) {
-		ticks++;
-		tick();
-		memory.tick();
-		alu.tick();
-		if (debug) {
-			print_state();
+		try {
+			ticks++;
+			tick();
+			memory.tick();
+			alu.tick();
+			if (debug) {
+				print_state();
+			}
+		}
+		catch (std::runtime_error e) {
+			dump();
+			return;
 		}
 	}
 }
+
+void Simulator::dump() {
+	std::cout << std::endl;
+	std::cout << "| TICKS | PC | STATE | MAR | MDR | CIR | ";
+	std::string reg_header = "";
+	std::string reg_contents = "";
+	for (int i = 0; i < 16; i++) {
+		reg_header += "R" + std::to_string(i) + " | ";
+		std::string contents = "X";
+		if (register_file.gp[i].data >= -10000 && register_file.gp[i].data <= 10000) {
+			contents = std::to_string(register_file.gp[i].data);
+		}
+		reg_contents += contents + " | ";
+	}
+	std::cout << reg_header;
+	std::cout << std::endl;
+	std::cout << "| " << ticks << " | " << program_counter << " | " << state << " | ";
+	std::cout << "X" << " | " << "X" << " | " << "X" << " | " << reg_contents;
+	std::cout << std::endl;
+}
 void Simulator::print_state() {
-	std::cout << "state: " << state;
-	std::cout << " PC: " << program_counter;
-	std::cout << " tick: " << ticks << std::endl;
+	std::cout << "r3: " << register_file.gp[3].data << std::endl;
+	std::cout << "r0: " << register_file.gp[0].data << std::endl;
+	//std::cout << "state: " << state;
+	//std::cout << " PC: " << program_counter;
+	//std::cout << " tick: " << ticks << std::endl;
 }
 
 

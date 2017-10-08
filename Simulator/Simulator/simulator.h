@@ -20,4 +20,5 @@ public:
 	void simulate();
 	void tick();
 	bool debug = true;
+	void dump();
 };

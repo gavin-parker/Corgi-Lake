@@ -6,7 +6,7 @@
 struct Data {
 	bool isData = true;
 	Instruction instruction;
-	uint64_t data;
+	int64_t data;
 };
 
 class Memory : public Component
