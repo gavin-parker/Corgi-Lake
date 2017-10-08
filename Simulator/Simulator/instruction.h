@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-enum Opcode { DATA, IADD, IADDI, ICMP, LD, LDI, BRA, JUM, BLT };
+enum Opcode { DATA, IADD, IADDI, IMUL, IMULI, ICMP, LD, STR, LDI, STRI, BRA, JUM, BLT, HALTEZ };
 
 class Instruction
 {
@@ -14,7 +14,7 @@ public:
 		if ((opcode >= IADD && opcode <= LD) || opcode == BLT) {
 			return 3;
 		}
-		else if (opcode == LDI) {
+		else if (opcode == LDI || opcode == STRI) {
 			return 2;
 		}
 		else {

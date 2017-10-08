@@ -2,12 +2,13 @@
 #include "register_file.h"
 #include "alu.h"
 #include "memory.h"
+#define HALT_PROGRAM -1
 class Simulator
 {
 private:
 	void fetch();
 	void decode();
-	void execute();
+	int execute();
 public:	
 	RegisterFile register_file;
 	Memory memory;
