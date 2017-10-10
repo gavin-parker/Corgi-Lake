@@ -88,5 +88,8 @@
     <None Include="vector_sum.corg">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="label_test.corg">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

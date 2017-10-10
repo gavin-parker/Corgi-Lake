@@ -14,7 +14,6 @@ public:
 	BenchmarkRunner();
 	~BenchmarkRunner();
 	Assembler assembler;
-	std::vector<Data> load_assembly_file(std::string path);
 
 private:
 };

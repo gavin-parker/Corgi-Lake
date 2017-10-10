@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <map>
+#include <unordered_map>
 #include "memory.h"
 class Assembler
 {
@@ -10,10 +11,12 @@ class Assembler
 											{"JUM", JUM}, {"BLT", BLT}, {"HALTEZ", HALTEZ}, {"IMUL", IMUL},
 											{"IMULI", IMULI}, {"STR",STR}, {"STRI", STRI},
 											{"HALTEQ", HALTEQ} };
+
 public:
 	Assembler();
 	~Assembler();
 	Data assemble(std::string opcode, std::string operand);
+	std::vector<Data> load_assembly_file(std::string path);
 
 	static std::vector<std::string> split(std::string input, std::string delimeter) {
 		size_t pos = 0;

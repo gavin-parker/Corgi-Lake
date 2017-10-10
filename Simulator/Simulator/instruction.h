@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 enum Opcode { DATA, IADD, IADDI, IMUL, IMULI, ICMP, LD, STR, LDI, STRI, BRA, JUM, BLT, HALTEZ, HALTEQ };
+
 class Instruction
 {
 public:

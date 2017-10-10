@@ -9,8 +9,8 @@ private:
 	void fetch();
 	int execute();
 	void print_state();
-	int ticks = 0;
 public:	
+	int ticks = 0;
 	RegisterFile register_file;
 	Memory memory;
 	uint64_t program_counter = 0;

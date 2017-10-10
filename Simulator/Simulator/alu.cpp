@@ -21,22 +21,28 @@ Data ALU::execute(Instruction instruction) {
 	case IADD:
 		result.data = register_file->gp[r1].data + register_file->gp[r2].data;
 		wait_cycles = 1;
+		state = DONE;
+		register_file->gp[current_instruction.operands[0]] = result;
 		break;
 	case IADDI:
 	{
 		v = r2;
 		result.data = register_file->gp[r1].data + v;
 		wait_cycles = 1;
+		state = DONE;
+		register_file->gp[current_instruction.operands[0]] = result;
 		break;
 	}
 	case IMUL:
 		result.data = register_file->gp[r1].data * register_file->gp[r2].data;
-		wait_cycles = 4;
+		wait_cycles = 3;
+		state = EXECUTING;
 		break;
 	case IMULI:
 		v = r2;
 		result.data = register_file->gp[r1].data * v;
-		wait_cycles = 4;
+		wait_cycles = 3;
+		state = EXECUTING;
 		break;
 	}
 	return result;
@@ -46,7 +52,6 @@ int ALU::tick() {
 	case READY:
 		current_instruction = register_file->CIR.instruction;
 		result = execute(current_instruction);
-		state = EXECUTING;
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {

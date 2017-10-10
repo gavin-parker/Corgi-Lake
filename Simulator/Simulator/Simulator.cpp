@@ -173,6 +173,7 @@ void Simulator::dump() {
 	std::cout << std::endl;
 }
 void Simulator::print_state() {
+
 	std::cout << register_file.CIR.line << std::endl;
 	//std::cout << "r3: " << register_file.gp[3].data << std::endl;
 	//std::cout << "r0: " << register_file.gp[0].data << std::endl;
