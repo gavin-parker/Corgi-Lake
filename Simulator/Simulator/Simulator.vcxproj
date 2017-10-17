@@ -150,9 +150,12 @@
     <ClInclude Include="assembler.h" />
     <ClInclude Include="benchmark_runner.h" />
     <ClInclude Include="component.h" />
+    <ClInclude Include="fetcher.h" />
     <ClInclude Include="instruction.h" />
+    <ClInclude Include="load_store.h" />
     <ClInclude Include="memory.h" />
     <ClInclude Include="register_file.h" />
+    <ClInclude Include="reservation_station.h" />
     <ClInclude Include="simulator.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="stdafx.h" />
@@ -163,9 +166,12 @@
     <ClCompile Include="assembler.cpp" />
     <ClCompile Include="benchmark_runner.cpp" />
     <ClCompile Include="component.cpp" />
+    <ClCompile Include="fetcher.cpp" />
     <ClCompile Include="instruction.cpp" />
+    <ClCompile Include="load_store.cpp" />
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="RegisterFile.cpp" />
+    <ClCompile Include="reservation_station.cpp" />
     <ClCompile Include="simulator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

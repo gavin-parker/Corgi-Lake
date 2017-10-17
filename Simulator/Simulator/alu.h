@@ -3,6 +3,7 @@
 #include "register_file.h"
 #include "component.h"
 #include "register_file.h"
+#include "reservation_station.h"
 class ALU : public Component
 {
 private:
@@ -10,6 +11,7 @@ private:
 	Data result;
 	Instruction current_instruction;
 public:
+	ReservationStation reservation_station;
 	ALU(RegisterFile *register_file);
 	~ALU();
 	Data execute(Instruction instruction);

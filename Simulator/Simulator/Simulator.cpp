@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(&register_file)
+Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(&register_file), fetcher(&memory, &register_file)
 {
 }
 
@@ -28,18 +28,27 @@ int Simulator::execute() {
 	switch (current_instruction.opcode)
 	{
 	case BRA:
-		program_counter = r0;
-		state = READY;
+		if (alu.state == DONE && memory.state == DONE) {
+			program_counter = r0;
+			state = READY;
+			flush();
+		}
 		break;
 	case JUM:
-		program_counter += r0;
-		state = READY;
+		if (alu.state == DONE && memory.state == DONE) {
+			program_counter += r0;
+			state = READY;
+			flush();
+		}
 		break;
 	case BLT:
-		if (register_file.gp[r0].data < register_file.gp[r1].data) {
-			program_counter += r2;
+		if (alu.state == DONE && memory.state == DONE) {
+			if (register_file.gp[r0].data < register_file.gp[r1].data) {
+				program_counter += r2;
+			}
+			state = READY;
+			flush();
 		}
-		state = READY;
 		break;
 	case ICMP:
 	{
@@ -55,21 +64,29 @@ int Simulator::execute() {
 		break;
 	}
 	case LD:
-		register_file.gp[r0].data = memory[register_file.gp[r1].data + r2].data;
-		state = WAIT_FOR_MEM;
+		if (memory.state != EXECUTING) {
+			register_file.gp[r0].data = memory[register_file.gp[r1].data + r2].data;
+			state = WAIT_FOR_MEM;
+		}
 		break;
 	case LDI:
-		register_file.gp[r0].data = r1;
-		state = WAIT_FOR_MEM;
+		if (memory.state != EXECUTING) {
+			register_file.gp[r0].data = r1;
+			state = WAIT_FOR_MEM;
+		}
 		break;
 	case STR:
-		memory[register_file.gp[r0].data + register_file.gp[r1].data] = register_file.gp[r2];
-		state = WAIT_FOR_MEM;
+		if (memory.state != EXECUTING) {
+			memory[register_file.gp[r0].data + register_file.gp[r1].data] = register_file.gp[r2];
+			state = WAIT_FOR_MEM;
+		}
 		break;
 	case STRI:
-		v = r1; 
-		memory[v] = register_file.gp[r0];
-		state = WAIT_FOR_MEM;
+		if (memory.state != EXECUTING) {
+			v = r1;
+			memory[v] = register_file.gp[r0];
+			state = WAIT_FOR_MEM;
+		}
 		break;
 	case HALTEZ:
 		if (register_file.gp[r0].data == 0) {
@@ -82,8 +99,11 @@ int Simulator::execute() {
 		}
 		break;
 	default:
-		alu.state = READY;
-		state = WAIT_FOR_ALU;
+		if (alu.state == DONE) {
+			alu.state = READY;
+		}
+		alu.reservation_station.push(current_instruction);
+		state = READY;
 		return 0;
 	}
 	
@@ -91,52 +111,49 @@ int Simulator::execute() {
 };
 
 int Simulator::tick() {
-	switch (state) {
-	case READY:
-		if (alu.state != DONE) { //only continue if ALU has finished
-			break;
-		}
+
+	if (fetcher.state == READY) {
 		register_file.MAR = program_counter;
-		wait_cycles = 1;
-		fetch();
-		state = FETCHING_INSTRUCTION; //Wait for instruction to be fetched
-		break;
-	case FETCHING_INSTRUCTION:
-		if (memory.state == DONE) {
-			register_file.CIR = register_file.MDR;
-			program_counter++;
-			wait_cycles = 1;
-			state = EXECUTING;
+		fetcher.state = EXECUTING;
+	}
+	//fetch
+	if (fetcher.state == DONE) {
+		register_file.CIR = register_file.MDR;
+		state = READY;
+		program_counter++;
+		fetcher.state = READY;
+	}
+	//execute
+	if (state == READY) {
+		if (execute() == HALT_PROGRAM) {
+			return HALT_PROGRAM;
 		}
-		break;
-	case WAIT_FOR_MEM:
-		if (memory.state == DONE) {
-			state = READY;
-		}
-		break;
-	case EXECUTING:
-		if (wait_cycles <= 1) {
-			if (execute() == HALT_PROGRAM) {
-				return HALT_PROGRAM;
-			}
-		}
-		else {
-			wait_cycles--;
-		}
-		break;
-	case WAIT_FOR_ALU:
+	}
+	else if (state == WAIT_FOR_ALU) {
 		if (alu.state == DONE) {
 			state = READY;
 		}
-		break;
-	case DONE:
-		break;
 	}
+	else if (state == WAIT_FOR_MEM) {
+		if (memory.state == DONE) {
+			state = READY;
+		}
+	}
+
+	//writeback
+
 	return 0;
 }
 
+void Simulator::flush() {
+	fetcher.state = READY;
+	alu.state = DONE;
+	memory.state = DONE;
+	state = READY;
+}
 void Simulator::simulate() {
 	state = READY;
+	fetcher.state = READY;
 	while (true) {
 		int err = 0;
 		ticks++;
@@ -145,6 +162,7 @@ void Simulator::simulate() {
 		{
 			return;
 		}
+		fetcher.tick();
 		memory.tick();
 		alu.tick();
 		if (debug) {

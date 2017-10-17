@@ -18,8 +18,6 @@ public:
 	Memory(std::vector<Data> program_memory);
 	~Memory();
 	Data operator [](uint64_t i){
-		state = EXECUTING;
-		wait_cycles = 1;
  		return main_memory[(size_t)i];
 	};
 	int tick();

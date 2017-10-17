@@ -50,8 +50,10 @@ Data ALU::execute(Instruction instruction) {
 int ALU::tick() {
 	switch (state) {
 	case READY:
-		current_instruction = register_file->CIR.instruction;
-		result = execute(current_instruction);
+		if (!reservation_station.isEmpty()) {
+			current_instruction = reservation_station.pop();
+			result = execute(current_instruction);
+		}
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
