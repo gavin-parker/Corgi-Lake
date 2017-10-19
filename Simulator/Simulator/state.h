@@ -6,5 +6,6 @@ enum State {
 	DONE,				//Function has been performed and result placed on output
 	WAIT_FOR_MEM,
 	WAIT_FOR_ALU,
-	FETCHING_INSTRUCTION
+	FETCHING_INSTRUCTION,
+	STALLED
 };

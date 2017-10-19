@@ -19,35 +19,44 @@ void Simulator::fetch() {
 };
 
 //mega code smell
-int Simulator::execute() {
-	Instruction current_instruction = register_file.CIR.instruction;
+int Simulator::execute(Instruction current_instruction) {
 	int64_t r0 = current_instruction.operands[0];
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
+	bool canBranch = alu.reservation_station.isEmpty() && alu.state != EXECUTING && memory.state == DONE;
 	switch (current_instruction.opcode)
 	{
 	case BRA:
-		if (alu.state == DONE && memory.state == DONE) {
+		if (canBranch) {
 			program_counter = r0;
 			state = READY;
 			flush();
 		}
+		else {
+			state = STALLED;
+		}
 		break;
 	case JUM:
-		if (alu.state == DONE && memory.state == DONE) {
+		if (canBranch) {
 			program_counter += r0;
 			state = READY;
 			flush();
 		}
+		else {
+			state = STALLED;
+		}
 		break;
 	case BLT:
-		if (alu.state == DONE && memory.state == DONE) {
+		if (canBranch) {
 			if (register_file.gp[r0].data < register_file.gp[r1].data) {
 				program_counter += r2;
 			}
 			state = READY;
 			flush();
+		}
+		else {
+			state = STALLED;
 		}
 		break;
 	case ICMP:
@@ -89,21 +98,30 @@ int Simulator::execute() {
 		}
 		break;
 	case HALTEZ:
-		if (register_file.gp[r0].data == 0) {
-			return HALT_PROGRAM;
+		if (canBranch) {
+			if (register_file.gp[r0].data == 0) {
+				return HALT_PROGRAM;
+			}
+		}
+		else {
+			state = STALLED;
 		}
 		break;
 	case HALTEQ:
-		if (register_file.gp[r0].data == r1) {
-			return HALT_PROGRAM;
+		if (canBranch) {
+			if (register_file.gp[r0].data == r1) {
+				return HALT_PROGRAM;
+			}
+		}
+		else {
+			state = STALLED;
 		}
 		break;
 	default:
-		if (alu.state == DONE) {
-			alu.state = READY;
+		if (current_instruction.opcode != DATA) {
+			alu.reservation_station.push(current_instruction);
+			state = READY;
 		}
-		alu.reservation_station.push(current_instruction);
-		state = READY;
 		return 0;
 	}
 	
@@ -112,25 +130,28 @@ int Simulator::execute() {
 
 int Simulator::tick() {
 
-	if (fetcher.state == READY) {
+	if (fetcher.state == READY && state != STALLED) {
 		register_file.MAR = program_counter;
 		fetcher.state = EXECUTING;
 	}
 	//fetch
-	if (fetcher.state == DONE) {
-		register_file.CIR = register_file.MDR;
+	if (fetcher.state == DONE && state != STALLED) {
+		instruction_buffer.push(register_file.MDR.instruction);
+		std::cout << register_file.MDR.line << std::endl;
 		state = READY;
 		program_counter++;
 		fetcher.state = READY;
 	}
 	//execute
-	if (state == READY) {
-		if (execute() == HALT_PROGRAM) {
-			return HALT_PROGRAM;
+	if (state == READY || state == STALLED) {
+		if (!instruction_buffer.isEmpty()) {
+			if (execute(instruction_buffer.pop()) == HALT_PROGRAM) {
+				return HALT_PROGRAM;
+			}
 		}
 	}
 	else if (state == WAIT_FOR_ALU) {
-		if (alu.state == DONE) {
+		if (alu.state == READY) {
 			state = READY;
 		}
 	}
@@ -147,13 +168,14 @@ int Simulator::tick() {
 
 void Simulator::flush() {
 	fetcher.state = READY;
-	alu.state = DONE;
+	alu.state = READY;
 	memory.state = DONE;
 	state = READY;
 }
 void Simulator::simulate() {
 	state = READY;
 	fetcher.state = READY;
+	alu.state = READY;
 	while (true) {
 		int err = 0;
 		ticks++;
@@ -190,9 +212,10 @@ void Simulator::dump() {
 	std::cout << "X" << " | " << "X" << " | " << "X" << " | " << reg_contents;
 	std::cout << std::endl;
 }
+
 void Simulator::print_state() {
 
-	std::cout << register_file.CIR.line << std::endl;
+	//std::cout << register_file.CIR.line << std::endl;
 	//std::cout << "r3: " << register_file.gp[3].data << std::endl;
 	//std::cout << "r0: " << register_file.gp[0].data << std::endl;
 	//std::cout << "state: " << state;

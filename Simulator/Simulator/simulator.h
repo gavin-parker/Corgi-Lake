@@ -2,18 +2,19 @@
 #include "register_file.h"
 #include "alu.h"
 #include "memory.h"
-#include "fetcher.h"]
+#include "fetcher.h"
 #include "load_store.h"
 #define HALT_PROGRAM -1
 class Simulator : public Component
 {
 private:
 	void fetch();
-	int execute();
+	int execute(Instruction current_instruction);
 	void print_state();
 	void flush();
 	Fetcher fetcher;
 	LoadStore load_store;
+	ReservationStation instruction_buffer;
 public:	
 	int ticks = 0;
 	RegisterFile register_file;

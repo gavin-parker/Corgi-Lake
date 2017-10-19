@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "alu.h"
+#include <iostream>
 
 
 ALU::ALU(RegisterFile *register_file) : register_file(register_file)
@@ -20,28 +21,22 @@ Data ALU::execute(Instruction instruction) {
 	switch (instruction.opcode) {
 	case IADD:
 		result.data = register_file->gp[r1].data + register_file->gp[r2].data;
-		wait_cycles = 1;
-		state = DONE;
-		register_file->gp[current_instruction.operands[0]] = result;
+		state = EXECUTING;
 		break;
 	case IADDI:
 	{
 		v = r2;
 		result.data = register_file->gp[r1].data + v;
-		wait_cycles = 1;
-		state = DONE;
-		register_file->gp[current_instruction.operands[0]] = result;
+		state = EXECUTING;
 		break;
 	}
 	case IMUL:
 		result.data = register_file->gp[r1].data * register_file->gp[r2].data;
-		wait_cycles = 3;
 		state = EXECUTING;
 		break;
 	case IMULI:
 		v = r2;
 		result.data = register_file->gp[r1].data * v;
-		wait_cycles = 3;
 		state = EXECUTING;
 		break;
 	}
@@ -52,13 +47,15 @@ int ALU::tick() {
 	case READY:
 		if (!reservation_station.isEmpty()) {
 			current_instruction = reservation_station.pop();
-			result = execute(current_instruction);
+			state = EXECUTING;
+			wait_cycles = 1;
 		}
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
+			result = execute(current_instruction);
 			register_file->gp[current_instruction.operands[0]] = result;
-			state = DONE;
+			state = READY;
 		}
 		else {
 			wait_cycles--;
@@ -67,5 +64,11 @@ int ALU::tick() {
 	case DONE:
 		break;
 	}
+	log();
 	return 0;
+}
+
+void ALU::log()
+{
+	//std::cout << "ALU: " << current_instruction.line << std::endl;
 }

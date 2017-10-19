@@ -16,5 +16,6 @@ public:
 	~ALU();
 	Data execute(Instruction instruction);
 	int tick();
+	void log();
 };
 
