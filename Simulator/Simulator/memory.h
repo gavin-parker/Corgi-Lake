@@ -18,7 +18,7 @@ public:
 	Memory(std::vector<Data> program_memory);
 	~Memory();
 	Data operator [](uint64_t i){
- 		return main_memory[(size_t)i];
+ 		return main_memory[static_cast<size_t>(i)];
 	};
 	int tick();
 };

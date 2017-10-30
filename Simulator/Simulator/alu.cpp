@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-ALU::ALU(RegisterFile *register_file) : register_file(register_file)
+ALU::ALU(std::shared_ptr<RegisterFile> register_file, std::shared_ptr<ReservationStation> input, std::shared_ptr<ReservationStation> output) : register_file(register_file), input(input), output(output)
 {
 }
 
@@ -45,8 +45,8 @@ Data ALU::execute(Instruction instruction) {
 int ALU::tick() {
 	switch (state) {
 	case READY:
-		if (!reservation_station.isEmpty()) {
-			current_instruction = reservation_station.pop();
+		if (!input->isEmpty()) {
+			current_instruction = input->pop();
 			state = EXECUTING;
 			wait_cycles = 1;
 		}

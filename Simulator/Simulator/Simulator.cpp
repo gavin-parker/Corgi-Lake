@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(&register_file), fetcher(&memory, &register_file)
+Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(1, std::make_shared<RegisterFile>(register_file)), fetcher(&memory, &register_file)
 {
 }
 
@@ -24,7 +24,7 @@ int Simulator::execute(Instruction current_instruction) {
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
-	bool canBranch = alu.reservation_station.isEmpty() && alu.state != EXECUTING && memory.state == DONE;
+	bool canBranch = alu.input->isEmpty() && alu.state != EXECUTING && memory.state == DONE;
 	switch (current_instruction.opcode)
 	{
 	case BRA:
@@ -117,9 +117,12 @@ int Simulator::execute(Instruction current_instruction) {
 			state = STALLED;
 		}
 		break;
+	case NOP:
+		state = READY;
+		break;
 	default:
 		if (current_instruction.opcode != DATA) {
-			alu.reservation_station.push(current_instruction);
+			alu.input->push(current_instruction);
 			state = READY;
 		}
 		return 0;

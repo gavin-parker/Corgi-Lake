@@ -10,7 +10,7 @@ class Assembler
 											{"ICMP", ICMP}, {"LD", LD}, {"LDI", LDI}, {"BRA", BRA},
 											{"JUM", JUM}, {"BLT", BLT}, {"HALTEZ", HALTEZ}, {"IMUL", IMUL},
 											{"IMULI", IMULI}, {"STR",STR}, {"STRI", STRI},
-											{"HALTEQ", HALTEQ} };
+											{"HALTEQ", HALTEQ}, {"NOP", NOP } };
 
 public:
 	Assembler();

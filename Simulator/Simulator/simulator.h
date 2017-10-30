@@ -4,6 +4,7 @@
 #include "memory.h"
 #include "fetcher.h"
 #include "load_store.h"
+#include "bank.h"
 #define HALT_PROGRAM -1
 class Simulator : public Component
 {
@@ -20,7 +21,7 @@ public:
 	RegisterFile register_file;
 	Memory memory;
 	uint64_t program_counter = 0;
-	ALU alu;
+	Bank<ALU> alu;
 	Simulator(std::vector<Data> boot_disk);
 	~Simulator();
 	void simulate();

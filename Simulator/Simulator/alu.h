@@ -4,15 +4,17 @@
 #include "component.h"
 #include "register_file.h"
 #include "reservation_station.h"
+#include <memory>
 class ALU : public Component
 {
 private:
-	RegisterFile *register_file;
+	std::shared_ptr<ReservationStation> input;
+	std::shared_ptr<ReservationStation> output;
+	std::shared_ptr<RegisterFile> register_file;
 	Data result;
 	Instruction current_instruction;
 public:
-	ReservationStation reservation_station;
-	ALU(RegisterFile *register_file);
+	ALU(std::shared_ptr<RegisterFile> register_file, std::shared_ptr<ReservationStation> input, std::shared_ptr<ReservationStation> output);
 	~ALU();
 	Data execute(Instruction instruction);
 	int tick();

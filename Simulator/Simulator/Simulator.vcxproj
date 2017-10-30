@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="alu.h" />
     <ClInclude Include="assembler.h" />
+    <ClInclude Include="bank.h" />
     <ClInclude Include="benchmark_runner.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="fetcher.h" />
@@ -164,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="alu.cpp" />
     <ClCompile Include="assembler.cpp" />
+    <ClCompile Include="bank.cpp" />
     <ClCompile Include="benchmark_runner.cpp" />
     <ClCompile Include="component.cpp" />
     <ClCompile Include="fetcher.cpp" />
