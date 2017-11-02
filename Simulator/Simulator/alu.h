@@ -10,11 +10,11 @@ class ALU : public Component
 private:
 	std::shared_ptr<ReservationStation> input;
 	std::shared_ptr<ReservationStation> output;
-	std::shared_ptr<RegisterFile> register_file;
+	RegisterFile *register_file;
 	Data result;
 	Instruction current_instruction;
 public:
-	ALU(std::shared_ptr<RegisterFile> register_file, std::shared_ptr<ReservationStation> input, std::shared_ptr<ReservationStation> output);
+	ALU(RegisterFile *register_file, std::shared_ptr<ReservationStation> input, std::shared_ptr<ReservationStation> output);
 	~ALU();
 	Data execute(Instruction instruction);
 	int tick();

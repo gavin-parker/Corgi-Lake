@@ -155,6 +155,7 @@
     <ClInclude Include="instruction.h" />
     <ClInclude Include="load_store.h" />
     <ClInclude Include="memory.h" />
+    <ClInclude Include="non_copyable.h" />
     <ClInclude Include="register_file.h" />
     <ClInclude Include="reservation_station.h" />
     <ClInclude Include="simulator.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="instruction.cpp" />
     <ClCompile Include="load_store.cpp" />
     <ClCompile Include="memory.cpp" />
+    <ClCompile Include="non_copyable.cpp" />
     <ClCompile Include="RegisterFile.cpp" />
     <ClCompile Include="reservation_station.cpp" />
     <ClCompile Include="simulator.cpp" />

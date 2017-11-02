@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(1, std::make_shared<RegisterFile>(register_file)), fetcher(&memory, &register_file)
+Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(1, &register_file), fetcher(&memory, &register_file)
 {
 }
 
@@ -24,7 +24,7 @@ int Simulator::execute(Instruction current_instruction) {
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
-	bool canBranch = alu.input->isEmpty() && alu.state != EXECUTING && memory.state == DONE;
+	bool canBranch = alu.input->isEmpty() && !alu.isExecuting() && memory.state == DONE;
 	switch (current_instruction.opcode)
 	{
 	case BRA:
@@ -153,11 +153,6 @@ int Simulator::tick() {
 			}
 		}
 	}
-	else if (state == WAIT_FOR_ALU) {
-		if (alu.state == READY) {
-			state = READY;
-		}
-	}
 	else if (state == WAIT_FOR_MEM) {
 		if (memory.state == DONE) {
 			state = READY;
@@ -171,14 +166,14 @@ int Simulator::tick() {
 
 void Simulator::flush() {
 	fetcher.state = READY;
-	alu.state = READY;
+	alu.flush();
 	memory.state = DONE;
 	state = READY;
 }
+
 void Simulator::simulate() {
 	state = READY;
 	fetcher.state = READY;
-	alu.state = READY;
 	while (true) {
 		int err = 0;
 		ticks++;

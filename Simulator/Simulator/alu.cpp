@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-ALU::ALU(std::shared_ptr<RegisterFile> register_file, std::shared_ptr<ReservationStation> input, std::shared_ptr<ReservationStation> output) : register_file(register_file), input(input), output(output)
+ALU::ALU(RegisterFile* register_file, std::shared_ptr<ReservationStation> input, std::shared_ptr<ReservationStation> output) : register_file(register_file), input(input), output(output)
 {
 }
 

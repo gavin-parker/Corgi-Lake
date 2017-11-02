@@ -1,13 +1,14 @@
 #pragma once
 #include "state.h"
-class Component
+#include "non_copyable.h"
+class Component //: public NonCopyable
 {
 protected:
 	int wait_cycles = 0;
 public:
 	State state = DONE;
 	Component();
-	~Component();
+	virtual ~Component();
 	virtual int tick() {
 		return 0;
 	};

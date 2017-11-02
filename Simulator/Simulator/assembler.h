@@ -26,7 +26,7 @@ public:
 			input.erase(0, pos + delimeter.size());
 		}
 		results.push_back(input.substr(0, input.size()));
-		for (int i = 0; i < results.size(); i++) {
+		for (size_t i = 0; i < results.size(); i++) {
 			auto result = results[i];
 			//clip whitespace
 			if (result.size() == 0 || result == delimeter) {
