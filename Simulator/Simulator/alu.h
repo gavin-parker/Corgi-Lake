@@ -12,12 +12,15 @@ private:
 	std::shared_ptr<ReservationStation> output;
 	RegisterFile *register_file;
 	Data result;
+	int result_location = 0;
 	Instruction current_instruction;
 public:
+	bool result_ready = false;
 	ALU(RegisterFile *register_file, std::shared_ptr<ReservationStation> input, std::shared_ptr<ReservationStation> output);
 	~ALU();
 	Data execute(Instruction instruction);
 	int tick();
 	void log();
+	void write();
 };
 

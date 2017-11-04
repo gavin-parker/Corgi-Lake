@@ -15,8 +15,26 @@ Simulator::~Simulator()
 }
 
 void Simulator::fetch() {
-	register_file.MDR = memory[register_file.MAR];
-};
+	if (fetcher.state == READY && state != STALLED) {
+		register_file.MAR = program_counter;
+		fetcher.state = EXECUTING;
+	}
+}
+void Simulator::decode()
+{
+	if (fetcher.state == DONE && state != STALLED) {
+		instruction_buffer.push(register_file.MDR.instruction);
+		std::cout << register_file.MDR.line << std::endl;
+		state = READY;
+		program_counter++;
+		fetcher.state = READY;
+	}
+}
+
+void Simulator::writeback()
+{
+	alu.write();
+}
 
 //mega code smell
 int Simulator::execute(Instruction current_instruction) {
@@ -24,7 +42,7 @@ int Simulator::execute(Instruction current_instruction) {
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
-	bool canBranch = alu.input->isEmpty() && !alu.isExecuting() && memory.state == DONE;
+	bool canBranch = alu.flushed() && memory.state == DONE;
 	switch (current_instruction.opcode)
 	{
 	case BRA:
@@ -132,25 +150,19 @@ int Simulator::execute(Instruction current_instruction) {
 };
 
 int Simulator::tick() {
-
-	if (fetcher.state == READY && state != STALLED) {
-		register_file.MAR = program_counter;
-		fetcher.state = EXECUTING;
-	}
-	//fetch
-	if (fetcher.state == DONE && state != STALLED) {
-		instruction_buffer.push(register_file.MDR.instruction);
-		std::cout << register_file.MDR.line << std::endl;
-		state = READY;
-		program_counter++;
-		fetcher.state = READY;
-	}
-	//execute
-	if (state == READY || state == STALLED) {
+	fetch();
+	decode();
+	if (state == READY) {
 		if (!instruction_buffer.isEmpty()) {
-			if (execute(instruction_buffer.pop()) == HALT_PROGRAM) {
+			stall_instruction = instruction_buffer.pop();
+			if (execute(stall_instruction) == HALT_PROGRAM) {
 				return HALT_PROGRAM;
 			}
+		}
+	}
+	else if (state == STALLED) {
+		if (execute(stall_instruction) == HALT_PROGRAM) {
+			return HALT_PROGRAM;
 		}
 	}
 	else if (state == WAIT_FOR_MEM) {
@@ -158,7 +170,7 @@ int Simulator::tick() {
 			state = READY;
 		}
 	}
-
+	writeback();
 	//writeback
 
 	return 0;

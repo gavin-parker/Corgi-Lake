@@ -48,5 +48,21 @@ public:
 			member.state = READY;
 		}
 	}
+	void write() {
+		for (auto &member : members) {
+			member.write();
+		}
+	}
+	bool flushed() {
+		if (!input->isEmpty()) {
+			return false;
+		}
+		for (auto &member : members) {
+			if (member.state == EXECUTING || member.result_ready == true) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 };

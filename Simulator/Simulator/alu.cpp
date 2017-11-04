@@ -53,7 +53,8 @@ int ALU::tick() {
 	case EXECUTING:
 		if (wait_cycles <= 1) {
 			result = execute(current_instruction);
-			register_file->gp[current_instruction.operands[0]] = result;
+			result_location = current_instruction.operands[0];
+			result_ready = true;
 			state = READY;
 		}
 		else {
@@ -70,4 +71,12 @@ int ALU::tick() {
 void ALU::log()
 {
 	//std::cout << "ALU: " << current_instruction.line << std::endl;
+}
+
+void ALU::write()
+{
+	if (result_ready) {
+		register_file->gp[result_location] = result;
+		result_ready = false;
+	}
 }

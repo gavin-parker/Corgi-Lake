@@ -10,12 +10,15 @@ class Simulator : public Component
 {
 private:
 	void fetch();
+	void decode();
+	void writeback();
 	int execute(Instruction current_instruction);
 	void print_state();
 	void flush();
 	Fetcher fetcher;
 	LoadStore load_store;
 	ReservationStation instruction_buffer;
+	Instruction stall_instruction;
 public:	
 	int ticks = 0;
 	RegisterFile register_file;
