@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(2, &register_file), fetcher(&memory, &register_file)
+Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(2, &register_file), fetcher(&memory, &register_file), load_store(LoadStore(&memory, &register_file))
 {
 }
 
@@ -34,6 +34,7 @@ void Simulator::decode()
 void Simulator::writeback()
 {
 	alu.write();
+	load_store.write();
 }
 
 //mega code smell
@@ -42,7 +43,12 @@ int Simulator::execute(Instruction current_instruction) {
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
-	bool canBranch = alu.flushed() && memory.state == DONE;
+	bool canBranch = load_store.flushed() && alu.flushed() && memory.state == DONE;
+	if (current_instruction.opcode >= LD && current_instruction.opcode <= STRI) {
+		load_store.input.push(current_instruction);
+		state = READY;
+		return 0;
+	}
 	switch (current_instruction.opcode)
 	{
 	case BRA:
@@ -90,31 +96,6 @@ int Simulator::execute(Instruction current_instruction) {
 		state = READY;
 		break;
 	}
-	case LD:
-		if (memory.state != EXECUTING) {
-			register_file.gp[r0].data = memory[register_file.gp[r1].data + r2].data;
-			state = WAIT_FOR_MEM;
-		}
-		break;
-	case LDI:
-		if (memory.state != EXECUTING) {
-			register_file.gp[r0].data = r1;
-			state = WAIT_FOR_MEM;
-		}
-		break;
-	case STR:
-		if (memory.state != EXECUTING) {
-			memory[register_file.gp[r0].data + register_file.gp[r1].data] = register_file.gp[r2];
-			state = WAIT_FOR_MEM;
-		}
-		break;
-	case STRI:
-		if (memory.state != EXECUTING) {
-			v = r1;
-			memory[v] = register_file.gp[r0];
-			state = WAIT_FOR_MEM;
-		}
-		break;
 	case HALTEZ:
 		if (canBranch) {
 			if (register_file.gp[r0].data == 0) {
@@ -186,6 +167,7 @@ void Simulator::flush() {
 void Simulator::simulate() {
 	state = READY;
 	fetcher.state = READY;
+	load_store.state = READY;
 	while (true) {
 		int err = 0;
 		ticks++;
@@ -197,6 +179,7 @@ void Simulator::simulate() {
 		fetcher.tick();
 		memory.tick();
 		alu.tick();
+		load_store.tick();
 		if (debug) {
 			print_state();
 		}
