@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(1, &register_file), fetcher(&memory, &register_file)
+Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(2, &register_file), fetcher(&memory, &register_file)
 {
 }
 

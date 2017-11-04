@@ -7,7 +7,6 @@ ALU::ALU(RegisterFile* register_file, std::shared_ptr<ReservationStation> input,
 {
 }
 
-
 ALU::~ALU()
 {
 }
