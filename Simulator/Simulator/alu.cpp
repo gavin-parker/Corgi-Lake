@@ -38,6 +38,19 @@ Data ALU::execute(Instruction instruction) {
 		result.data = register_file->gp[r1].data * v;
 		state = EXECUTING;
 		break;
+	case ICMP:
+	{
+		uint64_t ans = 0;
+		if (register_file->gp[r1].data - register_file->gp[r2].data < 0) {
+			ans = -1;
+		}
+		else if (register_file->gp[r1].data - register_file->gp[r2].data > 0) {
+			ans = 1;
+		}
+		result.data = ans;
+		state = READY;
+		break;
+	}
 	}
 	return result;
 }

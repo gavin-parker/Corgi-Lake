@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(2, &register_file), fetcher(&memory, &register_file), load_store(LoadStore(&memory, &register_file))
+Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(2, &register_file), fetcher(&memory, &register_file), load_store(LoadStore(&memory, &register_file)), branch_unit(&alu, &load_store, &register_file, &program_counter)
 {
 }
 
@@ -15,14 +15,14 @@ Simulator::~Simulator()
 }
 
 void Simulator::fetch() {
-	if (fetcher.state == READY && state != STALLED) {
+	if (fetcher.state == READY && !branch_unit.stall) {
 		register_file.MAR = program_counter;
 		fetcher.state = EXECUTING;
 	}
 }
 void Simulator::decode()
 {
-	if (fetcher.state == DONE && state != STALLED) {
+	if (fetcher.state == DONE && !branch_unit.stall) {
 		instruction_buffer.push(register_file.MDR.instruction);
 		std::cout << register_file.MDR.line << std::endl;
 		state = READY;
@@ -39,98 +39,26 @@ void Simulator::writeback()
 
 //mega code smell
 int Simulator::execute(Instruction current_instruction) {
-	int64_t r0 = current_instruction.operands[0];
-	int64_t r1 = current_instruction.operands[1];
-	int64_t r2 = current_instruction.operands[2];
-	uint64_t v;
-	bool canBranch = load_store.flushed() && alu.flushed() && memory.state == DONE;
+
 	if (current_instruction.opcode >= LD && current_instruction.opcode <= STRI) {
 		load_store.input.push(current_instruction);
 		state = READY;
 		return 0;
 	}
-	switch (current_instruction.opcode)
-	{
-	case BRA:
-		if (canBranch) {
-			program_counter = r0;
-			state = READY;
-			flush();
-		}
-		else {
-			state = STALLED;
-		}
-		break;
-	case JUM:
-		if (canBranch) {
-			program_counter += r0;
-			state = READY;
-			flush();
-		}
-		else {
-			state = STALLED;
-		}
-		break;
-	case BLT:
-		if (canBranch) {
-			if (register_file.gp[r0].data < register_file.gp[r1].data) {
-				program_counter += r2;
-			}
-			state = READY;
-			flush();
-		}
-		else {
-			state = STALLED;
-		}
-		break;
-	case ICMP:
-	{
-		uint64_t ans = 0;
-		if (register_file.gp[r1].data - register_file.gp[r2].data < 0) {
-			ans = -1;
-		}
-		else if (register_file.gp[r1].data - register_file.gp[r2].data > 0) {
-			ans = 1;
-		}
-		register_file.gp[r0].data = ans;
+	if(current_instruction.opcode >= BRA && current_instruction.opcode <= HALTEQ)
+
+	if (current_instruction.opcode != DATA) {
+		alu.input->push(current_instruction);
 		state = READY;
-		break;
-	}
-	case HALTEZ:
-		if (canBranch) {
-			if (register_file.gp[r0].data == 0) {
-				return HALT_PROGRAM;
-			}
-		}
-		else {
-			state = STALLED;
-		}
-		break;
-	case HALTEQ:
-		if (canBranch) {
-			if (register_file.gp[r0].data == r1) {
-				return HALT_PROGRAM;
-			}
-		}
-		else {
-			state = STALLED;
-		}
-		break;
-	case NOP:
-		state = READY;
-		break;
-	default:
-		if (current_instruction.opcode != DATA) {
-			alu.input->push(current_instruction);
-			state = READY;
-		}
-		return 0;
 	}
 	
 	return 0;
 };
 
 int Simulator::tick() {
+	if (branch_unit.halt) {
+		return HALT_PROGRAM;
+	}
 	fetch();
 	decode();
 	if (state == READY) {
@@ -141,7 +69,7 @@ int Simulator::tick() {
 			}
 		}
 	}
-	else if (state == STALLED) {
+	else if (branch_unit.stall) {
 		if (execute(stall_instruction) == HALT_PROGRAM) {
 			return HALT_PROGRAM;
 		}
@@ -160,7 +88,6 @@ int Simulator::tick() {
 void Simulator::flush() {
 	fetcher.state = READY;
 	alu.flush();
-	memory.state = DONE;
 	state = READY;
 }
 
@@ -168,6 +95,7 @@ void Simulator::simulate() {
 	state = READY;
 	fetcher.state = READY;
 	load_store.state = READY;
+	branch_unit.state = READY;
 	while (true) {
 		int err = 0;
 		ticks++;
@@ -177,6 +105,7 @@ void Simulator::simulate() {
 			return;
 		}
 		fetcher.tick();
+		branch_unit.tick();
 		memory.tick();
 		alu.tick();
 		load_store.tick();
