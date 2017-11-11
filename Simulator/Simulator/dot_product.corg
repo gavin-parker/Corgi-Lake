@@ -1,0 +1,22 @@
+#multiplies the numbers 1-5 with 6-10
+LDI r0,0
+LDI r1,0
+LDI r4,5
+NOP
+LD r2,r0,~array_a
+LD r3,r0,~array_b
+IMUL r2,r2,r3
+IADD r1,r1,r2
+IADDI r0,r0,1
+BLT r0,r4,-6
+HALTEQ r1,130
+DATA 1 @array_a
+DATA 2
+DATA 3
+DATA 4
+DATA 5
+DATA 6 @array_b
+DATA 7
+DATA 8
+DATA 9
+DATA 10

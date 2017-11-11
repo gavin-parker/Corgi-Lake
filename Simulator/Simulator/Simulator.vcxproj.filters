@@ -127,5 +127,8 @@
     <None Include="label_test.corg">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="dot_product.corg">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

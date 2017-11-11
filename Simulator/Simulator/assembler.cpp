@@ -12,6 +12,10 @@ Data Assembler::assemble(std::string opcode, std::string operand, int line_numbe
 		data.isData = true;
 		data.data = std::stoi(operand, NULL);
 	}
+	else if (data.instruction.opcode == NOP) {
+		data.isData = false;
+		data.data = 0;
+	}
 	else {
 		data.isData = false;
 		std::vector<std::string> operands = split(operand, ",");
@@ -65,6 +69,9 @@ std::vector<Data> Assembler::load_assembly_file(std::string path) {
 	int line_number = 0;
 	for (auto line : first_pass) {
 		std::vector<std::string> contents = Assembler::split(line, " ");
+		if (contents[0] == "NOP") {
+			contents.push_back("");
+		}
 		disk.push_back(assemble(contents[0], contents[1], line_number));
 		line_number++;
 	}

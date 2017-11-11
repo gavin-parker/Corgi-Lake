@@ -189,6 +189,7 @@
   <ItemGroup>
     <None Include="label_test.corg" />
     <None Include="vector_add.corg" />
+    <None Include="dot_product.corg" />
     <None Include="vector_sum.corg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -65,9 +65,11 @@ int ALU::tick() {
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
-			result = execute(current_instruction);
-			result_location = current_instruction.operands[0];
-			result_ready = true;
+			if (current_instruction.opcode != NOP) {
+				result = execute(current_instruction);
+				result_location = current_instruction.operands[0];
+				result_ready = true;
+			}
 			state = READY;
 		}
 		else {
