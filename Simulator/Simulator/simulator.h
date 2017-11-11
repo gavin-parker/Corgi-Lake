@@ -5,6 +5,7 @@
 #include "fetcher.h"
 #include "load_store.h"
 #include "bank.h"
+#include "branch_unit.h"
 #define HALT_PROGRAM -1
 class Simulator : public Component
 {
@@ -19,6 +20,7 @@ private:
 	LoadStore load_store;
 	ReservationStation instruction_buffer;
 	Instruction stall_instruction;
+	BranchUnit branch_unit;
 public:	
 	int ticks = 0;
 	RegisterFile register_file;

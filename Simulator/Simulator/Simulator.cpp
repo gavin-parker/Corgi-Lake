@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(2, &register_file), fetcher(&memory, &register_file), load_store(LoadStore(&memory, &register_file)), branch_unit(&alu, &load_store, &register_file, &program_counter)
+Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(1, &register_file), fetcher(&memory, &register_file), load_store(LoadStore(&memory, &register_file)), branch_unit(&alu, &load_store, &register_file, &program_counter)
 {
 }
 
@@ -45,7 +45,11 @@ int Simulator::execute(Instruction current_instruction) {
 		state = READY;
 		return 0;
 	}
-	if(current_instruction.opcode >= BRA && current_instruction.opcode <= HALTEQ)
+	if (current_instruction.opcode >= BRA && current_instruction.opcode <= HALTEQ) {
+		branch_unit.input.push(current_instruction);
+		state = READY;
+		return 0;
+	}
 
 	if (current_instruction.opcode != DATA) {
 		alu.input->push(current_instruction);
@@ -56,12 +60,15 @@ int Simulator::execute(Instruction current_instruction) {
 };
 
 int Simulator::tick() {
+	//If halted, just stop
 	if (branch_unit.halt) {
 		return HALT_PROGRAM;
 	}
-	fetch();
-	decode();
-	if (state == READY) {
+	//If stalling, keep attempting same instruction
+
+	if(!branch_unit.stall) {
+		fetch();
+		decode();
 		if (!instruction_buffer.isEmpty()) {
 			stall_instruction = instruction_buffer.pop();
 			if (execute(stall_instruction) == HALT_PROGRAM) {
@@ -69,19 +76,7 @@ int Simulator::tick() {
 			}
 		}
 	}
-	else if (branch_unit.stall) {
-		if (execute(stall_instruction) == HALT_PROGRAM) {
-			return HALT_PROGRAM;
-		}
-	}
-	else if (state == WAIT_FOR_MEM) {
-		if (memory.state == DONE) {
-			state = READY;
-		}
-	}
 	writeback();
-	//writeback
-
 	return 0;
 }
 
@@ -107,8 +102,8 @@ void Simulator::simulate() {
 		fetcher.tick();
 		branch_unit.tick();
 		memory.tick();
-		alu.tick();
 		load_store.tick();
+		alu.tick();
 		if (debug) {
 			print_state();
 		}

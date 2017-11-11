@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "branch_unit.h"
+#include <iostream>
 
-
-BranchUnit::BranchUnit(Bank<ALU>* alus, LoadStore * load_store, RegisterFile *register_file, uint64_t *program_counter) : alus(alus), load_store(load_store), program_counter(program_counter)
+BranchUnit::BranchUnit(Bank<ALU>* alus, LoadStore * load_store, RegisterFile *register_file, uint64_t *program_counter) : alus(alus), load_store(load_store), program_counter(program_counter), register_file(register_file)
 {
 }
 
@@ -22,7 +22,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 		if (canBranch) {
 			(*program_counter) = r0;
 			stall = false;
-			flush = true;
+			state = READY;
 		}
 		else {
 			stall = true;
@@ -30,9 +30,9 @@ void BranchUnit::execute(Instruction current_instruction) {
 		break;
 	case JUM:
 		if (canBranch) {
-			(*program_counter) += r0;
+			(*program_counter) = current_instruction.location + r0;
 			stall = false;
-			flush = true;
+			state = READY;
 		}
 		else {
 			stall = true;
@@ -41,10 +41,10 @@ void BranchUnit::execute(Instruction current_instruction) {
 	case BLT:
 		if (canBranch) {
 			if (register_file->gp[r0].data < register_file->gp[r1].data) {
-				(*program_counter) += r2;
+				(*program_counter) = current_instruction.location + r2;
 			}
 			stall = false;
-			flush = true;
+			state = READY;
 		}
 		else {
 			stall = true;
@@ -55,9 +55,11 @@ void BranchUnit::execute(Instruction current_instruction) {
 			if (register_file->gp[r0].data == 0) {
 				halt = true;
 			}
+			state = READY;
+			stall = false;
 		}
 		else {
-			state = STALLED;
+			stall = true;
 		}
 		break;
 	case HALTEQ:
@@ -65,9 +67,11 @@ void BranchUnit::execute(Instruction current_instruction) {
 			if (register_file->gp[r0].data == r1) {
 				halt = true;
 			}
+			stall = false;
+			state = READY;
 		}
 		else {
-			state = STALLED;
+			stall = true;
 		}
 		break;
 	case NOP:
@@ -82,6 +86,8 @@ int BranchUnit::tick()
 	case READY:
 		if (!input.isEmpty()) {
 			current_instruction = input.pop();
+			pc_at_branch = (*program_counter);
+			std::cout << "PC AT BRANCH:" << pc_at_branch << "\n";
 			state = EXECUTING;
 			wait_cycles = 1;
 		}
@@ -89,7 +95,6 @@ int BranchUnit::tick()
 	case EXECUTING:
 		if (wait_cycles <= 1) {
 			execute(current_instruction);
-			state = READY;
 		}
 		else {
 			wait_cycles--;

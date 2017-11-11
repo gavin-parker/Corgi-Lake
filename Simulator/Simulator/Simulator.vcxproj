@@ -150,6 +150,7 @@
     <ClInclude Include="assembler.h" />
     <ClInclude Include="bank.h" />
     <ClInclude Include="benchmark_runner.h" />
+    <ClInclude Include="branch_unit.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="fetcher.h" />
     <ClInclude Include="instruction.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="assembler.cpp" />
     <ClCompile Include="bank.cpp" />
     <ClCompile Include="benchmark_runner.cpp" />
+    <ClCompile Include="branch_unit.cpp" />
     <ClCompile Include="component.cpp" />
     <ClCompile Include="fetcher.cpp" />
     <ClCompile Include="instruction.cpp" />

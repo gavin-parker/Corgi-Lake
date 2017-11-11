@@ -15,7 +15,7 @@ class Assembler
 public:
 	Assembler();
 	~Assembler();
-	Data assemble(std::string opcode, std::string operand);
+	Data assemble(std::string opcode, std::string operand, int line_number);
 	std::vector<Data> load_assembly_file(std::string path);
 
 	static std::vector<std::string> split(std::string input, std::string delimeter) {

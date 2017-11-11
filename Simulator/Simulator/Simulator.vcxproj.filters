@@ -66,6 +66,9 @@
     <ClInclude Include="non_copyable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="branch_unit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -108,6 +111,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="non_copyable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="branch_unit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

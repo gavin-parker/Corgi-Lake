@@ -12,9 +12,10 @@ private:
 	RegisterFile *register_file;
 	void execute(Instruction current_instruction);
 	uint64_t *program_counter;
-	ReservationStation input;
+	uint64_t pc_at_branch;
 	Instruction current_instruction;
 public:
+	ReservationStation input;
 	BranchUnit(Bank<ALU> *alus, LoadStore *load_store, RegisterFile *register_file, uint64_t *program_counter);
 	~BranchUnit();
 	bool stall = false;

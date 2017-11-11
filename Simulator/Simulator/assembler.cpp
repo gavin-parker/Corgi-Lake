@@ -2,11 +2,12 @@
 #include "assembler.h"
 #include "benchmark_runner.h"
 
-Data Assembler::assemble(std::string opcode, std::string operand) {
+Data Assembler::assemble(std::string opcode, std::string operand, int line_number) {
 	int i = 0;
 	Data data;
 	data.line = opcode + " " + operand;
 	data.instruction.opcode = opcodes[opcode];
+	data.instruction.location = line_number;
 	if (data.instruction.opcode == DATA) {
 		data.isData = true;
 		data.data = std::stoi(operand, NULL);
@@ -61,10 +62,11 @@ std::vector<Data> Assembler::load_assembly_file(std::string path) {
 	}
 	assembly_file.close();
 
-
+	int line_number = 0;
 	for (auto line : first_pass) {
 		std::vector<std::string> contents = Assembler::split(line, " ");
-		disk.push_back(assemble(contents[0], contents[1]));
+		disk.push_back(assemble(contents[0], contents[1], line_number));
+		line_number++;
 	}
 	return disk;
 }

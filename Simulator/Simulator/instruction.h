@@ -7,6 +7,7 @@ class Instruction
 public:
 	Opcode opcode;
 	int32_t operands[3] = { 0,0,0 };
+	uint64_t location;
 	Instruction();
 	~Instruction();
 
