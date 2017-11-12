@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-ALU::ALU(SimState *simState, std::shared_ptr<Buffer<Instruction>> input, std::shared_ptr<Buffer<Instruction>> output) : simState(simState), input(input), output(output)
+ALU::ALU(SimState *simState, std::shared_ptr<Buffer<Instruction>> input, std::shared_ptr<Buffer<Result>> output) : simState(simState), input(input), output(output)
 {
 	register_file = &(*simState).register_file;
 }
@@ -13,42 +13,42 @@ ALU::~ALU()
 }
 
 
-Data ALU::execute(Instruction instruction) {
+uint64_t ALU::execute(Instruction instruction) {
 	uint64_t r0 = instruction.operands[0];
 	uint64_t r1 = instruction.operands[1];
 	uint64_t r2 = instruction.operands[2];
 	uint64_t v;
+	uint64_t result;
 	switch (instruction.opcode) {
 	case IADD:
-		result.data = register_file->gp[r1].data + register_file->gp[r2].data;
+		result = register_file->gp[r1].data + register_file->gp[r2].data;
 		state = EXECUTING;
 		break;
 	case IADDI:
 	{
 		v = r2;
-		result.data = register_file->gp[r1].data + v;
+		result = register_file->gp[r1].data + v;
 		state = EXECUTING;
 		break;
 	}
 	case IMUL:
-		result.data = register_file->gp[r1].data * register_file->gp[r2].data;
+		result = register_file->gp[r1].data * register_file->gp[r2].data;
 		state = EXECUTING;
 		break;
 	case IMULI:
 		v = r2;
-		result.data = register_file->gp[r1].data * v;
+		result = register_file->gp[r1].data * v;
 		state = EXECUTING;
 		break;
 	case ICMP:
 	{
 		uint64_t ans = 0;
 		if (register_file->gp[r1].data - register_file->gp[r2].data < 0) {
-			ans = -1;
+			result = -1;
 		}
 		else if (register_file->gp[r1].data - register_file->gp[r2].data > 0) {
-			ans = 1;
+			result = 1;
 		}
-		result.data = ans;
 		state = READY;
 		break;
 	}
@@ -68,9 +68,7 @@ int ALU::tick() {
 	case EXECUTING:
 		if (wait_cycles <= 1) {
 			if (current_instruction.opcode != NOP) {
-				result = execute(current_instruction);
-				result_location = current_instruction.operands[0];
-				result_ready = true;
+				output->push(Result(current_instruction, execute(current_instruction)));
 			}
 			state = READY;
 		}
@@ -92,8 +90,8 @@ void ALU::log()
 
 void ALU::write()
 {
-	if (result_ready) {
-		register_file->gp[result_location] = result;
-		result_ready = false;
+	if (!output->isEmpty()) {
+		Result res = output->pop();
+		register_file->gp[res.instruction.operands[0]].data = res.result;
 	}
 }

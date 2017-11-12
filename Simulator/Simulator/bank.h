@@ -21,7 +21,7 @@ class Bank <ALU> : public Component
 	std::vector<ALU> members;
 public:
 	std::shared_ptr<Buffer<Instruction>> input = std::make_shared<Buffer<Instruction>>();
-	std::shared_ptr<Buffer<Instruction>> output = std::make_shared<Buffer<Instruction>>();
+	std::shared_ptr<Buffer<Result>> output = std::make_shared<Buffer<Result>>();
 	Bank(int count, SimState* simState)
 	{
 		members.reserve(count);
@@ -58,12 +58,14 @@ public:
 		if (!input->isEmpty()) {
 			return false;
 		}
+		if (!output->isEmpty()) {
+			return false;
+		}
 		for (auto &member : members) {
-			if (member.state == EXECUTING || member.result_ready == true) {
+			if (member.state == EXECUTING) {
 				return false;
 			}
 		}
 		return true;
 	}
-
 };

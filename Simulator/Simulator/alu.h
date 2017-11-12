@@ -10,17 +10,15 @@ class ALU : public Component
 {
 private:
 	std::shared_ptr<Buffer<Instruction>> input;
-	std::shared_ptr<Buffer<Instruction>> output;
-	Data result;
-	int result_location = 0;
+	std::shared_ptr<Buffer<Result>> output;
 	Instruction current_instruction;
 	SimState *simState;
 	RegisterFile *register_file;
 public:
 	bool result_ready = false;
-	ALU(SimState *simState, std::shared_ptr<Buffer<Instruction>> input, std::shared_ptr<Buffer<Instruction>> output);
+	ALU(SimState *simState, std::shared_ptr<Buffer<Instruction>> input, std::shared_ptr<Buffer<Result>> output);
 	~ALU();
-	Data execute(Instruction instruction);
+	uint64_t execute(Instruction instruction);
 	int tick();
 	void log();
 	void write();
