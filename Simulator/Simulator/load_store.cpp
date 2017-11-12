@@ -2,23 +2,24 @@
 #include "load_store.h"
 
 
-void LoadStore::execute(Instruction instruction)
+uint64_t LoadStore::execute(Instruction instruction)
 {
 	int64_t r0 = current_instruction.operands[0];
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
+	uint64_t result;
 	switch (current_instruction.opcode)
 	{
 	case LD:
 		if (memory->state != EXECUTING) {
-			result.data = (*memory)[register_file->gp[r1].data + r2].data;
+			result = (*memory)[register_file->gp[r1].data + r2].data;
 			state = WAIT_FOR_MEM;
 		}
 		break;
 	case LDI:
 		if (memory->state != EXECUTING) {
-			result.data = r1;
+			result = r1;
 			state = WAIT_FOR_MEM;
 		}
 		break;
@@ -39,15 +40,18 @@ void LoadStore::execute(Instruction instruction)
 	if (memory->state != EXECUTING) {
 		simState->instructions_executed++;
 	}
+	return result;
 }
 
 LoadStore::LoadStore(SimState *simState) : register_file(&(*simState).register_file), memory(&(*simState).memory), simState(simState)
 {
+	simState->output_buffers.push_back(output);
 }
 
 LoadStore::~LoadStore()
 {
 }
+
 int LoadStore::tick() {
 	switch (state) {
 	case READY:
@@ -58,10 +62,9 @@ int LoadStore::tick() {
 		}
 		break;
 	case EXECUTING:
-		if (wait_cycles <= 1) {
-			execute(current_instruction);
-			result_location = current_instruction.operands[0];
-			result_ready = true;
+		if (wait_cycles <= 1 && !containsHazard(*simState, current_instruction)) {
+			uint64_t result = execute(current_instruction);
+			output.push(Result(current_instruction, result));
 			state = READY;
 		}
 		else {
@@ -76,13 +79,13 @@ int LoadStore::tick() {
 
 void LoadStore::write()
 {
-	if (result_ready) {
-		register_file->gp[result_location] = result;
-		result_ready = false;
+	if (!output.isEmpty()) {
+		Result result = output.pop();
+		register_file->gp[result.instruction.operands[0]].data = result.result;
 	}
 }
 
 bool LoadStore::flushed()
 {
-	return state != EXECUTING && input.isEmpty() && !result_ready;
+	return state != EXECUTING && input.isEmpty() && output.isEmpty();
 }

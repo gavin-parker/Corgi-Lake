@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-Simulator::Simulator(std::vector<Data> boot_disk) : simState({RegisterFile(), boot_disk, 0, 0 }), alu(1, &simState), fetcher(&simState), load_store(LoadStore(&simState)), branch_unit(&alu, &load_store, &simState)
+Simulator::Simulator(std::vector<Data> boot_disk) : simState({RegisterFile(), boot_disk, 0 }), alu(1, &simState), fetcher(&simState), load_store(LoadStore(&simState)), branch_unit(&alu, &load_store, &simState)
 {
 	simState.memory = boot_disk;
 }

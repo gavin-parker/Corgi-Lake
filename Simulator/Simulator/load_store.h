@@ -5,19 +5,19 @@
 #include "register_file.h"
 #include "simulator_state.h"
 #include "memory.h"
+#include "result.h"
+#include "buffer.h"
 #include <memory>
 class LoadStore : public Component
 {
 private:
 	Instruction current_instruction;
-	void execute(Instruction instruction);
+	uint64_t execute(Instruction instruction);
 	Memory *memory;
 	RegisterFile *register_file;
 	SimState *simState;
-	Data result;
-	int result_location = 0;
-	bool result_ready = false;
 public:
+	Buffer<Result> output;
 	Buffer<Instruction> input;
 	LoadStore(SimState *simState);
 	~LoadStore();

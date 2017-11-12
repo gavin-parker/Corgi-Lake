@@ -4,6 +4,7 @@
 #include "component.h"
 #include "register_file.h"
 #include "buffer.h"
+#include "result.h"
 #include "simulator_state.h"
 #include <memory>
 class ALU : public Component

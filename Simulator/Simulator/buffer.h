@@ -1,11 +1,12 @@
 #pragma once
-#include <queue>
+#include <deque>
 #include "memory.h"
+#include <iostream>
 template <class T>
 class Buffer
 {
 private:
-	std::queue<T> queue;
+	std::deque<T> queue;
 public:
 	Buffer();
 	~Buffer();
@@ -13,6 +14,7 @@ public:
 	T pop();
 	bool isEmpty();
 	void flush();
+	bool containsHazard(Instruction instruction);
 };
 template <class T>
 Buffer<T>::Buffer()
@@ -27,13 +29,13 @@ Buffer<T>::~Buffer()
 template <class T>
 void Buffer<T>::push(T item)
 {
-	queue.push(item);
+	queue.push_back(item);
 }
 template <class T>
 T Buffer<T>::pop()
 {
 	T ret = queue.front();
-	queue.pop();
+	queue.pop_front();
 	return ret;
 }
 
@@ -47,4 +49,16 @@ template <class T>
 void Buffer<T>::flush()
 {
 	queue.empty();
+}
+
+template<class Result>
+bool Buffer<Result>::containsHazard(Instruction instruction) {
+
+	for (auto it = queue.begin(); it != queue.end(); ++it) {
+		if (it->isHazard(instruction)) {
+			std::cout << "RAW HAZARD DETECTED!!" << std::endl;
+			return true;
+		}
+	}
+	return false;
 }

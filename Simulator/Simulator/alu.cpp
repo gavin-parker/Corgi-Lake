@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "alu.h"
+#include "result.h"
 #include <iostream>
 
 
@@ -67,7 +68,7 @@ int ALU::tick() {
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
-			if (current_instruction.opcode != NOP) {
+			if (current_instruction.opcode != NOP && !containsHazard(*simState, current_instruction)) {
 				output->push(Result(current_instruction, execute(current_instruction)));
 			}
 			state = READY;

@@ -159,6 +159,7 @@
     <ClInclude Include="non_copyable.h" />
     <ClInclude Include="register_file.h" />
     <ClInclude Include="buffer.h" />
+    <ClInclude Include="result.h" />
     <ClInclude Include="simulator.h" />
     <ClInclude Include="simulator_state.h" />
     <ClInclude Include="state.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="non_copyable.cpp" />
     <ClCompile Include="RegisterFile.cpp" />
+    <ClCompile Include="result.cpp" />
     <ClCompile Include="simulator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

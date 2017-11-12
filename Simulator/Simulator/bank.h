@@ -29,6 +29,7 @@ public:
 			members.emplace_back(simState, input, output);
 			members[i].state = READY;
 		}
+		simState->output_buffers.push_back(*output);
 	}
 	int tick() {
 		for (auto &member : members) {

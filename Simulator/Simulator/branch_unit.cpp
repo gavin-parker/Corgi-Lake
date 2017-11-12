@@ -92,7 +92,6 @@ int BranchUnit::tick()
 		if (!input.isEmpty()) {
 			current_instruction = input.pop();
 			pc_at_branch = (*program_counter);
-			std::cout << "PC AT BRANCH:" << pc_at_branch << "\n";
 			state = EXECUTING;
 			wait_cycles = 1;
 		}

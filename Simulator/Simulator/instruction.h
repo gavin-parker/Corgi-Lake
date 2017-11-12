@@ -23,11 +23,3 @@ public:
 		}
 	}
 };
-
-class Result {
-public:
-	const Instruction instruction;
-	const uint64_t result;
-	Result(Instruction instruction, uint64_t result);
-	~Result();
-};

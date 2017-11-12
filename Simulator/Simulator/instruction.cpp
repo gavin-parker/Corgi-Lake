@@ -11,10 +11,3 @@ Instruction::~Instruction()
 {
 }
 
-Result::Result(Instruction instruction, uint64_t result) : instruction(instruction), result(result)
-{
-}
-
-Result::~Result()
-{
-}
