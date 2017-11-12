@@ -2,7 +2,7 @@
 #include "branch_unit.h"
 #include <iostream>
 
-BranchUnit::BranchUnit(Bank<ALU>* alus, LoadStore * load_store, RegisterFile *register_file, uint64_t *program_counter) : alus(alus), load_store(load_store), program_counter(program_counter), register_file(register_file)
+BranchUnit::BranchUnit(Bank<ALU>* alus, LoadStore * load_store, SimState *simState) : alus(alus), load_store(load_store), program_counter(&(*simState).program_counter), register_file(&(*simState).register_file), simState(simState)
 {
 }
 
@@ -23,6 +23,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 			(*program_counter) = r0;
 			stall = false;
 			state = READY;
+			simState->instructions_executed++;
 		}
 		else {
 			stall = true;
@@ -33,6 +34,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 			(*program_counter) = current_instruction.location + r0;
 			stall = false;
 			state = READY;
+			simState->instructions_executed++;
 		}
 		else {
 			stall = true;
@@ -45,6 +47,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 			}
 			stall = false;
 			state = READY;
+			simState->instructions_executed++;
 		}
 		else {
 			stall = true;
@@ -57,6 +60,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 			}
 			state = READY;
 			stall = false;
+			simState->instructions_executed++;
 		}
 		else {
 			stall = true;
@@ -69,6 +73,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 			}
 			stall = false;
 			state = READY;
+			simState->instructions_executed++;
 		}
 		else {
 			stall = true;

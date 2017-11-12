@@ -14,9 +14,10 @@ private:
 	uint64_t *program_counter;
 	uint64_t pc_at_branch;
 	Instruction current_instruction;
+	SimState *simState;
 public:
 	ReservationStation input;
-	BranchUnit(Bank<ALU> *alus, LoadStore *load_store, RegisterFile *register_file, uint64_t *program_counter);
+	BranchUnit(Bank<ALU> *alus, LoadStore *load_store, SimState *simState);
 	~BranchUnit();
 	bool stall = false;
 	int tick();

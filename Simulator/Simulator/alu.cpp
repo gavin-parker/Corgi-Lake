@@ -3,8 +3,9 @@
 #include <iostream>
 
 
-ALU::ALU(RegisterFile* register_file, std::shared_ptr<ReservationStation> input, std::shared_ptr<ReservationStation> output) : register_file(register_file), input(input), output(output)
+ALU::ALU(SimState *simState, std::shared_ptr<ReservationStation> input, std::shared_ptr<ReservationStation> output) : simState(simState), input(input), output(output)
 {
+	register_file = &(*simState).register_file;
 }
 
 ALU::~ALU()
@@ -16,7 +17,6 @@ Data ALU::execute(Instruction instruction) {
 	uint64_t r1 = instruction.operands[1];
 	uint64_t r2 = instruction.operands[2];
 	uint64_t v;
-
 	switch (instruction.opcode) {
 	case IADD:
 		result.data = register_file->gp[r1].data + register_file->gp[r2].data;
@@ -52,6 +52,7 @@ Data ALU::execute(Instruction instruction) {
 		break;
 	}
 	}
+	simState->instructions_executed++;
 	return result;
 }
 int ALU::tick() {

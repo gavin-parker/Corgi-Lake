@@ -6,8 +6,9 @@
 #include <string>
 #include <iostream>
 
-Simulator::Simulator(std::vector<Data> boot_disk) : memory(boot_disk), alu(1, &register_file), fetcher(&memory, &register_file), load_store(LoadStore(&memory, &register_file)), branch_unit(&alu, &load_store, &register_file, &program_counter)
+Simulator::Simulator(std::vector<Data> boot_disk) : simState({RegisterFile(), boot_disk, 0, 0 }), alu(1, &simState), fetcher(&simState), load_store(LoadStore(&simState)), branch_unit(&alu, &load_store, &simState)
 {
+	simState.memory = boot_disk;
 }
 
 Simulator::~Simulator()
@@ -16,17 +17,17 @@ Simulator::~Simulator()
 
 void Simulator::fetch() {
 	if (fetcher.state == READY && !branch_unit.stall) {
-		register_file.MAR = program_counter;
+		simState.register_file.MAR = simState.program_counter;
 		fetcher.state = EXECUTING;
 	}
 }
 void Simulator::decode()
 {
 	if (fetcher.state == DONE && !branch_unit.stall) {
-		instruction_buffer.push(register_file.MDR.instruction);
-		std::cout << register_file.MDR.line << std::endl;
+		instruction_buffer.push(simState.register_file.MDR.instruction);
+		std::cout << simState.register_file.MDR.line << std::endl;
 		state = READY;
-		program_counter++;
+		simState.program_counter++;
 		fetcher.state = READY;
 	}
 }
@@ -101,7 +102,7 @@ void Simulator::simulate() {
 		}
 		fetcher.tick();
 		branch_unit.tick();
-		memory.tick();
+		simState.memory.tick();
 		load_store.tick();
 		alu.tick();
 		if (debug) {
@@ -118,14 +119,14 @@ void Simulator::dump() {
 	for (int i = 0; i < 16; i++) {
 		reg_header += "R" + std::to_string(i) + " | ";
 		std::string contents = "X";
-		if (register_file.gp[i].data >= -10000 && register_file.gp[i].data <= 10000) {
-			contents = std::to_string(register_file.gp[i].data);
+		if (simState.register_file.gp[i].data >= -10000 && simState.register_file.gp[i].data <= 10000) {
+			contents = std::to_string(simState.register_file.gp[i].data);
 		}
 		reg_contents += contents + " | ";
 	}
 	std::cout << reg_header;
 	std::cout << std::endl;
-	std::cout << "| " << ticks << " | " << program_counter << " | " << state << " | ";
+	std::cout << "| " << ticks << " | " << simState.program_counter << " | " << state << " | ";
 	std::cout << "X" << " | " << "X" << " | " << "X" << " | " << reg_contents;
 	std::cout << std::endl;
 }

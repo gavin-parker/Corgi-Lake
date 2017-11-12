@@ -3,6 +3,7 @@
 #include "instruction.h"
 #include "reservation_station.h"
 #include "register_file.h"
+#include "simulator_state.h"
 #include "memory.h"
 #include <memory>
 class LoadStore : public Component
@@ -12,12 +13,13 @@ private:
 	void execute(Instruction instruction);
 	Memory *memory;
 	RegisterFile *register_file;
+	SimState *simState;
 	Data result;
 	int result_location = 0;
 	bool result_ready = false;
 public:
 	ReservationStation input;
-	LoadStore(Memory *memory, RegisterFile *register_file);
+	LoadStore(SimState *simState);
 	~LoadStore();
 	int tick();
 	void write();

@@ -6,6 +6,7 @@
 #include "load_store.h"
 #include "bank.h"
 #include "branch_unit.h"
+#include "simulator_state.h"
 #define HALT_PROGRAM -1
 class Simulator : public Component
 {
@@ -18,14 +19,12 @@ private:
 	void flush();
 	Fetcher fetcher;
 	LoadStore load_store;
-	ReservationStation instruction_buffer;
 	Instruction stall_instruction;
+	ReservationStation instruction_buffer;
 	BranchUnit branch_unit;
 public:	
+	SimState simState;
 	int ticks = 0;
-	RegisterFile register_file;
-	Memory memory;
-	uint64_t program_counter = 0;
 	Bank<ALU> alu;
 	Simulator(std::vector<Data> boot_disk);
 	~Simulator();

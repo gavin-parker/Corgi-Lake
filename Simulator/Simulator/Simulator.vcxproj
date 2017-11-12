@@ -160,6 +160,7 @@
     <ClInclude Include="register_file.h" />
     <ClInclude Include="reservation_station.h" />
     <ClInclude Include="simulator.h" />
+    <ClInclude Include="simulator_state.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

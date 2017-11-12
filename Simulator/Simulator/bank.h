@@ -1,6 +1,7 @@
 #pragma once
 #include "component.h"
 #include "alu.h"
+#include "simulator_state.h"
 #include <vector>
 #include <type_traits>
 
@@ -21,11 +22,11 @@ class Bank <ALU> : public Component
 public:
 	std::shared_ptr<ReservationStation> input = std::make_shared<ReservationStation>();
 	std::shared_ptr<ReservationStation> output = std::make_shared<ReservationStation>();
-	Bank(int count, RegisterFile* register_file)
+	Bank(int count, SimState* simState)
 	{
 		members.reserve(count);
 		for (int i = 0; i < count; i++) {
-			members.emplace_back(register_file, input, output);
+			members.emplace_back(simState, input, output);
 			members[i].state = READY;
 		}
 	}

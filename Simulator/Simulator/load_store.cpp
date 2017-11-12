@@ -36,9 +36,12 @@ void LoadStore::execute(Instruction instruction)
 		}
 		break;
 	}
+	if (memory->state != EXECUTING) {
+		simState->instructions_executed++;
+	}
 }
 
-LoadStore::LoadStore(Memory* memory, RegisterFile *register_file) : memory(memory), register_file(register_file)
+LoadStore::LoadStore(SimState *simState) : register_file(&(*simState).register_file), memory(&(*simState).memory), simState(simState)
 {
 }
 

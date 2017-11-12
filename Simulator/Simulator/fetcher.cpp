@@ -2,8 +2,10 @@
 #include "fetcher.h"
 
 
-Fetcher::Fetcher(Memory* memory, RegisterFile* register_file) : memory(memory), register_file(register_file)
+Fetcher::Fetcher(SimState *simState) : simState(simState)
 {
+	register_file = &(*simState).register_file;
+	memory = &(*simState).memory;
 }
 
 

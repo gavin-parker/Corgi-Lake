@@ -26,6 +26,7 @@ int main()
 		std::vector<Data> disk = assembler.load_assembly_file("../Simulator/" + path);
 		Simulator simulator(disk);
 		simulator.simulate();
+		std::cout << std::endl << "Instructions executed: " << simulator.simState.instructions_executed << std::endl;
 		tests_passed++;
 		std::cout << std::endl << "Cycles: " << simulator.ticks << std::endl;
 
