@@ -1,5 +1,4 @@
 #pragma once
-#include "reservation_station.h"
 #include "register_file.h"
 struct SimState {
 	RegisterFile register_file;

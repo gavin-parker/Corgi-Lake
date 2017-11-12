@@ -20,8 +20,8 @@ class Bank <ALU> : public Component
 {
 	std::vector<ALU> members;
 public:
-	std::shared_ptr<ReservationStation> input = std::make_shared<ReservationStation>();
-	std::shared_ptr<ReservationStation> output = std::make_shared<ReservationStation>();
+	std::shared_ptr<Buffer<Instruction>> input = std::make_shared<Buffer<Instruction>>();
+	std::shared_ptr<Buffer<Instruction>> output = std::make_shared<Buffer<Instruction>>();
 	Bank(int count, SimState* simState)
 	{
 		members.reserve(count);

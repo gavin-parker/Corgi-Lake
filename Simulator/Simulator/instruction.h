@@ -24,3 +24,7 @@ public:
 	}
 };
 
+struct Result {
+	Instruction instruction;
+	uint64_t result;
+};

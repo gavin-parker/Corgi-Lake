@@ -1,7 +1,7 @@
 #pragma once
 #include "component.h"
 #include "instruction.h"
-#include "reservation_station.h"
+#include "buffer.h"
 #include "register_file.h"
 #include "simulator_state.h"
 #include "memory.h"
@@ -18,7 +18,7 @@ private:
 	int result_location = 0;
 	bool result_ready = false;
 public:
-	ReservationStation input;
+	Buffer<Instruction> input;
 	LoadStore(SimState *simState);
 	~LoadStore();
 	int tick();

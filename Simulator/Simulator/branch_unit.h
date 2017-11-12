@@ -16,7 +16,7 @@ private:
 	Instruction current_instruction;
 	SimState *simState;
 public:
-	ReservationStation input;
+	Buffer<Instruction> input;
 	BranchUnit(Bank<ALU> *alus, LoadStore *load_store, SimState *simState);
 	~BranchUnit();
 	bool stall = false;

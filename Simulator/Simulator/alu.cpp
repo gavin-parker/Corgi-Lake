@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-ALU::ALU(SimState *simState, std::shared_ptr<ReservationStation> input, std::shared_ptr<ReservationStation> output) : simState(simState), input(input), output(output)
+ALU::ALU(SimState *simState, std::shared_ptr<Buffer<Instruction>> input, std::shared_ptr<Buffer<Instruction>> output) : simState(simState), input(input), output(output)
 {
 	register_file = &(*simState).register_file;
 }
@@ -11,6 +11,7 @@ ALU::ALU(SimState *simState, std::shared_ptr<ReservationStation> input, std::sha
 ALU::~ALU()
 {
 }
+
 
 Data ALU::execute(Instruction instruction) {
 	uint64_t r0 = instruction.operands[0];
