@@ -62,7 +62,7 @@ int LoadStore::tick() {
 		}
 		break;
 	case EXECUTING:
-		if (wait_cycles <= 1 && !containsHazard(*simState, current_instruction)) {
+		if (wait_cycles <= 1) {
 			uint64_t result = execute(current_instruction);
 			output.push(Result(current_instruction, result));
 			state = READY;
@@ -88,4 +88,15 @@ void LoadStore::write()
 bool LoadStore::flushed()
 {
 	return state != EXECUTING && input.isEmpty() && output.isEmpty();
+}
+
+bool LoadStore::containsHazard(Instruction other)
+{
+	if (input.containsHazard(other)) {
+		return true;
+	}
+	if (state == EXECUTING && current_instruction.isHazard(other)) {
+		return true;
+	}
+	return false;
 }

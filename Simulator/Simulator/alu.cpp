@@ -13,7 +13,6 @@ ALU::~ALU()
 {
 }
 
-
 uint64_t ALU::execute(Instruction instruction) {
 	uint64_t r0 = instruction.operands[0];
 	uint64_t r1 = instruction.operands[1];
@@ -57,6 +56,7 @@ uint64_t ALU::execute(Instruction instruction) {
 	simState->instructions_executed++;
 	return result;
 }
+
 int ALU::tick() {
 	switch (state) {
 	case READY:
@@ -68,7 +68,7 @@ int ALU::tick() {
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
-			if (current_instruction.opcode != NOP && !containsHazard(*simState, current_instruction)) {
+			if (current_instruction.opcode != NOP) {
 				output->push(Result(current_instruction, execute(current_instruction)));
 			}
 			state = READY;

@@ -12,10 +12,10 @@ class ALU : public Component
 private:
 	std::shared_ptr<Buffer<Instruction>> input;
 	std::shared_ptr<Buffer<Result>> output;
-	Instruction current_instruction;
 	SimState *simState;
 	RegisterFile *register_file;
 public:
+	Instruction current_instruction;
 	bool result_ready = false;
 	ALU(SimState *simState, std::shared_ptr<Buffer<Instruction>> input, std::shared_ptr<Buffer<Result>> output);
 	~ALU();

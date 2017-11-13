@@ -1,6 +1,7 @@
 #pragma once
 #include <deque>
 #include "memory.h"
+#include "instruction.h"
 #include <iostream>
 template <class T>
 class Buffer
@@ -13,6 +14,7 @@ public:
 	void push(T item);
 	T pop();
 	bool isEmpty();
+	bool canPop();
 	void flush();
 	bool containsHazard(Instruction instruction);
 };
@@ -51,9 +53,17 @@ void Buffer<T>::flush()
 	queue.empty();
 }
 
-template<class Result>
-bool Buffer<Result>::containsHazard(Instruction instruction) {
+template<class Instruction>
+bool Buffer<Instruction>::canPop() {
+	Instruction next = queue.front();
+	queue.pop_front();
+	bool retval = !containsHazard(next);
+	queue.push_front(next);
+	return retval;
+}
 
+template<class T>
+bool Buffer<T>::containsHazard(Instruction instruction) {
 	for (auto it = queue.begin(); it != queue.end(); ++it) {
 		if (it->isHazard(instruction)) {
 			std::cout << "RAW HAZARD DETECTED!!" << std::endl;

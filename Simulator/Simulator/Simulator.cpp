@@ -42,6 +42,7 @@ void Simulator::writeback()
 int Simulator::execute(Instruction current_instruction) {
 
 	if (current_instruction.opcode >= LD && current_instruction.opcode <= STRI) {
+		load_store.containsHazard(current_instruction);
 		load_store.input.push(current_instruction);
 		state = READY;
 		return 0;
@@ -53,6 +54,7 @@ int Simulator::execute(Instruction current_instruction) {
 	}
 
 	if (current_instruction.opcode != DATA) {
+		alu.containsHazard(current_instruction);
 		alu.input->push(current_instruction);
 		state = READY;
 	}

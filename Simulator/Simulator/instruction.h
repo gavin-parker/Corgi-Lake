@@ -10,7 +10,10 @@ public:
 	uint64_t location;
 	Instruction();
 	~Instruction();
-
+	bool raw(Instruction other) const;
+	bool war(Instruction other);
+	bool waw(Instruction other);
+	bool isHazard(Instruction other) const;
 	static int operand_count(Opcode opcode) {
 		if ((opcode >= IADD && opcode <= LD) || opcode == BLT) {
 			return 3;

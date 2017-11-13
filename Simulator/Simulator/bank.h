@@ -69,4 +69,17 @@ public:
 		}
 		return true;
 	}
+	/*Determine if the ALU pipeline contains a hazard.
+	  Hazards found in input pipeline and in the execution unit.*/
+	bool containsHazard(Instruction other) {
+		if (input->containsHazard(other)) {
+			return true;
+		}
+		for (auto &member : members) {
+			if (member.state == EXECUTING && member.current_instruction.isHazard(other)) {
+				return true;
+			}
+		}
+		return false;
+	}
 };

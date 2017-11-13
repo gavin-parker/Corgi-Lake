@@ -24,5 +24,6 @@ public:
 	int tick();
 	void write();
 	bool flushed();
+	bool containsHazard(Instruction other);
 };
 
