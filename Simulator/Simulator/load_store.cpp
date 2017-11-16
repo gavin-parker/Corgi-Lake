@@ -38,7 +38,7 @@ uint64_t LoadStore::execute(Instruction instruction)
 			std::cout << register_file->gp[r0].data << " " << register_file->gp[r1].data << " " << register_file->gp[r2].data;
 			(*memory)[register_file->gp[r0].data + register_file->gp[r1].data] = register_file->gp[r2];
 		}
-		break;	
+		break;
 	case STRI:
 		if (memory->state != EXECUTING) {
 			std::cout << r1 << " " << register_file->gp[r0].data;
@@ -111,12 +111,6 @@ bool LoadStore::flushed()
 
 size_t LoadStore::findHazard(Instruction other)
 {
-	if (input.findHazard(other)) {
-		return input.findHazard(other);
-	}
-	if (current_instruction.isHazard(other)) {
-		return 2;
-	}
-	return output.findHazard(other);
+	return input.findHazard(other);
 
 }

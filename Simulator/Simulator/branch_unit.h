@@ -19,9 +19,7 @@ public:
 	Buffer<Instruction> input;
 	BranchUnit(Bank<ALU> *alus, LoadStore *load_store, SimState *simState);
 	~BranchUnit();
-	bool stall = false;
 	int tick();
 	bool halt = false;
-	bool flush = false;
 };
 

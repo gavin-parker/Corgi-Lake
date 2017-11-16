@@ -17,15 +17,21 @@ Simulator::~Simulator()
 }
 
 void Simulator::fetch() {
-	if (fetcher.state == READY && !branch_unit.stall) {
+	if (fetcher.state == READY) {
 		simState.register_file.MAR = simState.program_counter;
 		fetcher.state = EXECUTING;
 	}
 }
 void Simulator::decode()
 {
-	if (fetcher.state == DONE && !branch_unit.stall) {
-		instruction_buffer.push(simState.register_file.MDR.instruction);
+	if (fetcher.state == DONE) {
+		Instruction next = simState.register_file.MDR.instruction;
+		size_t nops = 0;
+		nops = std::max(load_store.findHazard(next), alu.findHazard(next));
+		for (int i = 0; i < nops; i++) {
+			instruction_buffer.push(Instruction(NOP));
+		}
+		instruction_buffer.push(next);
 		state = READY;
 		simState.program_counter++;
 		fetcher.state = READY;
@@ -40,39 +46,26 @@ void Simulator::writeback()
 
 //mega code smell
 int Simulator::execute(Instruction current_instruction) {
-	/* detect hazards for this instruction */
-	size_t nops = 0;
-	nops = std::max(load_store.findHazard(current_instruction), alu.findHazard(current_instruction));
+
+	if (current_instruction.opcode == NOP) {
+		std::cout << "NOP" << std::endl;
+		return 0;
+	}
 
 	if (current_instruction.opcode >= LD && current_instruction.opcode <= STRI) {
-		for (int i = 0; i < nops; i++) {
-			std::cout << "NOP" << std::endl;
-			load_store.input.push(Instruction(NOP));
-		}
-
 		load_store.input.push(current_instruction);
 		state = READY;
 		return 0;
 	}
-
 	if (current_instruction.opcode >= BRA && current_instruction.opcode <= HALTEQ) {
-		for (int i = 0; i < nops; i++) {
-			branch_unit.input.push(Instruction(NOP));
-		}
-
 		branch_unit.input.push(current_instruction);
 		state = READY;
 		return 0;
 	}
-
 	if (current_instruction.opcode != DATA) {
-		for (int i = 0; i < nops; i++) {
-			alu.input->push(Instruction(NOP));
-		}
 		alu.input->push(current_instruction);
 		state = READY;
 	}
-
 	return 0;
 };
 
@@ -83,7 +76,6 @@ int Simulator::tick() {
 	}
 	//If stalling, keep attempting same instruction
 
-	if (!branch_unit.stall) {
 		fetch();
 		decode();
 		if (!instruction_buffer.isEmpty()) {
@@ -92,7 +84,6 @@ int Simulator::tick() {
 				return HALT_PROGRAM;
 			}
 		}
-	}
 	return 0;
 }
 

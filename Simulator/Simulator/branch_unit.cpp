@@ -15,87 +15,50 @@ void BranchUnit::execute(Instruction current_instruction) {
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
-	bool canBranch = load_store->flushed() && alus->flushed();
-	if (canBranch) {
-		std::cout << opcode_string(current_instruction.opcode) << " ";
-	}
-	else {
-		std::cout << "can't branch" << std::endl;
-	}
 	switch (current_instruction.opcode)
 	{
 	case BRA:
-		if (canBranch) {
-			(*program_counter) = r0;
-			stall = false;
-			state = READY;
-			simState->instructions_executed++;
-			std::cout << r0;
-		}
-		else {
-			stall = true;
-		}
+		(*program_counter) = r0;
+		state = READY;
+		simState->instructions_executed++;
+		std::cout << r0;
+
 		break;
 	case JUM:
-		if (canBranch) {
-			(*program_counter) = current_instruction.location + r0;
-			stall = false;
-			state = READY;
-			simState->instructions_executed++;
-			std::cout << current_instruction.location + r0;
-		}
-		else {
-			stall = true;
-		}
+		(*program_counter) = current_instruction.location + r0;
+		state = READY;
+		simState->instructions_executed++;
+		std::cout << current_instruction.location + r0;
+
 		break;
 	case BLT:
-		if (canBranch) {
-			std::cout << register_file->gp[r0].data << " " << register_file->gp[r1].data << " " << current_instruction.location + r2;
-			if (register_file->gp[r0].data < register_file->gp[r1].data) {
-				(*program_counter) = current_instruction.location + r2;
-			}
-			stall = false;
-			state = READY;
-			simState->instructions_executed++;
+		std::cout << register_file->gp[r0].data << " " << register_file->gp[r1].data << " " << current_instruction.location + r2;
+		if (register_file->gp[r0].data < register_file->gp[r1].data) {
+			(*program_counter) = current_instruction.location + r2;
 		}
-		else {
-			stall = true;
-		}
+		state = READY;
+		simState->instructions_executed++;
+
 		break;
 	case HALTEZ:
-		if (canBranch) {
-			std::cout << register_file->gp[r0].data;
-			if (register_file->gp[r0].data == 0) {
-				halt = true;
-			}
-			state = READY;
-			stall = false;
-			simState->instructions_executed++;
+		std::cout << register_file->gp[r0].data;
+		if (register_file->gp[r0].data == 0) {
+			halt = true;
 		}
-		else {
-			stall = true;
-		}
+		state = READY;
+		simState->instructions_executed++;
 		break;
 	case HALTEQ:
-		if (canBranch) {
-			std::cout << register_file->gp[r0].data << " " << r1;
-			if (register_file->gp[r0].data == r1) {
-				halt = true;
-			}
-			stall = false;
-			state = READY;
-			simState->instructions_executed++;
+		std::cout << register_file->gp[r0].data << " " << r1;
+		if (register_file->gp[r0].data == r1) {
+			halt = true;
 		}
-		else {
-			stall = true;
-		}
+		state = READY;
+		simState->instructions_executed++;
 		break;
 	case NOP:
 		state = READY;
 		break;
-	}
-	if (canBranch) {
-		std::cout << std::endl;
 	}
 }
 
@@ -112,7 +75,7 @@ int BranchUnit::tick()
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
-				execute(current_instruction);
+			execute(current_instruction);
 		}
 		else {
 			wait_cycles--;
