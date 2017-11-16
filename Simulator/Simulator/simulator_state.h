@@ -10,4 +10,5 @@ struct SimState {
 	uint64_t program_counter = 0;
 	int instructions_executed = 0;
 	std::vector<Buffer<Result>> output_buffers;
+	bool stall = false;
 };

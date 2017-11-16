@@ -2,6 +2,11 @@
 #include "branch_unit.h"
 #include <iostream>
 
+static void print_operand(int64_t operand, RegisterFile *register_file) {
+	std::cout << " r" << operand;
+	std::cout << "(" << register_file->gp[operand].data << ")";
+}
+
 BranchUnit::BranchUnit(Bank<ALU>* alus, LoadStore * load_store, SimState *simState) : alus(alus), load_store(load_store), program_counter(&(*simState).program_counter), register_file(&(*simState).register_file), simState(simState)
 {
 }
@@ -15,6 +20,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
+	std::cout << opcode_string(current_instruction.opcode) << " ";
 	switch (current_instruction.opcode)
 	{
 	case BRA:
@@ -22,17 +28,17 @@ void BranchUnit::execute(Instruction current_instruction) {
 		state = READY;
 		simState->instructions_executed++;
 		std::cout << r0;
-
 		break;
 	case JUM:
 		(*program_counter) = current_instruction.location + r0;
 		state = READY;
 		simState->instructions_executed++;
 		std::cout << current_instruction.location + r0;
-
 		break;
 	case BLT:
-		std::cout << register_file->gp[r0].data << " " << register_file->gp[r1].data << " " << current_instruction.location + r2;
+		print_operand(r0, register_file);
+		print_operand(r1, register_file);
+		std::cout << r2;
 		if (register_file->gp[r0].data < register_file->gp[r1].data) {
 			(*program_counter) = current_instruction.location + r2;
 		}
@@ -41,7 +47,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 
 		break;
 	case HALTEZ:
-		std::cout << register_file->gp[r0].data;
+		print_operand(r0, register_file);
 		if (register_file->gp[r0].data == 0) {
 			halt = true;
 		}
@@ -49,7 +55,8 @@ void BranchUnit::execute(Instruction current_instruction) {
 		simState->instructions_executed++;
 		break;
 	case HALTEQ:
-		std::cout << register_file->gp[r0].data << " " << r1;
+		print_operand(r0, register_file);
+		std::cout << r1;
 		if (register_file->gp[r0].data == r1) {
 			halt = true;
 		}
@@ -60,6 +67,8 @@ void BranchUnit::execute(Instruction current_instruction) {
 		state = READY;
 		break;
 	}
+	std::cout << std::endl;
+	simState->stall = false;
 }
 
 int BranchUnit::tick()
@@ -68,7 +77,6 @@ int BranchUnit::tick()
 	case READY:
 		if (!input.isEmpty()) {
 			current_instruction = input.pop();
-			pc_at_branch = (*program_counter);
 			state = EXECUTING;
 			wait_cycles = 1;
 		}

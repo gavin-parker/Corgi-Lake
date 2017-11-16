@@ -19,13 +19,22 @@ int Fetcher::tick() {
 	case READY:
 		break;
 	case EXECUTING:
-		register_file->MDR = (*memory)[register_file->MAR];
-		//Reached end of program
-		if (register_file->MDR.instruction.opcode == DATA) {
-			state = STALLED;
+		state = DONE;
+		if (simState->stall) {
+			break;
 		}
-		else {
-			state = DONE;
+
+		while (register_file->fetch_buffer.size() < 5) {
+			if (simState->program_counter >= memory->size()) {
+				break;
+			}
+			Data next = (*memory)[simState->program_counter];
+			register_file->fetch_buffer.push_back(next);
+			simState->program_counter++;
+			if (next.instruction.opcode >= BRA && next.instruction.opcode <= HALTEQ) {
+				simState->stall = true;
+				break;
+			}
 		}
 		break;
 	case HOLD:
@@ -41,6 +50,5 @@ int Fetcher::tick() {
 	default:
 		break;
 	}
-
 	return 0;
 }

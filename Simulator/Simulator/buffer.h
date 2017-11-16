@@ -67,7 +67,7 @@ size_t Buffer<T>::findHazard(Instruction instruction) {
 	int i = 0;
 	for (auto it = queue.rbegin(); it != queue.rend() && i < 4; ++it) {
 		if (it->isHazard(instruction)) {
-			return 4 - i;
+			return 5 - i;
 		}
 		i++;
 	}

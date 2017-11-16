@@ -18,22 +18,25 @@ Simulator::~Simulator()
 
 void Simulator::fetch() {
 	if (fetcher.state == READY) {
-		simState.register_file.MAR = simState.program_counter;
 		fetcher.state = EXECUTING;
 	}
 }
 void Simulator::decode()
 {
 	if (fetcher.state == DONE) {
-		Instruction next = simState.register_file.MDR.instruction;
-		size_t nops = 0;
-		nops = std::max(load_store.findHazard(next), alu.findHazard(next));
-		for (int i = 0; i < nops; i++) {
-			instruction_buffer.push(Instruction(NOP));
+		for (auto data : simState.register_file.fetch_buffer) {
+			Instruction next = data.instruction;
+			size_t nops = 0;
+			nops = std::max(load_store.findHazard(next), alu.findHazard(next));
+			nops = std::max(nops, branch_unit.input.findHazard(next));
+			nops = std::max(nops, instruction_buffer.findHazard(next));
+			for (int i = 0; i < nops; i++) {
+				instruction_buffer.push(Instruction(NOP));
+			}
+			instruction_buffer.push(next);
 		}
-		instruction_buffer.push(next);
+		simState.register_file.fetch_buffer.clear();
 		state = READY;
-		simState.program_counter++;
 		fetcher.state = READY;
 	}
 }

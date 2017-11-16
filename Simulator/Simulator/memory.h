@@ -21,4 +21,7 @@ public:
  		return main_memory[static_cast<size_t>(i)];
 	};
 	int tick();
+	size_t size() {
+		return main_memory.size();
+	}
 };
