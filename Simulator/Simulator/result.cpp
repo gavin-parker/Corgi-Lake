@@ -8,3 +8,8 @@ Result::Result(Instruction instruction, uint64_t result) : instruction(instructi
 Result::~Result()
 {
 }
+
+Result::Result()
+{
+}
+

@@ -16,6 +16,12 @@ void BranchUnit::execute(Instruction current_instruction) {
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
 	bool canBranch = load_store->flushed() && alus->flushed();
+	if (canBranch) {
+		std::cout << opcode_string(current_instruction.opcode) << " ";
+	}
+	else {
+		std::cout << "can't branch" << std::endl;
+	}
 	switch (current_instruction.opcode)
 	{
 	case BRA:
@@ -24,6 +30,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 			stall = false;
 			state = READY;
 			simState->instructions_executed++;
+			std::cout << r0;
 		}
 		else {
 			stall = true;
@@ -35,6 +42,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 			stall = false;
 			state = READY;
 			simState->instructions_executed++;
+			std::cout << current_instruction.location + r0;
 		}
 		else {
 			stall = true;
@@ -42,6 +50,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 		break;
 	case BLT:
 		if (canBranch) {
+			std::cout << register_file->gp[r0].data << " " << register_file->gp[r1].data << " " << current_instruction.location + r2;
 			if (register_file->gp[r0].data < register_file->gp[r1].data) {
 				(*program_counter) = current_instruction.location + r2;
 			}
@@ -55,6 +64,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 		break;
 	case HALTEZ:
 		if (canBranch) {
+			std::cout << register_file->gp[r0].data;
 			if (register_file->gp[r0].data == 0) {
 				halt = true;
 			}
@@ -68,6 +78,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 		break;
 	case HALTEQ:
 		if (canBranch) {
+			std::cout << register_file->gp[r0].data << " " << r1;
 			if (register_file->gp[r0].data == r1) {
 				halt = true;
 			}
@@ -82,6 +93,9 @@ void BranchUnit::execute(Instruction current_instruction) {
 	case NOP:
 		state = READY;
 		break;
+	}
+	if (canBranch) {
+		std::cout << std::endl;
 	}
 }
 
@@ -98,7 +112,7 @@ int BranchUnit::tick()
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
-			execute(current_instruction);
+				execute(current_instruction);
 		}
 		else {
 			wait_cycles--;

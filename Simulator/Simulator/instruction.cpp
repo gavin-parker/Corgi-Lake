@@ -11,6 +11,11 @@ Instruction::~Instruction()
 {
 }
 
+Instruction::Instruction(Opcode opcode)
+{
+	this->opcode = opcode;
+}
+
 bool Instruction::raw(Instruction other) const
 {
 	return (operands[0] == other.operands[1] || operands[0] == other.operands[2]);

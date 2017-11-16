@@ -1,8 +1,13 @@
 #include "stdafx.h"
 #include "alu.h"
 #include "result.h"
+#include "instruction.h"
 #include <iostream>
 
+static void print_operand(int64_t operand, RegisterFile *register_file) {
+	std::cout << " r" << operand;
+	std::cout << "(" << register_file->gp[operand].data << ")";
+}
 
 ALU::ALU(SimState *simState, std::shared_ptr<Buffer<Instruction>> input, std::shared_ptr<Buffer<Result>> output) : simState(simState), input(input), output(output)
 {
@@ -19,8 +24,12 @@ uint64_t ALU::execute(Instruction instruction) {
 	uint64_t r2 = instruction.operands[2];
 	uint64_t v;
 	uint64_t result;
+	std::cout << opcode_string(instruction.opcode) << " ";
+	print_operand(r0, register_file);
 	switch (instruction.opcode) {
 	case IADD:
+		print_operand(r1, register_file);
+		print_operand(r2, register_file);
 		result = register_file->gp[r1].data + register_file->gp[r2].data;
 		state = EXECUTING;
 		break;
@@ -28,21 +37,26 @@ uint64_t ALU::execute(Instruction instruction) {
 	{
 		v = r2;
 		result = register_file->gp[r1].data + v;
+		print_operand(r1, register_file);
+		std::cout << " " << v;
 		state = EXECUTING;
 		break;
 	}
 	case IMUL:
 		result = register_file->gp[r1].data * register_file->gp[r2].data;
+		std::cout << register_file->gp[r1].data << " " << register_file->gp[r2].data;
 		state = EXECUTING;
 		break;
 	case IMULI:
 		v = r2;
 		result = register_file->gp[r1].data * v;
+		std::cout << register_file->gp[r1].data << " " << v;
 		state = EXECUTING;
 		break;
 	case ICMP:
 	{
 		uint64_t ans = 0;
+		std::cout << register_file->gp[r1].data << " " << register_file->gp[r2].data;
 		if (register_file->gp[r1].data - register_file->gp[r2].data < 0) {
 			result = -1;
 		}
@@ -53,11 +67,16 @@ uint64_t ALU::execute(Instruction instruction) {
 		break;
 	}
 	}
+	std::cout << std::endl;
 	simState->instructions_executed++;
 	return result;
 }
 
 int ALU::tick() {
+	if (result_ready) {
+		output->push(lastResult);
+		result_ready = false;
+	}
 	switch (state) {
 	case READY:
 		if (!input->isEmpty()) {
@@ -68,8 +87,10 @@ int ALU::tick() {
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
+			/*Hold result in lastResult to simulate writeback happening on NEXT tick!!*/
 			if (current_instruction.opcode != NOP) {
-				output->push(Result(current_instruction, execute(current_instruction)));
+				lastResult = Result(current_instruction, execute(current_instruction));
+				result_ready = true;
 			}
 			state = READY;
 		}

@@ -1,0 +1,10 @@
+LDI r0,1
+LDI r1,1
+IADD r0,r0,r1
+IADD r1,r0,r1
+IADD r0,r0,r1
+IADD r1,r0,r1
+HALTEQ r1,8
+DATA 0
+DATA 0
+DATA 0

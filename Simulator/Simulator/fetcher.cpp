@@ -20,7 +20,13 @@ int Fetcher::tick() {
 		break;
 	case EXECUTING:
 		register_file->MDR = (*memory)[register_file->MAR];
-		state = DONE;
+		//Reached end of program
+		if (register_file->MDR.instruction.opcode == DATA) {
+			state = STALLED;
+		}
+		else {
+			state = DONE;
+		}
 		break;
 	case HOLD:
 		break;

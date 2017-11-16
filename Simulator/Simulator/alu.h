@@ -15,6 +15,7 @@ private:
 	SimState *simState;
 	RegisterFile *register_file;
 public:
+	Result lastResult;
 	Instruction current_instruction;
 	bool result_ready = false;
 	ALU(SimState *simState, std::shared_ptr<Buffer<Instruction>> input, std::shared_ptr<Buffer<Result>> output);

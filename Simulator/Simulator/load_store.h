@@ -17,6 +17,8 @@ private:
 	RegisterFile *register_file;
 	SimState *simState;
 public:
+	bool result_ready = false;
+	Result lastResult;
 	Buffer<Result> output;
 	Buffer<Instruction> input;
 	LoadStore(SimState *simState);
@@ -24,6 +26,6 @@ public:
 	int tick();
 	void write();
 	bool flushed();
-	bool containsHazard(Instruction other);
+	size_t findHazard(Instruction other);
 };
 

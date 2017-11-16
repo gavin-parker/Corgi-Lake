@@ -63,23 +63,33 @@ public:
 			return false;
 		}
 		for (auto &member : members) {
-			if (member.state == EXECUTING) {
+			if (member.state == EXECUTING  || member.result_ready) {
 				return false;
 			}
 		}
 		return true;
 	}
 	/*Determine if the ALU pipeline contains a hazard.
-	  Hazards found in input pipeline and in the execution unit.*/
-	bool containsHazard(Instruction other) {
-		if (input->containsHazard(other)) {
-			return true;
+	  Hazards found in input pipeline and in the execution unit.
+	  Return number of required NOPs*/
+	size_t findHazard(Instruction other) {
+		if (input->findHazard(other)) {
+			return input->findHazard(other);
 		}
+		/*
+			Current instruction will be written back in after execution
+		*/
 		for (auto &member : members) {
-			if (member.state == EXECUTING && member.current_instruction.isHazard(other)) {
-				return true;
+			if (member.current_instruction.isHazard(other) || member.lastResult.instruction.isHazard(other)) {
+				return 3;
 			}
 		}
-		return false;
+		/*
+		Output buffer will be written back next tick, only insert 1 nop
+		*/
+		if (output->findHazard(other)) {
+			return 1;
+		}
+		return 0;
 	}
 };

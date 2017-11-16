@@ -1,6 +1,13 @@
 #pragma once
 #include <stdint.h>
+#include <iostream>
 enum Opcode { DATA, IADD, IADDI, IMUL, IMULI, ICMP, LD, STR, LDI, STRI, BRA, JUM, BLT, HALTEZ, HALTEQ, NOP };
+
+static const char * OpcodeStrings[] = { "DATA", "IADD", "IADDI", "IMUL", "IMULI", "ICMP", "LD", "STR", "LDI", "STRI", "BRA", "JUM", "BLT", "HALTEZ", "HALTEQ", "NOP" };
+
+static const char* opcode_string(Opcode opcode) {
+	return OpcodeStrings[opcode];
+}
 
 class Instruction
 {
@@ -10,6 +17,7 @@ public:
 	uint64_t location;
 	Instruction();
 	~Instruction();
+	Instruction(Opcode opcode);
 	bool raw(Instruction other) const;
 	bool war(Instruction other);
 	bool waw(Instruction other);
@@ -25,4 +33,5 @@ public:
 			return 1;
 		}
 	}
+
 };

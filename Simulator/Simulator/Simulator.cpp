@@ -5,8 +5,9 @@
 #include "simulator.h"
 #include <string>
 #include <iostream>
+#include <algorithm>
 
-Simulator::Simulator(std::vector<Data> boot_disk) : simState({RegisterFile(), boot_disk, 0 }), alu(1, &simState), fetcher(&simState), load_store(LoadStore(&simState)), branch_unit(&alu, &load_store, &simState)
+Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), boot_disk, 0 }), alu(1, &simState), fetcher(&simState), load_store(LoadStore(&simState)), branch_unit(&alu, &load_store, &simState)
 {
 	simState.memory = boot_disk;
 }
@@ -25,7 +26,6 @@ void Simulator::decode()
 {
 	if (fetcher.state == DONE && !branch_unit.stall) {
 		instruction_buffer.push(simState.register_file.MDR.instruction);
-		std::cout << simState.register_file.MDR.line << std::endl;
 		state = READY;
 		simState.program_counter++;
 		fetcher.state = READY;
@@ -40,25 +40,39 @@ void Simulator::writeback()
 
 //mega code smell
 int Simulator::execute(Instruction current_instruction) {
+	/* detect hazards for this instruction */
+	size_t nops = 0;
+	nops = std::max(load_store.findHazard(current_instruction), alu.findHazard(current_instruction));
 
 	if (current_instruction.opcode >= LD && current_instruction.opcode <= STRI) {
-		load_store.containsHazard(current_instruction);
+		for (int i = 0; i < nops; i++) {
+			std::cout << "NOP" << std::endl;
+			load_store.input.push(Instruction(NOP));
+		}
+
 		load_store.input.push(current_instruction);
 		state = READY;
 		return 0;
 	}
+
 	if (current_instruction.opcode >= BRA && current_instruction.opcode <= HALTEQ) {
+		for (int i = 0; i < nops; i++) {
+			branch_unit.input.push(Instruction(NOP));
+		}
+
 		branch_unit.input.push(current_instruction);
 		state = READY;
 		return 0;
 	}
 
 	if (current_instruction.opcode != DATA) {
-		alu.containsHazard(current_instruction);
+		for (int i = 0; i < nops; i++) {
+			alu.input->push(Instruction(NOP));
+		}
 		alu.input->push(current_instruction);
 		state = READY;
 	}
-	
+
 	return 0;
 };
 
@@ -69,7 +83,7 @@ int Simulator::tick() {
 	}
 	//If stalling, keep attempting same instruction
 
-	if(!branch_unit.stall) {
+	if (!branch_unit.stall) {
 		fetch();
 		decode();
 		if (!instruction_buffer.isEmpty()) {
@@ -79,7 +93,6 @@ int Simulator::tick() {
 			}
 		}
 	}
-	writeback();
 	return 0;
 }
 
@@ -107,6 +120,8 @@ void Simulator::simulate() {
 		simState.memory.tick();
 		load_store.tick();
 		alu.tick();
+		writeback();
+
 		if (debug) {
 			print_state();
 		}

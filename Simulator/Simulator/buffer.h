@@ -16,7 +16,7 @@ public:
 	bool isEmpty();
 	bool canPop();
 	void flush();
-	bool containsHazard(Instruction instruction);
+	size_t findHazard(Instruction instruction);
 };
 template <class T>
 Buffer<T>::Buffer()
@@ -63,12 +63,13 @@ bool Buffer<Instruction>::canPop() {
 }
 
 template<class T>
-bool Buffer<T>::containsHazard(Instruction instruction) {
-	for (auto it = queue.begin(); it != queue.end(); ++it) {
+size_t Buffer<T>::findHazard(Instruction instruction) {
+	int i = 0;
+	for (auto it = queue.rbegin(); it != queue.rend() && i < 4; ++it) {
 		if (it->isHazard(instruction)) {
-			std::cout << "RAW HAZARD DETECTED!!" << std::endl;
-			return true;
+			return i;
 		}
+		i++;
 	}
-	return false;
+	return 0;
 }
