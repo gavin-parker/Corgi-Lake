@@ -15,8 +15,8 @@ uint64_t LoadStore::execute(Instruction instruction)
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
 	uint64_t result;
-	std::cout << opcode_string(instruction.opcode) << " ";
-	switch (current_instruction.opcode)
+	std::cout << opcode_string(instruction.opcode.op) << " ";
+	switch (current_instruction.opcode.op)
 	{
 	case LD:
 		if (memory->state != EXECUTING) {
@@ -79,7 +79,7 @@ int LoadStore::tick() {
 	case EXECUTING:
 		if (wait_cycles <= 1) {
 
-			if (current_instruction.opcode != NOP) {
+			if (current_instruction.opcode.op != NOP) {
 				uint64_t result = execute(current_instruction);
 				lastResult = Result(current_instruction, result);
 				result_ready = true;

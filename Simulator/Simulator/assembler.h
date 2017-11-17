@@ -6,7 +6,7 @@
 class Assembler
 {
 	std::map<std::string, uint32_t> labels = std::map<std::string, uint32_t>();
-	std::map<std::string, Opcode> opcodes = { {"DATA", DATA}, {"IADD", IADD}, {"IADDI", IADDI},
+	std::map<std::string, OP> opcodes = { {"DATA", DATA}, {"IADD", IADD}, {"IADDI", IADDI},
 											{"ICMP", ICMP}, {"LD", LD}, {"LDI", LDI}, {"BRA", BRA},
 											{"JUM", JUM}, {"BLT", BLT}, {"HALTEZ", HALTEZ}, {"IMUL", IMUL},
 											{"IMULI", IMULI}, {"STR",STR}, {"STRI", STRI},

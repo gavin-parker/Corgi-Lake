@@ -31,7 +31,7 @@ int Fetcher::tick() {
 			Data next = (*memory)[simState->program_counter];
 			register_file->fetch_buffer.push_back(next);
 			simState->program_counter++;
-			if (next.instruction.opcode >= BRA && next.instruction.opcode <= HALTEQ) {
+			if (next.instruction.opcode.op >= BRA && next.instruction.opcode.op <= HALTEQ) {
 				simState->stall = true;
 				break;
 			}

@@ -157,6 +157,7 @@
     <ClInclude Include="load_store.h" />
     <ClInclude Include="memory.h" />
     <ClInclude Include="non_copyable.h" />
+    <ClInclude Include="opcode.h" />
     <ClInclude Include="register_file.h" />
     <ClInclude Include="buffer.h" />
     <ClInclude Include="result.h" />

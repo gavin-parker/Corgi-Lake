@@ -20,8 +20,8 @@ void BranchUnit::execute(Instruction current_instruction) {
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
-	std::cout << opcode_string(current_instruction.opcode) << " ";
-	switch (current_instruction.opcode)
+	std::cout << opcode_string(current_instruction.opcode.op) << " ";
+	switch (current_instruction.opcode.op)
 	{
 	case BRA:
 		(*program_counter) = r0;

@@ -1,32 +1,33 @@
 #pragma once
 #include <stdint.h>
 #include <iostream>
-enum Opcode { DATA, IADD, IADDI, IMUL, IMULI, ICMP, LD, STR, LDI, STRI, BRA, JUM, BLT, HALTEZ, HALTEQ, NOP };
-
+#include "opcode.h"
 static const char * OpcodeStrings[] = { "DATA", "IADD", "IADDI", "IMUL", "IMULI", "ICMP", "LD", "STR", "LDI", "STRI", "BRA", "JUM", "BLT", "HALTEZ", "HALTEQ", "NOP" };
 
-static const char* opcode_string(Opcode opcode) {
-	return OpcodeStrings[opcode];
+static const char* opcode_string(OP op) {
+	return OpcodeStrings[op];
 }
 
 class Instruction
 {
 public:
 	Opcode opcode;
-	int32_t operands[3] = { 0,0,0 };
+	std::vector<int32_t> operands;
 	uint64_t location;
 	Instruction();
+	Instruction(OP op, int64_t location, int32_t r0, int32_t r1, int32_t r2);
 	~Instruction();
+	Instruction(const Instruction &other);
 	Instruction(Opcode opcode);
 	bool raw(Instruction other) const;
 	bool war(Instruction other);
 	bool waw(Instruction other);
 	bool isHazard(Instruction other) const;
 	static int operand_count(Opcode opcode) {
-		if ((opcode >= IADD && opcode <= LD) || opcode == BLT) {
+		if ((opcode.op >= IADD && opcode.op <= LD) || opcode.op == BLT) {
 			return 3;
 		}
-		else if (opcode == LDI || opcode == STRI || opcode == HALTEQ) {
+		else if (opcode.op == LDI || opcode.op == STRI || opcode.op == HALTEQ) {
 			return 2;
 		}
 		else {

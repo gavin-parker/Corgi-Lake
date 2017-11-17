@@ -4,37 +4,34 @@
 
 Data Assembler::assemble(std::string opcode, std::string operand, int line_number) {
 	int i = 0;
-	Data data;
-	data.line = opcode + " " + operand;
-	data.instruction.opcode = opcodes[opcode];
-	data.instruction.location = line_number;
-	if (data.instruction.opcode == DATA) {
-		data.isData = true;
-		data.data = std::stoi(operand, NULL);
-	}
-	else if (data.instruction.opcode == NOP) {
-		data.isData = false;
-		data.data = 0;
+	int64_t dat = 0;
+	std::string line = opcode + " " + operand;
+	bool isData = false;
+	Opcode mneumonic(opcodes[opcode]);
+	std::vector<int64_t> args = { 0,0,0 };
+	if (mneumonic.op == DATA) {
+		isData = true;
+		dat = std::stoi(operand, NULL);
 	}
 	else {
-		data.isData = false;
 		std::vector<std::string> operands = split(operand, ",");
 		int i = 0;
 		for (auto op : operands) {
 			if (op[0] == 'r') {
-				data.instruction.operands[i] = std::stoi(op.substr(1, op.size()), NULL);
+				args[i] = std::stoi(op.substr(1, op.size()), NULL);
 			}
 			else if (op[0] == '~') {
 				std::string label = op.substr(1, op.size());
 				int loc = labels[label];
-				data.instruction.operands[i] = loc;
+				args[i] = loc;
 			}
 			else {
-				data.instruction.operands[i] = std::stoi(op, NULL);
+				args[i] = std::stoi(op, NULL);
 			}
 			i++;
 		}
 	}
+	Data data = { isData, Instruction(mneumonic.op, line_number, args[0], args[1], args[2]), dat, line };
 	return data;
 }
 

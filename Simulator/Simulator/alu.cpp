@@ -24,9 +24,9 @@ uint64_t ALU::execute(Instruction instruction) {
 	uint64_t r2 = instruction.operands[2];
 	uint64_t v;
 	uint64_t result;
-	std::cout << opcode_string(instruction.opcode) << " ";
+	std::cout << opcode_string(instruction.opcode.op) << " ";
 	print_operand(r0, register_file);
-	switch (instruction.opcode) {
+	switch (instruction.opcode.op) {
 	case IADD:
 		print_operand(r1, register_file);
 		print_operand(r2, register_file);
@@ -88,7 +88,7 @@ int ALU::tick() {
 	case EXECUTING:
 		if (wait_cycles <= 1) {
 			/*Hold result in lastResult to simulate writeback happening on NEXT tick!!*/
-			if (current_instruction.opcode != NOP) {
+			if (current_instruction.opcode.op != NOP) {
 				lastResult = Result(current_instruction, execute(current_instruction));
 				result_ready = true;
 			}

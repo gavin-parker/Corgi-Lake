@@ -50,22 +50,22 @@ void Simulator::writeback()
 //mega code smell
 int Simulator::execute(Instruction current_instruction) {
 
-	if (current_instruction.opcode == NOP) {
-		std::cout << "NOP" << std::endl;
+	if (current_instruction.opcode.op == NOP) {
+		//std::cout << "NOP" << std::endl;
 		return 0;
 	}
 
-	if (current_instruction.opcode >= LD && current_instruction.opcode <= STRI) {
+	if (current_instruction.opcode.op >= LD && current_instruction.opcode.op <= STRI) {
 		load_store.input.push(current_instruction);
 		state = READY;
 		return 0;
 	}
-	if (current_instruction.opcode >= BRA && current_instruction.opcode <= HALTEQ) {
+	if (current_instruction.opcode.op >= BRA && current_instruction.opcode.op <= HALTEQ) {
 		branch_unit.input.push(current_instruction);
 		state = READY;
 		return 0;
 	}
-	if (current_instruction.opcode != DATA) {
+	if (current_instruction.opcode.op != DATA) {
 		alu.input->push(current_instruction);
 		state = READY;
 	}
