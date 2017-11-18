@@ -72,7 +72,8 @@ int LoadStore::tick() {
 		if (!input.isEmpty()) {
 			current_instruction = input.pop();
 			state = EXECUTING;
-			wait_cycles = 1;
+			wait_cycles = current_instruction.opcode.settings.ticks;
+
 		}
 		break;
 	case EXECUTING:
