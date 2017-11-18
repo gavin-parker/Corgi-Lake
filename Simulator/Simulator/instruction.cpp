@@ -26,8 +26,12 @@ Instruction::Instruction(Opcode opcode) : opcode(opcode), location(0)
 bool Instruction::raw(Instruction other) const
 {
 	for (auto read : other.opcode.reads) {
-		if (opcode.writes.find(read) != opcode.writes.end()) {
-			return true;
+		int32_t read_operand = other.operands[read];
+		for (auto write : opcode.writes) {
+			int32_t write_operand = operands[write];
+			if (read_operand == write_operand) {
+				return true;
+			}
 		}
 	}
 	return false;

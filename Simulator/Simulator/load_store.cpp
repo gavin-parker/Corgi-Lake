@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "load_store.h"
-
+#include <algorithm>
 
 
 static void print_operand(int64_t operand, RegisterFile *register_file) {
@@ -111,6 +111,11 @@ bool LoadStore::flushed()
 
 size_t LoadStore::findHazard(Instruction other)
 {
-	return input.findHazard(other);
+	size_t nops = 0;
+	if (state == EXECUTING && current_instruction.isHazard(other)) {
+		nops = 1;
+	}
+
+	return std::max(input.findHazard(other), nops);
 
 }

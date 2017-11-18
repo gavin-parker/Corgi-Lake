@@ -7,6 +7,9 @@
 #include <iostream>
 #include <algorithm>
 
+std::unordered_set<int64_t> breakpoints = { 3 };
+
+
 Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), boot_disk, 0 }), alu(1, &simState), fetcher(&simState), load_store(LoadStore(&simState)), branch_unit(&alu, &load_store, &simState)
 {
 	simState.memory = boot_disk;
@@ -50,8 +53,13 @@ void Simulator::writeback()
 //mega code smell
 int Simulator::execute(Instruction current_instruction) {
 
+	if (breakpoints.find(current_instruction.location) != breakpoints.end()) {
+		int a = 3;
+		std::cout << "";
+	}
+
 	if (current_instruction.opcode.op == NOP) {
-		//std::cout << "NOP" << std::endl;
+		std::cout << "NOP" << std::endl;
 		return 0;
 	}
 
