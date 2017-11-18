@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <unordered_map>
+#include <vector>
 #include "memory.h"
 class Assembler
 {
@@ -10,12 +11,12 @@ class Assembler
 											{"ICMP", ICMP}, {"LD", LD}, {"LDI", LDI}, {"BRA", BRA},
 											{"JUM", JUM}, {"BLT", BLT}, {"HALTEZ", HALTEZ}, {"IMUL", IMUL},
 											{"IMULI", IMULI}, {"STR",STR}, {"STRI", STRI},
-											{"HALTEQ", HALTEQ}, {"NOP", NOP } };
+											{"HALTEQ", HALTEQ}, {"NOP", NOP }, {"ISUB", ISUB} };
 
 public:
 	Assembler();
 	~Assembler();
-	Data assemble(std::string opcode, std::string operand, int line_number);
+	Data assemble(std::vector<std::string> tokens, int line_number);
 	std::vector<Data> load_assembly_file(std::string path);
 
 	static std::vector<std::string> split(std::string input, std::string delimeter) {

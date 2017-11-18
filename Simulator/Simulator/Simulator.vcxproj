@@ -193,6 +193,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="gcd.corg" />
     <None Include="label_test.corg" />
     <None Include="raw_hazards.corg" />
     <None Include="vector_add.corg" />

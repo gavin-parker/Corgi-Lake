@@ -10,6 +10,7 @@ ACA Simulator
 |IADDI	 | r0,r1,v  | Add the integer contents of r1 and v and store in r0 |
 |IMUL	 | r0,r1,r2 | Multiply the integer contents of r1 and r2 and store in r0 |
 |IMULI   | r0,r1,v  | Multiply the integer contents of r1 and v and store in r0 |
+|ISUB	 | r0,r1,r2 | Subtract the integer contents of r2 from r1 and store in r0 |
 |ICMP	 | r0,r1,r2 | Compare the integer contents of r1 and r2 and store -1 (r1<r2) 0 (r1=r2) or 1(r1>r2) in r0 |
 |LD		 | r0,r1,v  | Load contents of address r1+v into r0 |
 |LDI	 | r0,v		| Load v into r0 |

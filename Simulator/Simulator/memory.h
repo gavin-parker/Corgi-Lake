@@ -1,15 +1,25 @@
 #pragma once
 #include <stdint.h>
 #include <vector>
+#include <iostream>
+#include <iomanip>
 #include "instruction.h"
 #include "component.h"
 struct Data {
 	bool isData = true;
 	Instruction instruction;
 	int64_t data;
-	std::string line;
+	std::vector<std::string> line;
 };
-
+/*
+static void print_data(Data data) {
+		for (auto word : data.line) {
+			std::cout
+				<< std::setw(5) << word;
+		}
+		std::cout << std::endl;
+}
+*/
 class Memory : public Component
 {
 private:

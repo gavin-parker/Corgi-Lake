@@ -66,6 +66,12 @@ uint64_t ALU::execute(Instruction instruction) {
 		state = READY;
 		break;
 	}
+	case ISUB:
+		print_operand(r1, register_file);
+		print_operand(r2, register_file);
+		result = register_file->gp[r1].data - register_file->gp[r2].data;
+		state = EXECUTING;
+		break;
 	}
 	std::cout << std::endl;
 	simState->instructions_executed++;

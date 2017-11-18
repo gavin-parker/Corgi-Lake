@@ -28,5 +28,6 @@ std::unordered_map<OP, OP_SETTINGS> op_map = {
 	{ BLT	,{ 1	,3	,BRANCH		,{ 0,1 }	,{}		, "BLT" } },
 	{ HALTEZ,{ 1	,1	,BRANCH		,{ 0 }		,{}		, "HALTEZ" } },
 	{ HALTEQ,{1		,2	,BRANCH		,{ 0 }		,{}		, "HALTEQ" } },
-	{ NOP	,{1		,0	,SKIP		,{}			,{}		, "NOP"}}
+	{ NOP	,{1		,0	,SKIP		,{}			,{}		, "NOP"}},
+	{ ISUB	,{1		,3	,MATH		,{1,2}		,{0}	, "ISUB"}}
 };

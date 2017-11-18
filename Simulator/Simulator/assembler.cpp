@@ -1,37 +1,31 @@
 #include "stdafx.h"
 #include "assembler.h"
 #include "benchmark_runner.h"
+#include <sstream>     
+#include <algorithm>
+#include <iterator>
 
-Data Assembler::assemble(std::string opcode, std::string operand, int line_number) {
+using std::string;
+using std::istream_iterator;
+
+Data Assembler::assemble(std::vector<string> tokens, int line_number) {
+
+	OP op = opcodes[tokens[0]];
+	Opcode mneumonic(op);
 	int i = 0;
 	int64_t dat = 0;
-	std::string line = opcode + " " + operand;
 	bool isData = false;
-	Opcode mneumonic(opcodes[opcode]);
 	std::vector<int64_t> args = { 0,0,0 };
 	if (mneumonic.op == DATA) {
 		isData = true;
-		dat = std::stoi(operand, NULL);
+		dat = std::stoi(tokens[1], NULL);
 	}
 	else {
-		std::vector<std::string> operands = split(operand, ",");
-		int i = 0;
-		for (auto op : operands) {
-			if (op[0] == 'r') {
-				args[i] = std::stoi(op.substr(1, op.size()), NULL);
-			}
-			else if (op[0] == '~') {
-				std::string label = op.substr(1, op.size());
-				int loc = labels[label];
-				args[i] = loc;
-			}
-			else {
-				args[i] = std::stoi(op, NULL);
-			}
-			i++;
+		for (int i = 0; i < mneumonic.operand_num; i++) {
+			args[i] = std::stoi(tokens[i + 1], NULL);
 		}
 	}
-	Data data = { isData, Instruction(mneumonic.op, line_number, args[0], args[1], args[2]), dat, line };
+	Data data = { isData, Instruction(mneumonic.op, line_number, args[0], args[1], args[2]), dat, tokens };
 	return data;
 }
 
@@ -39,23 +33,43 @@ std::vector<Data> Assembler::load_assembly_file(std::string path) {
 	std::vector<Data> disk;
 	std::ifstream assembly_file;
 	assembly_file.open(path);
-	std::vector<std::string> first_pass;
+	std::vector<std::vector<string>> first_pass;
 	int index = 0;
 	if (assembly_file.is_open()) {
 		std::string line;
 		while (std::getline(assembly_file, line)) {
-			if (line.at(0) == '#') {
-				continue;
-			}
+			//Trim commas, r
+			std::replace(line.begin(), line.end(), ',', ' ');
+			line.erase(std::remove(line.begin(), line.end(), 'r'), line.end());
+			//Tokenize
+			std::istringstream stream(line);
+			std::vector<string> tokens;
+			std::copy(istream_iterator<string>(stream),
+				istream_iterator<string>(),
+				std::back_inserter(tokens));
 
-			size_t label_pos = line.find("@");
-			if (label_pos != std::string::npos) {
-				std::string label = line.substr(label_pos + 1, line.size());
-				labels[label] = index;
-				line.erase(label_pos);
+			bool isComment = false;
+
+			std::vector<string> trimmed;
+			//Trim comments
+			for (auto word : tokens) {
+				if (word[0] == '#') {
+					isComment = !isComment;
+					continue;
+				}
+				if (isComment) {
+					continue;
+				}
+				if (word[0] == '@') {
+					std::string label = word.substr(1, word.size());
+					labels[label] = index;
+				}
+				trimmed.push_back(word);
 			}
-			first_pass.push_back(line);
-			index++;
+			if (trimmed.size() > 0) {
+				first_pass.push_back(trimmed);
+				index++;
+			}
 		}
 	}
 	else {
@@ -65,12 +79,21 @@ std::vector<Data> Assembler::load_assembly_file(std::string path) {
 
 	int line_number = 0;
 	for (auto line : first_pass) {
-		std::vector<std::string> contents = Assembler::split(line, " ");
-		if (contents[0] == "NOP") {
-			contents.push_back("");
+		//Tokenize
+		std::vector<string> labelled;
+		for (auto word : line) {
+			if (word[0] == '~') {
+				std::string label = word.substr(1, word.size());
+				labelled.push_back(std::to_string(labels[label]));
+			}
+			else {
+				labelled.push_back(word);
+			}
 		}
-		disk.push_back(assemble(contents[0], contents[1], line_number));
-		line_number++;
+		if (line.size() > 0) {
+			disk.push_back(assemble(labelled, line_number));
+			line_number++;
+		}
 	}
 	return disk;
 }
