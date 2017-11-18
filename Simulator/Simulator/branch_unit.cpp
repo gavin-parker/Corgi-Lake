@@ -26,13 +26,11 @@ void BranchUnit::execute(Instruction current_instruction) {
 	case BRA:
 		(*program_counter) = r0;
 		state = READY;
-		simState->instructions_executed++;
 		std::cout << r0;
 		break;
 	case JUM:
 		(*program_counter) = current_instruction.location + r0;
 		state = READY;
-		simState->instructions_executed++;
 		std::cout << current_instruction.location + r0;
 		break;
 	case BLT:
@@ -43,8 +41,6 @@ void BranchUnit::execute(Instruction current_instruction) {
 			(*program_counter) = current_instruction.location + r2;
 		}
 		state = READY;
-		simState->instructions_executed++;
-
 		break;
 	case HALTEZ:
 		print_operand(r0, register_file);
@@ -52,7 +48,6 @@ void BranchUnit::execute(Instruction current_instruction) {
 			halt = true;
 		}
 		state = READY;
-		simState->instructions_executed++;
 		break;
 	case HALTEQ:
 		print_operand(r0, register_file);
@@ -61,12 +56,13 @@ void BranchUnit::execute(Instruction current_instruction) {
 			halt = true;
 		}
 		state = READY;
-		simState->instructions_executed++;
 		break;
 	case NOP:
 		state = READY;
 		break;
 	}
+	simState->instructions_executed++;
+
 	std::cout << std::endl;
 	simState->stall = false;
 }
