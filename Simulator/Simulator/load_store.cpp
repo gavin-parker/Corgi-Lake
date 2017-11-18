@@ -56,7 +56,6 @@ uint64_t LoadStore::execute(Instruction instruction)
 
 LoadStore::LoadStore(SimState *simState) : register_file(&(*simState).register_file), memory(&(*simState).memory), simState(simState)
 {
-	simState->output_buffers.push_back(output);
 }
 
 LoadStore::~LoadStore()
@@ -65,7 +64,7 @@ LoadStore::~LoadStore()
 
 int LoadStore::tick() {
 	if (result_ready) {
-		output.push(lastResult);
+		output.push_back(lastResult);
 		result_ready = false;
 	}
 	switch (state) {
@@ -98,24 +97,20 @@ int LoadStore::tick() {
 
 void LoadStore::write()
 {
-	if (!output.isEmpty()) {
-		Result result = output.pop();
+	if (output.size() > 0) {
+		Result result = output.front();
+		output.pop_front();
 		register_file->gp[result.instruction.operands[0]].data = result.result;
 	}
 }
 
 bool LoadStore::flushed()
 {
-	return state != EXECUTING && input.isEmpty() && output.isEmpty() && !result_ready;
+	return state != EXECUTING && input.isEmpty() && output.size() == 0 && !result_ready;
 }
 
 size_t LoadStore::findHazard(Instruction other)
 {
-	size_t nops = 0;
-	if (state == EXECUTING && current_instruction.isHazard(other)) {
-		nops = 1;
-	}
-
-	return std::max(input.findHazard(other), nops);
+	return input.findHazard(other);
 
 }

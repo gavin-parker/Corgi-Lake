@@ -5,6 +5,14 @@
 #include <string>
 #include "simulator.h"
 #include <fstream>
+#include <iomanip>
+struct benchmark_result {
+	std::string name;
+	int ticks = 0;
+	int instructions;
+	bool pass = false;
+};
+
 BenchmarkRunner::BenchmarkRunner()
 {
 }
@@ -22,15 +30,35 @@ int main()
 	int tests_failed = 0;
 	std::vector<std::string> failed_tests;
 	Assembler assembler;
+	std::vector<benchmark_result> results;
 	for (auto path : paths) {
+		bool passed = true;
 		std::vector<Data> disk = assembler.load_assembly_file("../Simulator/" + path);
 		Simulator simulator(disk);
-		simulator.simulate();
-		std::cout << std::endl << "Instructions executed: " << simulator.simState.instructions_executed << std::endl;
+		try {
+			simulator.simulate();
+		}catch(std::exception e){
+			passed = false;
+		}
 		tests_passed++;
-		std::cout << std::endl << "Cycles: " << simulator.ticks << std::endl;
+		results.push_back({ path, simulator.ticks, simulator.simState.instructions_executed, false });
 
 	}
+	std::cout
+		<< std::setw(18) << "NAME"
+		<< std::setw(14) << "TICKS"
+		<< std::setw(14) << "INSTRUCTIONS"
+		<< std::endl;
+
+	for (auto result : results) {
+		std::cout
+			<< std::setw(18) << result.name
+			<< std::setw(14) << result.ticks
+			<< std::setw(14) << result.instructions
+			<< std::endl;
+	}
+
+
 	std::cout << "TESTS PASSED: " << tests_passed << std::endl;
 	std::cout << "TESTS FAILED: " << tests_failed << std::endl;
 	for (auto failure : failed_tests) {

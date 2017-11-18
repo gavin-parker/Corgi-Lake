@@ -158,6 +158,7 @@
     <ClInclude Include="memory.h" />
     <ClInclude Include="non_copyable.h" />
     <ClInclude Include="opcode.h" />
+    <ClInclude Include="opcode_settings.h" />
     <ClInclude Include="register_file.h" />
     <ClInclude Include="buffer.h" />
     <ClInclude Include="result.h" />
@@ -173,12 +174,14 @@
     <ClCompile Include="bank.cpp" />
     <ClCompile Include="benchmark_runner.cpp" />
     <ClCompile Include="branch_unit.cpp" />
+    <ClCompile Include="buffer.cpp" />
     <ClCompile Include="component.cpp" />
     <ClCompile Include="fetcher.cpp" />
     <ClCompile Include="instruction.cpp" />
     <ClCompile Include="load_store.cpp" />
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="non_copyable.cpp" />
+    <ClCompile Include="opcode.cpp" />
     <ClCompile Include="RegisterFile.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="simulator.cpp" />

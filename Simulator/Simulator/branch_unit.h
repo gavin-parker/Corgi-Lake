@@ -16,10 +16,11 @@ private:
 	Instruction current_instruction;
 	SimState *simState;
 public:
-	Buffer<Instruction> input;
+	Buffer input;
 	BranchUnit(Bank<ALU> *alus, LoadStore *load_store, SimState *simState);
 	~BranchUnit();
 	int tick();
+	const int pipeline_length = 2;
 	bool halt = false;
 };
 

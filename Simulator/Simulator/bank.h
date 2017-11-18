@@ -20,8 +20,8 @@ class Bank <ALU> : public Component
 {
 	std::vector<ALU> members;
 public:
-	std::shared_ptr<Buffer<Instruction>> input = std::make_shared<Buffer<Instruction>>();
-	std::shared_ptr<Buffer<Result>> output = std::make_shared<Buffer<Result>>();
+	std::shared_ptr<Buffer> input = std::make_shared<Buffer>();
+	std::shared_ptr<std::deque<Result>> output = std::make_shared<std::deque<Result>>();
 	Bank(int count, SimState* simState)
 	{
 		members.reserve(count);
@@ -29,7 +29,6 @@ public:
 			members.emplace_back(simState, input, output);
 			members[i].state = READY;
 		}
-		simState->output_buffers.push_back(*output);
 	}
 	int tick() {
 		for (auto &member : members) {
@@ -59,7 +58,7 @@ public:
 		if (!input->isEmpty()) {
 			return false;
 		}
-		if (!output->isEmpty()) {
+		if (output->size() > 0) {
 			return false;
 		}
 		for (auto &member : members) {

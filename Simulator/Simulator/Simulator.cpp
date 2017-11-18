@@ -58,22 +58,22 @@ int Simulator::execute(Instruction current_instruction) {
 		std::cout << "";
 	}
 
-	if (current_instruction.opcode.op == NOP) {
-		std::cout << "NOP" << std::endl;
+	if (current_instruction.opcode.settings.unit == SKIP) {
+		std::cout << current_instruction.opcode.settings.name << std::endl;
 		return 0;
 	}
 
-	if (current_instruction.opcode.op >= LD && current_instruction.opcode.op <= STRI) {
+	if (current_instruction.opcode.settings.unit == LDSTR) {
 		load_store.input.push(current_instruction);
 		state = READY;
 		return 0;
 	}
-	if (current_instruction.opcode.op >= BRA && current_instruction.opcode.op <= HALTEQ) {
+	if (current_instruction.opcode.settings.unit == BRANCH) {
 		branch_unit.input.push(current_instruction);
 		state = READY;
 		return 0;
 	}
-	if (current_instruction.opcode.op != DATA) {
+	if (current_instruction.opcode.settings.unit == MATH) {
 		alu.input->push(current_instruction);
 		state = READY;
 	}

@@ -19,13 +19,14 @@ private:
 public:
 	bool result_ready = false;
 	Result lastResult;
-	Buffer<Result> output;
-	Buffer<Instruction> input;
+	std::deque<Result> output;
+	Buffer input;
 	LoadStore(SimState *simState);
 	~LoadStore();
 	int tick();
 	void write();
 	bool flushed();
+	static const int pipeline_length = 3;
 	size_t findHazard(Instruction other);
 };
 

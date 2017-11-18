@@ -9,7 +9,7 @@ static void print_operand(int64_t operand, RegisterFile *register_file) {
 	std::cout << "(" << register_file->gp[operand].data << ")";
 }
 
-ALU::ALU(SimState *simState, std::shared_ptr<Buffer<Instruction>> input, std::shared_ptr<Buffer<Result>> output) : simState(simState), input(input), output(output)
+ALU::ALU(SimState *simState, std::shared_ptr<Buffer> input, std::shared_ptr<std::deque<Result>> output) : simState(simState), input(input), output(output)
 {
 	register_file = &(*simState).register_file;
 }
@@ -74,7 +74,7 @@ uint64_t ALU::execute(Instruction instruction) {
 
 int ALU::tick() {
 	if (result_ready) {
-		output->push(lastResult);
+		output->push_back(lastResult);
 		result_ready = false;
 	}
 	switch (state) {
@@ -82,7 +82,7 @@ int ALU::tick() {
 		if (!input->isEmpty()) {
 			current_instruction = input->pop();
 			state = EXECUTING;
-			wait_cycles = 1;
+			wait_cycles = 1; // current_instruction.opcode.settings.ticks;
 		}
 		break;
 	case EXECUTING:
@@ -112,8 +112,9 @@ void ALU::log()
 
 void ALU::write()
 {
-	if (!output->isEmpty()) {
-		Result res = output->pop();
+	if (output->size() > 0) {
+		Result res = output->front();
+		output->pop_front();
 		register_file->gp[res.instruction.operands[0]].data = res.result;
 	}
 }

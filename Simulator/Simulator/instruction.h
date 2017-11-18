@@ -23,16 +23,8 @@ public:
 	bool war(Instruction other);
 	bool waw(Instruction other);
 	bool isHazard(Instruction other) const;
-	static int operand_count(Opcode opcode) {
-		if ((opcode.op >= IADD && opcode.op <= LD) || opcode.op == BLT) {
-			return 3;
-		}
-		else if (opcode.op == LDI || opcode.op == STRI || opcode.op == HALTEQ) {
-			return 2;
-		}
-		else {
-			return 1;
-		}
+	int num_operands() {
+		return opcode.operand_num;
 	}
 
 };

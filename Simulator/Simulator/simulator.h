@@ -20,7 +20,7 @@ private:
 	Fetcher fetcher;
 	LoadStore load_store;
 	Instruction stall_instruction;
-	Buffer<Instruction> instruction_buffer;
+	Buffer instruction_buffer;
 	BranchUnit branch_unit;
 public:	
 	SimState simState;
