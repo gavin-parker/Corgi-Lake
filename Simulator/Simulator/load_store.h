@@ -25,8 +25,8 @@ public:
 	~LoadStore();
 	int tick();
 	void write();
-	bool flushed();
 	static const int pipeline_length = 3;
 	size_t findHazard(Instruction other);
+	void flush(); //Stop executing current instruction and empty the buffer
 };
 

@@ -10,7 +10,7 @@
 std::unordered_set<int64_t> breakpoints = { 3 };
 
 
-Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), boot_disk, 0 }), alu(2, &simState), fetcher(&simState), load_store(LoadStore(&simState)), branch_unit(&alu, &load_store, &simState)
+Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), boot_disk, 0 }), alu(2, &simState), fetcher(&simState, &branch_predictor), load_store(LoadStore(&simState)), branch_unit(&alu, &load_store, &branch_predictor, &simState )
 {
 	simState.memory = boot_disk;
 }
@@ -24,6 +24,7 @@ void Simulator::fetch() {
 		fetcher.state = EXECUTING;
 	}
 }
+
 void Simulator::decode()
 {
 	if (fetcher.state == DONE) {
@@ -99,9 +100,12 @@ int Simulator::tick() {
 }
 
 void Simulator::flush() {
-	fetcher.state = READY;
-	alu.flush();
-	state = READY;
+	//alu.flush();
+	//load_store.flush();
+	//branch_unit.flush();
+	instruction_buffer.flush();
+	simState.register_file.fetch_buffer.clear();
+	simState.flush = false;
 }
 
 void Simulator::simulate() {
@@ -119,45 +123,15 @@ void Simulator::simulate() {
 		}
 		fetcher.tick();
 		branch_unit.tick();
+		if (simState.flush) {
+			flush();
+		}
 		simState.memory.tick();
 		load_store.tick();
 		alu.tick();
 		writeback();
 
-		if (debug) {
-			print_state();
-		}
 	}
-}
-
-void Simulator::dump() {
-	std::cout << std::endl;
-	std::cout << "| TICKS | PC | STATE | MAR | MDR | CIR | ";
-	std::string reg_header = "";
-	std::string reg_contents = "";
-	for (int i = 0; i < 16; i++) {
-		reg_header += "R" + std::to_string(i) + " | ";
-		std::string contents = "X";
-		if (simState.register_file.gp[i].data >= -10000 && simState.register_file.gp[i].data <= 10000) {
-			contents = std::to_string(simState.register_file.gp[i].data);
-		}
-		reg_contents += contents + " | ";
-	}
-	std::cout << reg_header;
-	std::cout << std::endl;
-	std::cout << "| " << ticks << " | " << simState.program_counter << " | " << state << " | ";
-	std::cout << "X" << " | " << "X" << " | " << "X" << " | " << reg_contents;
-	std::cout << std::endl;
-}
-
-void Simulator::print_state() {
-
-	//std::cout << register_file.CIR.line << std::endl;
-	//std::cout << "r3: " << register_file.gp[3].data << std::endl;
-	//std::cout << "r0: " << register_file.gp[0].data << std::endl;
-	//std::cout << "state: " << state;
-	//std::cout << " PC: " << program_counter;
-	//std::cout << " tick: " << ticks << std::endl;
 }
 
 

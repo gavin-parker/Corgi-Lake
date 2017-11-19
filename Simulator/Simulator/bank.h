@@ -46,7 +46,7 @@ public:
 	}
 	void flush() {
 		for (auto &member : members) {
-			member.state = READY;
+			member.flush();
 		}
 	}
 	void write() {

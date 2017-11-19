@@ -81,6 +81,9 @@
     <ClInclude Include="opcode_settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="branch_predictor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -132,6 +135,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="branch_predictor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

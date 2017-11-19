@@ -47,10 +47,9 @@ uint64_t LoadStore::execute(Instruction instruction)
 		}
 		break;
 	}
-	if (memory->state != EXECUTING) {
-		simState->instructions_executed++;
-		std::cout << std::endl;
-	}
+	simState->instructions_executed++;
+	std::cout << std::endl;
+	
 	return result;
 }
 
@@ -100,20 +99,23 @@ int LoadStore::tick() {
 
 void LoadStore::write()
 {
-	if (output.size() > 0) {
+	while (output.size() > 0) {
 		Result result = output.front();
 		output.pop_front();
 		register_file->gp[result.instruction.operands[0]].data = result.result;
 	}
 }
 
-bool LoadStore::flushed()
-{
-	return state != EXECUTING && input.isEmpty() && output.size() == 0 && !result_ready;
-}
-
 size_t LoadStore::findHazard(Instruction other)
 {
 	return input.findHazard(other);
 
+}
+
+void LoadStore::flush()
+{
+	//result_ready = false;
+	state = READY;
+	input.flush();
+	//output.clear();
 }

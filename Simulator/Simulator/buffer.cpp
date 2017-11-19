@@ -27,7 +27,7 @@ bool Buffer::isEmpty()
 
 void Buffer::flush()
 {
-	queue.empty();
+	queue.clear();
 }
 
 size_t Buffer::findHazard(Instruction instruction) {

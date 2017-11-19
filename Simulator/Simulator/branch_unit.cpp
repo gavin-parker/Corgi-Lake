@@ -7,7 +7,7 @@ static void print_operand(int64_t operand, RegisterFile *register_file) {
 	std::cout << "(" << register_file->gp[operand].data << ")";
 }
 
-BranchUnit::BranchUnit(Bank<ALU>* alus, LoadStore * load_store, SimState *simState) : alus(alus), load_store(load_store), program_counter(&(*simState).program_counter), register_file(&(*simState).register_file), simState(simState)
+BranchUnit::BranchUnit(Bank<ALU>* alus, LoadStore * load_store, BranchPredictor *branch_predictor, SimState *simState) : alus(alus), load_store(load_store), branch_predictor(branch_predictor), program_counter(&(*simState).program_counter), register_file(&(*simState).register_file), simState(simState)
 {
 }
 
@@ -21,6 +21,8 @@ void BranchUnit::execute(Instruction current_instruction) {
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
 	std::cout << opcode_string(current_instruction.opcode.op) << " ";
+	bool prediction = branch_predictor->getPrediction(current_instruction);
+	bool branched = true;
 	switch (current_instruction.opcode.op)
 	{
 	case BRA:
@@ -40,12 +42,20 @@ void BranchUnit::execute(Instruction current_instruction) {
 		if (register_file->gp[r0].data < register_file->gp[r1].data) {
 			(*program_counter) = current_instruction.location + r2;
 		}
+		else {
+			(*program_counter) = current_instruction.location + 1;
+			branched = false;
+		}
 		state = READY;
 		break;
 	case HALTEZ:
 		print_operand(r0, register_file);
 		if (register_file->gp[r0].data == 0) {
 			halt = true;
+		}
+		else {
+			(*program_counter) = current_instruction.location + 1;
+			branched = false;
 		}
 		state = READY;
 		break;
@@ -55,6 +65,10 @@ void BranchUnit::execute(Instruction current_instruction) {
 		if (register_file->gp[r0].data == r1) {
 			halt = true;
 		}
+		else {
+			branched = false;
+			(*program_counter) = current_instruction.location + 1;
+		}
 		state = READY;
 		break;
 	case NOP:
@@ -62,9 +76,10 @@ void BranchUnit::execute(Instruction current_instruction) {
 		break;
 	}
 	simState->instructions_executed++;
-
 	std::cout << std::endl;
-	simState->stall = false;
+	if (branched != prediction) {
+		simState->flush = true;
+	}
 }
 
 int BranchUnit::tick()
@@ -89,4 +104,10 @@ int BranchUnit::tick()
 		break;
 	}
 	return 0;
+}
+
+void BranchUnit::flush()
+{
+	input.flush();
+	state = READY;
 }

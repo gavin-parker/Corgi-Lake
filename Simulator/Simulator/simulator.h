@@ -15,13 +15,13 @@ private:
 	void decode();
 	void writeback();
 	int execute(Instruction current_instruction);
-	void print_state();
 	void flush();
 	Fetcher fetcher;
 	LoadStore load_store;
 	Instruction stall_instruction;
 	Buffer instruction_buffer;
 	BranchUnit branch_unit;
+	BranchPredictor branch_predictor;
 public:	
 	SimState simState;
 	int ticks = 0;

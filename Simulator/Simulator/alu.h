@@ -25,5 +25,6 @@ public:
 	const int pipeline_length = 3;
 	void log();
 	void write();
+	void flush(); //Stop executing current instruction and empty the buffer
 };
 

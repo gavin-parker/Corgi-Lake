@@ -122,9 +122,16 @@ void ALU::log()
 
 void ALU::write()
 {
-	if (output->size() > 0) {
+	while (output->size() > 0) {
 		Result res = output->front();
 		output->pop_front();
 		register_file->gp[res.instruction.operands[0]].data = res.result;
 	}
+}
+
+void ALU::flush()
+{
+	state = READY;
+	//input->flush();
+	output->clear();
 }

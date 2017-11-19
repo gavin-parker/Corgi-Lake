@@ -9,5 +9,5 @@ struct SimState {
 	Memory memory;
 	uint64_t program_counter = 0;
 	int instructions_executed = 0;
-	bool stall = false;
+	bool flush = false;
 };

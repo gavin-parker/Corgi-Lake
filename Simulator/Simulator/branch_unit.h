@@ -3,6 +3,7 @@
 #include "instruction.h"
 #include "bank.h"
 #include "load_store.h"
+#include "branch_predictor.h"
 class BranchUnit :
 	public Component
 {
@@ -15,12 +16,14 @@ private:
 	uint64_t pc_at_branch;
 	Instruction current_instruction;
 	SimState *simState;
+	BranchPredictor *branch_predictor;
 public:
 	Buffer input;
-	BranchUnit(Bank<ALU> *alus, LoadStore *load_store, SimState *simState);
+	BranchUnit(Bank<ALU> *alus, LoadStore *load_store, BranchPredictor *branch_predictor, SimState *simState);
 	~BranchUnit();
 	int tick();
 	const int pipeline_length = 2;
 	bool halt = false;
+	void flush();
 };
 
