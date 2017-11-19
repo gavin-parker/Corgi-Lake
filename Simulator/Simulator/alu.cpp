@@ -23,7 +23,7 @@ uint64_t ALU::execute(Instruction instruction) {
 	uint64_t r1 = instruction.operands[1];
 	uint64_t r2 = instruction.operands[2];
 	uint64_t v;
-	uint64_t result;
+	int result;
 	std::cout << opcode_string(instruction.opcode.op) << " ";
 	print_operand(r0, register_file);
 	switch (instruction.opcode.op) {
@@ -63,6 +63,10 @@ uint64_t ALU::execute(Instruction instruction) {
 		else if (register_file->gp[r1].data - register_file->gp[r2].data > 0) {
 			result = 1;
 		}
+		else {
+			result = 0;
+		}
+		
 		state = READY;
 		break;
 	}

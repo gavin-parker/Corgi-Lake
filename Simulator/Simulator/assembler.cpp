@@ -38,9 +38,8 @@ std::vector<Data> Assembler::load_assembly_file(std::string path) {
 	if (assembly_file.is_open()) {
 		std::string line;
 		while (std::getline(assembly_file, line)) {
-			//Trim commas, r
+			//Trim commas,
 			std::replace(line.begin(), line.end(), ',', ' ');
-			line.erase(std::remove(line.begin(), line.end(), 'r'), line.end());
 			//Tokenize
 			std::istringstream stream(line);
 			std::vector<string> tokens;
@@ -64,6 +63,10 @@ std::vector<Data> Assembler::load_assembly_file(std::string path) {
 					std::string label = word.substr(1, word.size());
 					labels[label] = index;
 				}
+				if (word[0] == 'r') {
+					registers.insert(stoi(word.substr(1, word.size())));
+					word = word.substr(1, word.size());
+				}
 				trimmed.push_back(word);
 			}
 			if (trimmed.size() > 0) {
@@ -86,6 +89,11 @@ std::vector<Data> Assembler::load_assembly_file(std::string path) {
 				std::string label = word.substr(1, word.size());
 				labelled.push_back(std::to_string(labels[label]));
 			}
+			else if (word[0] == '_') {
+				//Assign a register to this var
+				auto reg = assign_register(word);
+				labelled.push_back(std::to_string(reg));
+			}
 			else {
 				labelled.push_back(word);
 			}
@@ -95,7 +103,24 @@ std::vector<Data> Assembler::load_assembly_file(std::string path) {
 			line_number++;
 		}
 	}
+	disk.resize(200, { true, Instruction(DATA, 0, 0, 0, 0), 0, {} });
 	return disk;
+}
+
+uint32_t Assembler::assign_register(std::string word)
+{
+	if (vars.find(word) == vars.end()) {
+		for (uint32_t i = 0; i < 64; i++) {
+			if (registers.find(i) == registers.end()) {
+				vars[word] = i;
+				registers.insert(i);
+				return i;
+			}
+		}
+	}
+	else {
+		return vars[word];
+	}
 }
 
 Assembler::Assembler()

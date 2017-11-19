@@ -25,7 +25,7 @@ BenchmarkRunner::~BenchmarkRunner()
 int main()
 {
 	BenchmarkRunner benchmarker;
-	std::vector<std::string> paths = { "vector_add.corg", "vector_sum.corg", "label_test.corg", "dot_product.corg", "raw_hazards.corg" };
+	std::vector<std::string> paths = { "vector_add.corg", "vector_sum.corg", "label_test.corg", "dot_product.corg", "raw_hazards.corg", "gcd.corg" , "factorial.corg" };
 	int tests_passed = 0;
 	int tests_failed = 0;
 	std::vector<std::string> failed_tests;

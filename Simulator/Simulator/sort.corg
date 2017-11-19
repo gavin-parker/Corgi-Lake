@@ -1,0 +1,48 @@
+#Generate 100 numbers in reverse order, store them then sort them using quicksort
+LDI _count 100
+LDI _i 0
+LDI _j 0
+LDI _i2 0
+LDI _base ~heap
+LDI _stack 200
+LDI _sp 0
+IADDI _i _i 1
+STR _base _i _i
+BLT _count _i -2
+#Quicksort the numbers
+LDI _hi 99
+LDI _lo 0
+ICMP _tst _lo _hi	@quicksort
+HALTEQ _tst -1		#stop sorting
+BRA ~partition
+STR _stack _sp _i2		 @return
+IADDI _sp 1
+STR _stack _sp _lo
+IADDI _sp 1
+STR _stack _sp _hi
+IADDI _sp 1
+IADDI _hi -1
+BRA ~quicksort
+LD _pivot _base _hi @partition
+ISUB _i _lo 1
+IADD _j _lo 0
+#loop begins here
+LD _A[j] _base _j @loop1
+BLT _A[j] _pivot 3 #go to if
+BLT _j _hi -2 #return to start of loop
+BRA ~part2
+IADDI _i _i 1	#if statement contents
+LD _A[i] _base _i
+IADD _tmp _A[i] 0	#swap A[i] and a[j]
+STR _base _i _A[j]
+STR _base _j _tmp
+BRA ~loop1
+LD _A[hi] _base _hi @part2
+IADDI _i2 _i 1
+LD _A[i2] _base _i2
+BLT _A[hi] _A[i2] 2
+BRA ~return
+STR _base _i2 _A[hi]
+STR _base _hi _A[i2]
+BRA ~return
+DATA 0 @heap

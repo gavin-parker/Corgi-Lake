@@ -8,7 +8,7 @@
 struct Data {
 	bool isData = true;
 	Instruction instruction;
-	int64_t data;
+	int data;
 	std::vector<std::string> line;
 };
 /*

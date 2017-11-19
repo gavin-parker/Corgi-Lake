@@ -7,6 +7,9 @@
 class Assembler
 {
 	std::map<std::string, uint32_t> labels = std::map<std::string, uint32_t>();
+	std::map<std::string, uint32_t> vars = std::map<std::string, uint32_t>();
+	std::unordered_set<uint32_t> registers = std::unordered_set<uint32_t>();
+
 	std::map<std::string, OP> opcodes = { {"DATA", DATA}, {"IADD", IADD}, {"IADDI", IADDI},
 											{"ICMP", ICMP}, {"LD", LD}, {"LDI", LDI}, {"BRA", BRA},
 											{"JUM", JUM}, {"BLT", BLT}, {"HALTEZ", HALTEZ}, {"IMUL", IMUL},
@@ -18,7 +21,7 @@ public:
 	~Assembler();
 	Data assemble(std::vector<std::string> tokens, int line_number);
 	std::vector<Data> load_assembly_file(std::string path);
-
+	uint32_t assign_register(std::string word);
 	static std::vector<std::string> split(std::string input, std::string delimeter) {
 		size_t pos = 0;
 		std::vector<std::string> results;

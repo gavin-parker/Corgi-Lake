@@ -14,7 +14,7 @@ uint64_t LoadStore::execute(Instruction instruction)
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
-	uint64_t result;
+	uint64_t result = 0;
 	std::cout << opcode_string(instruction.opcode.op) << " ";
 	switch (current_instruction.opcode.op)
 	{
@@ -81,8 +81,10 @@ int LoadStore::tick() {
 
 			if (current_instruction.opcode.op != NOP) {
 				uint64_t result = execute(current_instruction);
-				lastResult = Result(current_instruction, result);
-				result_ready = true;
+				if (current_instruction.opcode.op != STR && current_instruction.opcode.op != STRI) {
+					lastResult = Result(current_instruction, result);
+					result_ready = true;
+				}
 			}
 			state = READY;
 		}

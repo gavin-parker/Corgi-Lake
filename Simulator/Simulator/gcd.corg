@@ -1,1 +1,14 @@
-#vars a,b
+#vars a,b = 17542,8460 ans = 2
+LDI _a 17542
+LDI _b 8460
+LDI r4 0
+LDI r5 2				#r5 is the answer
+LDI r6 0				#r6 used to check
+ICMP r3 _a _b @gcd		#GCD begins here
+ISUB r6 r5 _a
+HALTEQ r6 0
+BLT r4 r3 3				#A < B
+ISUB _b _b _a			#GCD(A,B-A)
+BRA ~gcd
+ISUB _a _a _b			#GCD(A-B,B)
+BRA ~gcd

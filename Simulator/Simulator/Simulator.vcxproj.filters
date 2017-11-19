@@ -154,5 +154,11 @@
     <None Include="gcd.corg">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="factorial.corg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sort.corg">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
