@@ -25,5 +25,6 @@ public:
 	const int pipeline_length = 2;
 	bool halt = false;
 	void flush();
+	size_t findHazard(Instruction other);
 };
 

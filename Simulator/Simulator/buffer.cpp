@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "buffer.h"
-
+#include <algorithm>
+#include <cassert>
 Buffer::Buffer()
 {
 }
@@ -30,16 +31,34 @@ void Buffer::flush()
 	queue.clear();
 }
 
-size_t Buffer::findHazard(Instruction instruction) {
-	int i = 1;
+size_t Buffer::find_hazard(const Instruction instruction) {
+	auto i = 1;
+	auto nops = 0;
 	for (auto it = queue.rbegin(); it != queue.rend() && i < 4; ++it) {
 		if (it->isHazard(instruction)) {
-			int pipeline_length = 3;
-			int instruction_ticks = it->opcode.settings.ticks;
-			int completion_time = pipeline_length +instruction_ticks;
-			return completion_time - i;
+			const auto instruction_ticks = it->opcode.settings.ticks;
+			nops = std::max(nops, instruction_ticks - i);
 		}
 		i++;
 	}
-	return 0;
+	return nops;
+}
+
+size_t Buffer::size()
+{
+	return queue.size();
+}
+
+/**
+ * \brief Finds the sequential number of cycles until a buffer finishes executing.
+ * \return 
+ */
+size_t Buffer::completion_time()
+{
+	auto total = 0;
+	for (auto it = queue.rbegin(); it != queue.rend(); ++it) {
+		total += it->opcode.settings.ticks;
+		total += pipeline_lengths[it->opcode.settings.unit];
+	}
+	return total;
 }

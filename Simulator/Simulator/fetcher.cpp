@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "fetcher.h"
-
+#include <cassert>
 
 Fetcher::Fetcher(SimState *simState, BranchPredictor *branch_predictor) : simState(simState), branch_predictor(branch_predictor)
 {
@@ -29,6 +29,7 @@ int Fetcher::tick() {
 			register_file->fetch_buffer.push_back(next);
 			simState->program_counter++;
 			Opcode opcode = next.instruction.opcode;
+			assert(opcode.op != DATA);
 			if (opcode.settings.unit == BRANCH ) {
 				if (branch_predictor->predict(next.instruction)) {
 					uint32_t target = 0;

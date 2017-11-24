@@ -26,5 +26,6 @@ public:
 	void log();
 	void write();
 	void flush(); //Stop executing current instruction and empty the buffer
+	size_t findHazard(Instruction other);
 };
 

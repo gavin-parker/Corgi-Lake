@@ -3,14 +3,8 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
-#include "instruction.h"
 #include "component.h"
-struct Data {
-	bool isData = true;
-	Instruction instruction;
-	int data;
-	std::vector<std::string> line;
-};
+#include "data.h"
 /*
 static void print_data(Data data) {
 		for (auto word : data.line) {

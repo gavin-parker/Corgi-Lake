@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <vector>
-#include "memory.h"
+#include "data.h"
 class RegisterFile
 {
 public:
@@ -9,5 +9,7 @@ public:
 	~RegisterFile();
 	Data gp[64];
 	std::vector<Data> fetch_buffer;
+	void print(Instruction instruction);
+
 };
 

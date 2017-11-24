@@ -1,6 +1,8 @@
 #pragma once
 #include <stdint.h>
 #include <iostream>
+#include <iomanip>
+#include <string>
 #include "opcode.h"
 static const char * OpcodeStrings[] = { "DATA", "IADD", "IADDI", "IMUL", "IMULI", "ICMP", "LD", "STR", "LDI", "STRI", "BRA", "JUM", "BLT", "HALTEZ", "HALTEQ", "NOP", "ISUB" };
 

@@ -15,41 +15,32 @@ uint64_t LoadStore::execute(Instruction instruction)
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
 	uint64_t result = 0;
-	std::cout << opcode_string(instruction.opcode.op) << " ";
 	switch (current_instruction.opcode.op)
 	{
 	case LD:
 		if (memory->state != EXECUTING) {
-			print_operand(r0, register_file);
-			print_operand(r1, register_file);
-			std::cout << " " << r2;
+
 			result = (*memory)[register_file->gp[r1].data + r2].data;
-			std::cout << " : " << (*memory)[register_file->gp[r1].data + r2].data;
 		}
 		break;
 	case LDI:
 		if (memory->state != EXECUTING) {
-			std::cout << "r" << r0 << " " << r1;
 			result = r1;
 		}
 		break;
 	case STR:
 		if (memory->state != EXECUTING) {
-			std::cout << register_file->gp[r0].data << " " << register_file->gp[r1].data << " " << register_file->gp[r2].data;
 			(*memory)[register_file->gp[r0].data + register_file->gp[r1].data] = register_file->gp[r2];
 		}
 		break;
 	case STRI:
 		if (memory->state != EXECUTING) {
-			std::cout << r1 << " " << register_file->gp[r0].data;
 			v = r1;
 			(*memory)[v] = register_file->gp[r0];
 		}
 		break;
 	}
 	simState->instructions_executed++;
-	std::cout << std::endl;
-	
 	return result;
 }
 
@@ -70,21 +61,21 @@ int LoadStore::tick() {
 	case READY:
 		if (!input.isEmpty()) {
 			current_instruction = input.pop();
-			state = EXECUTING;
-			wait_cycles = current_instruction.opcode.settings.ticks;
-
+			if (current_instruction.opcode.op != NOP) {
+				state = EXECUTING;
+				wait_cycles = current_instruction.opcode.settings.ticks;
+			}
 		}
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
-
-			if (current_instruction.opcode.op != NOP) {
-				uint64_t result = execute(current_instruction);
-				if (current_instruction.opcode.op != STR && current_instruction.opcode.op != STRI) {
-					lastResult = Result(current_instruction, result);
-					result_ready = true;
-				}
+			register_file->print(current_instruction);
+			uint64_t result = execute(current_instruction);
+			if (current_instruction.opcode.op != STR && current_instruction.opcode.op != STRI) {
+				lastResult = Result(current_instruction, result);
+				result_ready = true;
 			}
+
 			state = READY;
 		}
 		else {
@@ -108,7 +99,13 @@ void LoadStore::write()
 
 size_t LoadStore::findHazard(Instruction other)
 {
-	return input.findHazard(other);
+	//int nops_in_unit = 0;
+	////Check if an instruction is still in the unit that we need to wait for
+	//if (state == EXECUTING && current_instruction.isHazard(other)) {
+	//	const int completion_time = 1 + wait_cycles;
+	//	nops_in_unit = std::max(nops_in_unit, completion_time - (int)input.size());
+	//}
+	return input.find_hazard(other);
 
 }
 

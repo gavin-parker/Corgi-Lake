@@ -3,7 +3,7 @@
 #include <unordered_map>
 enum OP { DATA, IADD, IADDI, IMUL, IMULI, ICMP, LD, STR, LDI, STRI, BRA, JUM, BLT, HALTEZ, HALTEQ, NOP, ISUB };
 enum UNIT { MATH, LDSTR, BRANCH, SKIP };
-
+const int pipeline_lengths[] = { 3, 3, 3, 0 };
 struct OP_SETTINGS {
 	int ticks = 1;
 	int operands = 3;

@@ -4,6 +4,7 @@
 #include "simulator_state.h"
 #include <vector>
 #include <type_traits>
+#include <algorithm>
 
 template <class T>
 class Bank :
@@ -71,7 +72,10 @@ public:
 	/*Determine if the ALU pipeline contains a hazard.
 	  Hazards found in input pipeline and in the execution unit.
 	  Return number of required NOPs*/
-	size_t findHazard(Instruction other) {
-		return input->findHazard(other);
+	size_t find_hazard(const Instruction other) const
+	{
+		const int input_nops = input->find_hazard(other);
+		//Check if a result is waiting to be written back
+		return input_nops;
 	}
 };

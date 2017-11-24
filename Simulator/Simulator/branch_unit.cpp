@@ -20,7 +20,6 @@ void BranchUnit::execute(Instruction current_instruction) {
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
-	std::cout << opcode_string(current_instruction.opcode.op) << " ";
 	bool prediction = branch_predictor->getPrediction(current_instruction);
 	bool branched = true;
 	switch (current_instruction.opcode.op)
@@ -28,17 +27,12 @@ void BranchUnit::execute(Instruction current_instruction) {
 	case BRA:
 		(*program_counter) = r0;
 		state = READY;
-		std::cout << r0;
 		break;
 	case JUM:
 		(*program_counter) = current_instruction.location + r0;
 		state = READY;
-		std::cout << current_instruction.location + r0;
 		break;
 	case BLT:
-		print_operand(r0, register_file);
-		print_operand(r1, register_file);
-		std::cout << r2;
 		if (register_file->gp[r0].data < register_file->gp[r1].data) {
 			(*program_counter) = current_instruction.location + r2;
 		}
@@ -49,7 +43,6 @@ void BranchUnit::execute(Instruction current_instruction) {
 		state = READY;
 		break;
 	case HALTEZ:
-		print_operand(r0, register_file);
 		if (register_file->gp[r0].data == 0) {
 			halt = true;
 		}
@@ -60,8 +53,6 @@ void BranchUnit::execute(Instruction current_instruction) {
 		state = READY;
 		break;
 	case HALTEQ:
-		print_operand(r0, register_file);
-		std::cout << r1;
 		if (register_file->gp[r0].data == r1) {
 			halt = true;
 		}
@@ -71,12 +62,8 @@ void BranchUnit::execute(Instruction current_instruction) {
 		}
 		state = READY;
 		break;
-	case NOP:
-		state = READY;
-		break;
 	}
 	simState->instructions_executed++;
-	std::cout << std::endl;
 	if (branched != prediction) {
 		simState->flush = true;
 	}
@@ -88,12 +75,15 @@ int BranchUnit::tick()
 	case READY:
 		if (!input.isEmpty()) {
 			current_instruction = input.pop();
-			state = EXECUTING;
-			wait_cycles = current_instruction.opcode.settings.ticks;
+			if (current_instruction.opcode.op != NOP) {
+				state = EXECUTING;
+				wait_cycles = current_instruction.opcode.settings.ticks;
+			}
 		}
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
+			register_file->print(current_instruction);
 			execute(current_instruction);
 		}
 		else {
@@ -110,4 +100,9 @@ void BranchUnit::flush()
 {
 	input.flush();
 	state = READY;
+}
+
+size_t BranchUnit::findHazard(Instruction other)
+{
+	return input.find_hazard(other);
 }

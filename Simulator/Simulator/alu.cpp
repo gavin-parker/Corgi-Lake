@@ -3,7 +3,7 @@
 #include "result.h"
 #include "instruction.h"
 #include <iostream>
-
+#include <algorithm>
 static void print_operand(int64_t operand, RegisterFile *register_file) {
 	std::cout << " r" << operand;
 	std::cout << "(" << register_file->gp[operand].data << ")";
@@ -24,12 +24,8 @@ uint64_t ALU::execute(Instruction instruction) {
 	uint64_t r2 = instruction.operands[2];
 	uint64_t v;
 	int result;
-	std::cout << opcode_string(instruction.opcode.op) << " ";
-	print_operand(r0, register_file);
 	switch (instruction.opcode.op) {
 	case IADD:
-		print_operand(r1, register_file);
-		print_operand(r2, register_file);
 		result = register_file->gp[r1].data + register_file->gp[r2].data;
 		state = EXECUTING;
 		break;
@@ -37,26 +33,21 @@ uint64_t ALU::execute(Instruction instruction) {
 	{
 		v = r2;
 		result = register_file->gp[r1].data + v;
-		print_operand(r1, register_file);
-		std::cout << " " << v;
 		state = EXECUTING;
 		break;
 	}
 	case IMUL:
 		result = register_file->gp[r1].data * register_file->gp[r2].data;
-		std::cout << register_file->gp[r1].data << " " << register_file->gp[r2].data;
 		state = EXECUTING;
 		break;
 	case IMULI:
 		v = r2;
 		result = register_file->gp[r1].data * v;
-		std::cout << register_file->gp[r1].data << " " << v;
 		state = EXECUTING;
 		break;
 	case ICMP:
 	{
 		uint64_t ans = 0;
-		std::cout << register_file->gp[r1].data << " " << register_file->gp[r2].data;
 		if (register_file->gp[r1].data - register_file->gp[r2].data < 0) {
 			result = -1;
 		}
@@ -66,18 +57,15 @@ uint64_t ALU::execute(Instruction instruction) {
 		else {
 			result = 0;
 		}
-		
+
 		state = READY;
 		break;
 	}
 	case ISUB:
-		print_operand(r1, register_file);
-		print_operand(r2, register_file);
 		result = register_file->gp[r1].data - register_file->gp[r2].data;
 		state = EXECUTING;
 		break;
 	}
-	std::cout << std::endl;
 	simState->instructions_executed++;
 	return result;
 }
@@ -91,17 +79,19 @@ int ALU::tick() {
 	case READY:
 		if (!input->isEmpty()) {
 			current_instruction = input->pop();
-			state = EXECUTING;
-			wait_cycles = current_instruction.opcode.settings.ticks;
+			if (current_instruction.opcode.op != NOP) {
+				state = EXECUTING;
+				wait_cycles = current_instruction.opcode.settings.ticks;
+			}
 		}
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
 			/*Hold result in lastResult to simulate writeback happening on NEXT tick!!*/
-			if (current_instruction.opcode.op != NOP) {
-				lastResult = Result(current_instruction, execute(current_instruction));
-				result_ready = true;
-			}
+			register_file->print(current_instruction);
+			lastResult = Result(current_instruction, execute(current_instruction));
+			result_ready = true;
+
 			state = READY;
 		}
 		else {
@@ -134,4 +124,15 @@ void ALU::flush()
 	state = READY;
 	//input->flush();
 	output->clear();
+}
+/* Return how many ticks for current instructions in the unit to complete*/
+size_t ALU::findHazard(Instruction other)
+{
+	int nops_in_unit = 0;
+	
+	//Check if an instruction is still in the unit that we need to wait for
+	if (state == EXECUTING && current_instruction.isHazard(other)) {
+		nops_in_unit = std::max(nops_in_unit, wait_cycles);
+	}
+	return std::max(nops_in_unit, 0);
 }

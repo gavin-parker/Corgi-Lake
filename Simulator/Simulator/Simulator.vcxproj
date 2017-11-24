@@ -153,6 +153,7 @@
     <ClInclude Include="branch_predictor.h" />
     <ClInclude Include="branch_unit.h" />
     <ClInclude Include="component.h" />
+    <ClInclude Include="data.h" />
     <ClInclude Include="fetcher.h" />
     <ClInclude Include="instruction.h" />
     <ClInclude Include="load_store.h" />

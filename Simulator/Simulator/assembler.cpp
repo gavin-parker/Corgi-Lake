@@ -8,28 +8,27 @@
 using std::string;
 using std::istream_iterator;
 
-Data Assembler::assemble(std::vector<string> tokens, int line_number) {
-
-	OP op = opcodes[tokens[0]];
-	Opcode mneumonic(op);
-	int i = 0;
+Data Assembler::assemble(std::vector<string> tokens, const int line_number) {
+	const auto op = opcodes[tokens[0]];
+	const Opcode mneumonic(op);
+	auto i = 0;
 	int64_t dat = 0;
-	bool isData = false;
+	auto is_data = false;
 	std::vector<int64_t> args = { 0,0,0 };
 	if (mneumonic.op == DATA) {
-		isData = true;
-		dat = std::stoi(tokens[1], NULL);
+		is_data = true;
+		dat = std::stoi(tokens[1], nullptr);
 	}
 	else {
 		for (int i = 0; i < mneumonic.operand_num; i++) {
-			args[i] = std::stoi(tokens[i + 1], NULL);
+			args[i] = std::stoi(tokens[i + 1], nullptr);
 		}
 	}
-	Data data = { isData, Instruction(mneumonic.op, line_number, args[0], args[1], args[2]), dat, tokens };
+	Data data = { is_data, Instruction(mneumonic.op, line_number, args[0], args[1], args[2]), dat, tokens };
 	return data;
 }
 
-std::vector<Data> Assembler::load_assembly_file(std::string path) {
+std::vector<Data> Assembler::load_assembly_file(const std::string path) {
 	std::vector<Data> disk;
 	std::ifstream assembly_file;
 	assembly_file.open(path);
@@ -47,20 +46,20 @@ std::vector<Data> Assembler::load_assembly_file(std::string path) {
 				istream_iterator<string>(),
 				std::back_inserter(tokens));
 
-			bool isComment = false;
+			auto is_comment = false;
 
 			std::vector<string> trimmed;
 			//Trim comments
 			for (auto word : tokens) {
 				if (word[0] == '#') {
-					isComment = !isComment;
+					is_comment = !is_comment;
 					continue;
 				}
-				if (isComment) {
+				if (is_comment) {
 					continue;
 				}
 				if (word[0] == '@') {
-					std::string label = word.substr(1, word.size());
+					const auto label = word.substr(1, word.size());
 					labels[label] = index;
 				}
 				if (word[0] == 'r') {
@@ -86,12 +85,12 @@ std::vector<Data> Assembler::load_assembly_file(std::string path) {
 		std::vector<string> labelled;
 		for (auto word : line) {
 			if (word[0] == '~') {
-				std::string label = word.substr(1, word.size());
+				const auto label = word.substr(1, word.size());
 				labelled.push_back(std::to_string(labels[label]));
 			}
 			else if (word[0] == '_') {
 				//Assign a register to this var
-				auto reg = assign_register(word);
+				const auto reg = assign_register(word);
 				labelled.push_back(std::to_string(reg));
 			}
 			else {
@@ -107,7 +106,7 @@ std::vector<Data> Assembler::load_assembly_file(std::string path) {
 	return disk;
 }
 
-uint32_t Assembler::assign_register(std::string word)
+uint32_t Assembler::assign_register(const std::string word)
 {
 	if (vars.find(word) == vars.end()) {
 		for (uint32_t i = 0; i < 64; i++) {
@@ -121,6 +120,7 @@ uint32_t Assembler::assign_register(std::string word)
 	else {
 		return vars[word];
 	}
+	return 0;
 }
 
 Assembler::Assembler()
