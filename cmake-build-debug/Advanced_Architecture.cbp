@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Advanced_Architecture"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="clang"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/gavin/workspace/Advanced-Architecture/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/gavin/workspace/Advanced-Architecture/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/gavin/workspace/Advanced-Architecture/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Advanced_Architecture">
+				<Option output="/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Advanced_Architecture" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gavin/workspace/Advanced-Architecture/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/x86_64-linux-gnu/c++/5.4.0"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/backward"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/llvm-3.8/bin/../lib/clang/3.8.0/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 Advanced_Architecture"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Advanced_Architecture/fast">
+				<Option output="/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Advanced_Architecture" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gavin/workspace/Advanced-Architecture/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/x86_64-linux-gnu/c++/5.4.0"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/backward"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/llvm-3.8/bin/../lib/clang/3.8.0/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 Advanced_Architecture/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gavin/workspace/Advanced-Architecture/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/alu.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/assembler.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/bank.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/benchmark_runner.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/branch_predictor.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/branch_unit.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/buffer.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/component.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/data.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/fetcher.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/instruction.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/load_store.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/memory.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/opcode.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/opcode_settings.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/operation.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/register_file.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/result.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/simulator.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/simulator_state.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/state.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/stdafx.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/include/targetver.h">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/Simulator.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/components/alu.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/components/bank.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/components/branch_unit.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/components/component.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/components/fetcher.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/components/load_store.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/components/memory.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/data_model/instruction.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/data_model/opcode.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/data_model/result.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/modules/RegisterFile.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/modules/branch_predictor.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/modules/buffer.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/stdafx.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/testing/assembler.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/src/testing/benchmark_runner.cpp">
+			<Option target="Advanced_Architecture"/>
+		</Unit>
+		<Unit filename="/home/gavin/workspace/Advanced-Architecture/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
