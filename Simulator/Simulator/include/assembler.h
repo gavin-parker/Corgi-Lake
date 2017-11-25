@@ -6,11 +6,11 @@
 #include "memory.h"
 class Assembler
 {
-	std::map<std::string, uint32_t> labels;
-	std::map<std::string, uint32_t> vars;
-	std::unordered_set<uint32_t> registers;
+	std::map<std::string, uint32_t> labels_;
+	std::map<std::string, uint32_t> vars_;
+	std::unordered_set<uint32_t> registers_;
 
-	std::map<std::string, OP> opcodes = { {"DATA", DATA}, {"IADD", IADD}, {"IADDI", IADDI},
+	std::map<std::string, OP> opcodes_ = { {"DATA", DATA}, {"IADD", IADD}, {"IADDI", IADDI},
 											{"ICMP", ICMP}, {"LD", LD}, {"LDI", LDI}, {"BRA", BRA},
 											{"JUM", JUM}, {"BLT", BLT}, {"HALTEZ", HALTEZ}, {"IMUL", IMUL},
 											{"IMULI", IMULI}, {"STR",STR}, {"STRI", STRI},

@@ -9,7 +9,7 @@ using std::string;
 using std::istream_iterator;
 
 Data Assembler::assemble(std::vector<string> tokens, const int line_number) {
-	const auto op = opcodes[tokens[0]];
+	const auto op = opcodes_[tokens[0]];
 	const Opcode mneumonic(op);
 	auto i = 0;
 	int dat = 0;
@@ -61,10 +61,10 @@ std::vector<Data> Assembler::load_assembly_file(const std::string path) {
 				}
 				if (word[0] == '@') {
 					const auto label = word.substr(1, word.size());
-					labels[label] = index;
+					labels_[label] = index;
 				}
 				if (word[0] == 'r') {
-					registers.insert(stoi(word.substr(1, word.size())));
+					registers_.insert(stoi(word.substr(1, word.size())));
 					word = word.substr(1, word.size());
 				}
 				trimmed.push_back(word);
@@ -87,7 +87,7 @@ std::vector<Data> Assembler::load_assembly_file(const std::string path) {
 		for (auto word : line) {
 			if (word[0] == '~') {
 				const auto label = word.substr(1, word.size());
-				labelled.push_back(std::to_string(labels[label]));
+				labelled.push_back(std::to_string(labels_[label]));
 			}
 			else if (word[0] == '_') {
 				//Assign a register to this var
@@ -109,17 +109,17 @@ std::vector<Data> Assembler::load_assembly_file(const std::string path) {
 
 uint32_t Assembler::assign_register(const std::string word)
 {
-	if (vars.find(word) == vars.end()) {
+	if (vars_.find(word) == vars_.end()) {
 		for (uint32_t i = 0; i < 64; i++) {
-			if (registers.find(i) == registers.end()) {
-				vars[word] = i;
-				registers.insert(i);
+			if (registers_.find(i) == registers_.end()) {
+				vars_[word] = i;
+				registers_.insert(i);
 				return i;
 			}
 		}
 	}
 	else {
-		return vars[word];
+		return vars_[word];
 	}
 	return 0;
 }

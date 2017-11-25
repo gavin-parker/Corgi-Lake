@@ -2,12 +2,12 @@
 #include "../../include/branch_unit.h"
 #include <iostream>
 
-static void print_operand(int64_t operand, RegisterFile *register_file) {
+static void print_operand(const int64_t operand, RegisterFile *register_file) {
 	std::cout << " r" << operand;
 	std::cout << "(" << register_file->gp[operand].data << ")";
 }
 
-BranchUnit::BranchUnit(Bank<ALU>* alus, LoadStore * load_store, BranchPredictor *branch_predictor, SimState *simState) : alus(alus), load_store(load_store), branch_predictor(branch_predictor), program_counter(&(*simState).program_counter), register_file(&(*simState).register_file), simState(simState)
+BranchUnit::BranchUnit(ALU* alu, LoadStore * load_store, BranchPredictor *branch_predictor, SimState *simState) : alu(alu), load_store(load_store), branch_predictor(branch_predictor), program_counter(&(*simState).program_counter), register_file(&(*simState).register_file), simState(simState)
 {
 }
 
@@ -21,7 +21,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
 	//bool prediction = branch_predictor->getPrediction(current_instruction);
-	bool branched = true;
+	auto branched = true;
 	switch (current_instruction.opcode.op)
 	{
 	case BRA:
@@ -62,6 +62,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 		}
 		state = READY;
 		break;
+	default: ;
 	}
 	simState->instructions_executed++;
     register_file->stall = false;

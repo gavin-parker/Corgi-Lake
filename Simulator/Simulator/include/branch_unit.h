@@ -1,14 +1,14 @@
 #pragma once
 #include "component.h"
 #include "instruction.h"
-#include "bank.h"
+#include "alu.h"
 #include "load_store.h"
 #include "branch_predictor.h"
 class BranchUnit :
 	public Component
 {
 private:
-	Bank<ALU> *alus;
+	ALU *alu;
 	LoadStore *load_store;
 	RegisterFile *register_file;
 	void execute(Instruction current_instruction);
@@ -19,12 +19,12 @@ private:
 	BranchPredictor *branch_predictor;
 public:
 	Buffer input;
-	BranchUnit(Bank<ALU> *alus, LoadStore *load_store, BranchPredictor *branch_predictor, SimState *simState);
+	BranchUnit(ALU *alu, LoadStore *load_store, BranchPredictor *branch_predictor, SimState *simState);
 	~BranchUnit();
 	int tick();
 	const int pipeline_length = 2;
 	bool halt = false;
 	void flush();
-	bool isHazard(Instruction other);
+	static bool isHazard(Instruction other);
 };
 

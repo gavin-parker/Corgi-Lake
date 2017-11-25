@@ -6,7 +6,7 @@
 std::unordered_set<int64_t> breakpoints = { 3 };
 
 
-Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), boot_disk, 0 }), alu(1, &simState), fetcher(&simState, &branch_predictor), load_store(LoadStore(&simState)), branch_unit(&alu, &load_store, &branch_predictor, &simState)
+Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), boot_disk, 0 }), alu(&simState), fetcher(&simState, &branch_predictor), load_store(LoadStore(&simState)), branch_unit(&alu, &load_store, &branch_predictor, &simState)
 {
 	simState.memory = boot_disk;
 }
@@ -64,10 +64,9 @@ int Simulator::execute(const Instruction current_instruction) {
     }
     switch(current_instruction.opcode.settings.unit){
         case MATH:
-            alu.input->push(current_instruction);
+            alu.input.push(current_instruction);
             break;
         case LDSTR:
-            assert(load_store.input.isEmpty());
             load_store.input.push(current_instruction);
             break;
         case BRANCH:
@@ -86,7 +85,7 @@ int Simulator::tick() {
 	}
 	fetch();
 	decode();
-	if (load_store.state == EXECUTING || branch_unit.state == EXECUTING || alu.isExecuting())
+	if (load_store.state == EXECUTING || branch_unit.state == EXECUTING || alu.state == EXECUTING)
 	{
 		return 0;
 	}
@@ -106,7 +105,7 @@ void Simulator::flush() {
 	simState.register_file.fetch_buffer.clear();
     load_store.input.flush();
     branch_unit.input.flush();
-    alu.input->flush();
+    alu.input.flush();
     simState.flush = false;
 }
 
@@ -115,6 +114,7 @@ void Simulator::simulate() {
 	fetcher.state = READY;
 	load_store.state = READY;
 	branch_unit.state = READY;
+	alu.state = READY;
 	simState.register_file.stall = false;
 	while (true) {
 		int err = 0;
@@ -138,7 +138,7 @@ void Simulator::simulate() {
 }
 
 bool Simulator::findHazard(Instruction other) {
-	return branch_unit.isHazard(other) || load_store.isHazard(other) || alu.isHazard(other);
+	return branch_unit.isHazard(other) || load_store.isHazard(other) || alu.is_hazard(other);
 }
 
 

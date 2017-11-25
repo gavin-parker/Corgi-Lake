@@ -9,23 +9,22 @@
 #include <memory>
 class ALU : public Component
 {
-private:
-	std::shared_ptr<Buffer> input;
-	std::shared_ptr<std::deque<Result>> output;
-	SimState *simState;
-	RegisterFile *register_file;
+
+	SimState			*sim_state_;
+	RegisterFile		*register_file_;
 public:
 	Result lastResult;
 	Instruction current_instruction;
+	std::deque<Result>	output;
+	Buffer				input;
 	bool result_ready = false;
-	ALU(SimState *simState, std::shared_ptr<Buffer> input, std::shared_ptr<std::deque<Result>> output);
+	explicit ALU(SimState *sim_state);
 	~ALU();
 	uint64_t execute(Instruction instruction);
-	int tick();
+	int tick() override;
 	const int pipeline_length = 3;
-	void log();
 	void write();
 	void flush(); //Stop executing current instruction and empty the buffer
-	bool isHazard(Instruction other);
+	bool is_hazard(Instruction other);
 };
 

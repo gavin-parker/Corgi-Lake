@@ -100,7 +100,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\components\alu.cpp" />
-    <ClCompile Include="src\components\bank.cpp" />
     <ClCompile Include="src\components\branch_unit.cpp" />
     <ClCompile Include="src\components\component.cpp" />
     <ClCompile Include="src\components\fetcher.cpp" />
@@ -120,7 +119,6 @@
   <ItemGroup>
     <ClInclude Include="include\alu.h" />
     <ClInclude Include="include\assembler.h" />
-    <ClInclude Include="include\bank.h" />
     <ClInclude Include="include\benchmark_runner.h" />
     <ClInclude Include="include\branch_predictor.h" />
     <ClInclude Include="include\branch_unit.h" />

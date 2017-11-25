@@ -17,10 +17,10 @@ private:
 	RegisterFile *register_file;
 	SimState *simState;
 public:
+	std::deque<Result>	output;
+	Buffer				input;
 	bool result_ready = false;
 	Result lastResult;
-	std::deque<Result> output;
-	Buffer input;
 	LoadStore(SimState *simState);
 	~LoadStore();
 	int tick();
