@@ -115,6 +115,7 @@ void Simulator::simulate() {
 	fetcher.state = READY;
 	load_store.state = READY;
 	branch_unit.state = READY;
+	simState.register_file.stall = false;
 	while (true) {
 		int err = 0;
 		ticks++;

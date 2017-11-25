@@ -65,17 +65,6 @@ uint64_t ALU::execute(Instruction instruction) {
 		result = register_file->gp[r1].data - register_file->gp[r2].data;
 		state = EXECUTING;
 		break;
-        case DATA:break;
-        case LD:break;
-        case STR:break;
-        case LDI:break;
-        case STRI:break;
-        case BRA:break;
-        case JUM:break;
-        case BLT:break;
-        case HALTEZ:break;
-        case HALTEQ:break;
-        case NOP:break;
     }
 	simState->instructions_executed++;
 	return result;

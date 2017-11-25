@@ -4,8 +4,8 @@
 #include <fstream>
 #include <string>
 #include "../../include/simulator.h"
-#include <fstream>
 #include <iomanip>
+#include <stdlib.h>
 struct benchmark_result {
 	std::string name;
 	int ticks;
@@ -31,7 +31,7 @@ int main()
 	std::vector<benchmark_result> results;
 	for (const auto &path : paths) {
         std::cout << "Executing: " << path << std::endl;
-		std::vector<Data> disk = assembler.load_assembly_file(std::string(getenv("SIM_TESTS")) + "/" + path);
+		std::vector<Data> disk = assembler.load_assembly_file(std::string("C:/Users/gavin/workspace/Advanced-Architecture/Simulator/Simulator/tests/" + path));
 		Simulator simulator(disk);
 		try {
 			simulator.simulate();

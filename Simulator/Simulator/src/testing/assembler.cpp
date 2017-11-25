@@ -3,6 +3,7 @@
 #include "../../include/benchmark_runner.h"
 #include <algorithm>
 #include <iterator>
+#include <sstream>
 
 using std::string;
 using std::istream_iterator;
