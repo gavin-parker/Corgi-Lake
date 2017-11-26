@@ -26,12 +26,12 @@ void Simulator::fetch() {
  */
 void Simulator::decode()
 {
-	if (fetcher.state == DONE) {
-		for (auto data : simState.register_file.fetch_buffer) {
-			const auto next = data.instruction;
-			instruction_buffer.push(next);
+	const auto fetch_buffer = &simState.register_file.fetch_buffer;
+	if (fetcher.state == DONE && instruction_buffer.size() < 128) {
+		for (const auto next : (*fetch_buffer)) {
+			instruction_buffer.push(next.instruction);
 		}
-		simState.register_file.fetch_buffer.clear();
+		(*fetch_buffer).clear();
 		state = READY;
 		fetcher.state = READY;
 	}
@@ -79,10 +79,7 @@ int Simulator::execute(const Instruction current_instruction) {
 };
 
 int Simulator::tick() {
-	//If halted, just stop
-	if (branch_unit.halt) {
-		return HALT_PROGRAM;
-	}
+
 	fetch();
 	decode();
 	if (load_store.state == EXECUTING || branch_unit.state == EXECUTING || alu.state == EXECUTING)
@@ -92,10 +89,8 @@ int Simulator::tick() {
 	if (!instruction_buffer.isEmpty()) {
 
 		stall_instruction = instruction_buffer.pop();
+		execute(stall_instruction);
 
-		if (execute(stall_instruction) == HALT_PROGRAM) {
-			return HALT_PROGRAM;
-		}
 	}
 	return 0;
 }
@@ -106,6 +101,8 @@ void Simulator::flush() {
     load_store.input.flush();
     branch_unit.input.flush();
     alu.input.flush();
+	branch_predictor.flush();
+	fetcher.state = READY;
     simState.flush = false;
 }
 
@@ -116,12 +113,15 @@ void Simulator::simulate() {
 	branch_unit.state = READY;
 	alu.state = READY;
 	simState.register_file.stall = false;
+	/*
+	 * Execute pipeline stages.
+	 */
 	while (true) {
 		int err = 0;
 		ticks++;
 		err = tick();
-		if (err == HALT_PROGRAM)
-		{
+		//If halted, just stop
+		if (branch_unit.halt) {
 			return;
 		}
 		fetcher.tick();
@@ -133,7 +133,6 @@ void Simulator::simulate() {
 		load_store.tick();
 		alu.tick();
 		writeback();
-
 	}
 }
 

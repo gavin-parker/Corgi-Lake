@@ -1,6 +1,7 @@
 #include "../../include/stdafx.h"
 #include "../../include/branch_unit.h"
 #include <iostream>
+#include <assert.h>
 
 static void print_operand(const int64_t operand, RegisterFile *register_file) {
 	std::cout << " r" << operand;
@@ -20,24 +21,24 @@ void BranchUnit::execute(Instruction current_instruction) {
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
 	uint64_t v;
-	//bool prediction = branch_predictor->getPrediction(current_instruction);
+	const bool prediction = branch_predictor->getPrediction(current_instruction);
 	auto branched = true;
+	auto target = current_instruction.location + 1;
 	switch (current_instruction.opcode.op)
 	{
 	case BRA:
-		(*program_counter) = r0;
+		target = r0;
 		state = READY;
 		break;
 	case JUM:
-		(*program_counter) = current_instruction.location + r0;
+		target = current_instruction.location + r0;
 		state = READY;
 		break;
 	case BLT:
 		if (register_file->gp[r0].data < register_file->gp[r1].data) {
-			(*program_counter) = current_instruction.location + r2;
+			target = current_instruction.location + r2;
 		}
 		else {
-			(*program_counter) = current_instruction.location + 1;
 			branched = false;
 		}
 		state = READY;
@@ -47,7 +48,6 @@ void BranchUnit::execute(Instruction current_instruction) {
 			halt = true;
 		}
 		else {
-			(*program_counter) = current_instruction.location + 1;
 			branched = false;
 		}
 		state = READY;
@@ -58,17 +58,21 @@ void BranchUnit::execute(Instruction current_instruction) {
 		}
 		else {
 			branched = false;
-			(*program_counter) = current_instruction.location + 1;
 		}
 		state = READY;
 		break;
-	default: ;
+	default:
+		std::cout << "oops";
 	}
 	simState->instructions_executed++;
     register_file->stall = false;
-//	if (branched != prediction) {
-//		simState->flush = true;
-//	}
+	/*
+	 * If the branch was predicted, don't change the program counter
+	 */
+	if (prediction != branched) {
+		(*program_counter) = target;
+		simState->flush = true;
+	}
 }
 
 int BranchUnit::tick()

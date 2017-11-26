@@ -14,16 +14,23 @@ BranchPredictor::~BranchPredictor()
 bool BranchPredictor::predict(Instruction instruction)
 {
 	bool prediction = true;
-	if (instruction.opcode.op == HALTEZ || instruction.opcode.op == HALTEQ) {
-		prediction = false;
+	if (instruction.opcode.op == HALTEQ || instruction.opcode.op == HALTEZ)
+	{
+		return false;
 	}
-	predictions.push_back(prediction);
-	return true;
+	return prediction;
 }
 
 bool BranchPredictor::getPrediction(Instruction instruction)
 {
-	bool wasTaken = predictions.front();
-	predictions.pop_front();
-	return wasTaken;
+	if(instruction.opcode.op == HALTEQ || instruction.opcode.op == HALTEZ)
+	{
+		return false;
+	}
+	return true;
+}
+
+void BranchPredictor::flush()
+{
+	predictions.clear();
 }

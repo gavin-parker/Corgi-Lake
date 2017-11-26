@@ -10,5 +10,6 @@ public:
 	~BranchPredictor();
 	bool predict(Instruction instruction);
 	bool getPrediction(Instruction instruction);
+	void flush();
 };
 
