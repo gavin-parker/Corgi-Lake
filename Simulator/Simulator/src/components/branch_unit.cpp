@@ -72,7 +72,9 @@ void BranchUnit::execute(Instruction current_instruction) {
 	if (prediction != branched) {
 		(*program_counter) = target;
 		simState->flush = true;
+		simState->mispredicts++;
 	}
+	branch_predictor->updatePrediction(current_instruction, branched);
 }
 
 int BranchUnit::tick()

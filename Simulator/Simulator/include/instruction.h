@@ -11,6 +11,8 @@ static const char* opcode_string(OP op) {
 	return OpcodeStrings[op];
 }
 
+
+
 class Instruction
 {
 public:
@@ -29,5 +31,22 @@ public:
 	int num_operands() {
 		return opcode.operand_num;
 	}
+	bool operator==(const Instruction& instruction)const
+	{
+		return opcode.op == instruction.opcode.op
+			&& operands[0] == instruction.operands[0]
+			&& operands[1] == instruction.operands[1]
+			&& operands[2] == instruction.operands[2];
+	};
 
+};
+
+namespace std
+{
+	template<>
+	struct hash<Instruction> {
+		size_t operator()(const Instruction &pt) const {
+			return std::hash<int>()((int)pt.location);
+		}
+	};
 };

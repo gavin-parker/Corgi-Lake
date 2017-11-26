@@ -101,7 +101,6 @@ void Simulator::flush() {
     load_store.input.flush();
     branch_unit.input.flush();
     alu.input.flush();
-	branch_predictor.flush();
 	fetcher.state = READY;
     simState.flush = false;
 }

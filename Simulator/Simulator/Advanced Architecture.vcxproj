@@ -99,6 +99,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="saturating_counter.cpp" />
     <ClCompile Include="src\components\alu.cpp" />
     <ClCompile Include="src\components\branch_unit.cpp" />
     <ClCompile Include="src\components\component.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\testing\assembler.cpp" />
     <ClCompile Include="src\testing\benchmark_runner.cpp" />
+    <ClCompile Include="static_branch_predictor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\alu.h" />
@@ -139,6 +141,8 @@
     <ClInclude Include="include\state.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\targetver.h" />
+    <ClInclude Include="saturating_counter.h" />
+    <ClInclude Include="static_branch_predictor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

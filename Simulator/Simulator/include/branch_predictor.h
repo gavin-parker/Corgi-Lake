@@ -4,12 +4,11 @@
 class BranchPredictor
 {
 private:
-	std::deque<bool> predictions;
 public:
 	BranchPredictor();
 	~BranchPredictor();
-	bool predict(Instruction instruction);
-	bool getPrediction(Instruction instruction);
-	void flush();
+	virtual bool predict(Instruction instruction) = 0;
+	virtual bool getPrediction(Instruction instruction) = 0;
+	virtual void updatePrediction(Instruction instruction, bool taken){};
 };
 

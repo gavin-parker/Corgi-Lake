@@ -11,6 +11,7 @@ struct benchmark_result {
 	int ticks;
 	int instructions;
 	bool pass;
+	int mispredicts;
 };
 using std::string;
 BenchmarkRunner::BenchmarkRunner()
@@ -23,7 +24,7 @@ BenchmarkRunner::~BenchmarkRunner()
 int main()
 {
 	BenchmarkRunner benchmarker;
-	std::vector<std::string> paths = { "vector_add.corg", "vector_sum.corg", "label_test.corg", "dot_product.corg", "raw_hazards.corg", "gcd.corg" , "factorial.corg" };
+	std::vector<std::string> paths = { "vector_add.corg", "vector_sum.corg",/* "label_test.corg"*/ "dot_product.corg", "raw_hazards.corg", "gcd.corg" , "factorial.corg" };
 	int tests_passed = 0;
 	int tests_failed = 0;
 	std::vector<std::string> failed_tests;
@@ -38,20 +39,22 @@ int main()
 		}catch(std::exception e){
 		}
 		tests_passed++;
-		results.push_back({ path, simulator.ticks, simulator.simState.instructions_executed, false });
+		results.push_back({ path, simulator.ticks, simulator.simState.instructions_executed, false, simulator.simState.mispredicts });
         std::cout << std::endl;
 	}
 	std::cout
 		<< std::setw(18) << "NAME"
-		<< std::setw(14) << "TICKS"
 		<< std::setw(14) << "INSTRUCTIONS"
+		<< std::setw(14) << "TICKS"
+		<< std::setw(14) << "MISPREDICTS"
 		<< std::endl;
 
 	for (auto result : results) {
 		std::cout
 			<< std::setw(18) << result.name
-			<< std::setw(14) << result.ticks
 			<< std::setw(14) << result.instructions
+			<< std::setw(14) << result.ticks
+			<< std::setw(14) << result.mispredicts
 			<< std::endl;
 	}
 

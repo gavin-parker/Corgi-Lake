@@ -6,6 +6,8 @@
 #include "load_store.h"
 #include "branch_unit.h"
 #include "simulator_state.h"
+#include "../static_branch_predictor.h"
+#include "../saturating_counter.h"
 #define HALT_PROGRAM -1
 class Simulator : public Component
 {
@@ -19,7 +21,7 @@ class Simulator : public Component
 	Instruction stall_instruction;
 	Buffer instruction_buffer;
 	BranchUnit branch_unit;
-	BranchPredictor branch_predictor;
+	SaturatingCounter branch_predictor;
 	ALU alu;
 
 public:	
