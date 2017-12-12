@@ -20,7 +20,6 @@ void BranchUnit::execute(Instruction current_instruction) {
 	int64_t r0 = current_instruction.operands[0];
 	int64_t r1 = current_instruction.operands[1];
 	int64_t r2 = current_instruction.operands[2];
-	uint64_t v;
 	const bool prediction = branch_predictor->getPrediction(current_instruction);
 	auto branched = true;
 	auto target = current_instruction.location + 1;

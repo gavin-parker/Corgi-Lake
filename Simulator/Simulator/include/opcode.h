@@ -28,6 +28,7 @@ class Opcode {
 public:
 	std::unordered_set<uint16_t> reads;
 	std::unordered_set<uint16_t> writes;
+	std::unordered_set<uint16_t> reg_args;
 	OP op;
 	int operand_num;
 	Opcode(OP op) ;

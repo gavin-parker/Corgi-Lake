@@ -6,9 +6,16 @@
 std::unordered_set<int64_t> breakpoints = { 3 };
 
 
-Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), boot_disk, 0 }), alu(&simState), fetcher(&simState, &branch_predictor), load_store(LoadStore(&simState)), branch_unit(&alu, &load_store, &branch_predictor, &simState)
+Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), boot_disk, 0}),
+													reorder_buffer_(&simState.register_file),
+													alu(&simState, &reorder_buffer_),
+													fetcher(&simState, &branch_predictor),
+													load_store(LoadStore(&simState, &reorder_buffer_)),
+													branch_unit(&alu, &load_store, &branch_predictor, &simState)
 {
 	simState.memory = boot_disk;
+	simState.register_file.reservation_stations.push_back(&alu.reservation_station);
+	simState.register_file.reservation_stations.push_back(&load_store.reservation_station);
 }
 
 Simulator::~Simulator()
@@ -39,8 +46,7 @@ void Simulator::decode()
 
 void Simulator::writeback()
 {
-	alu.write();
-	load_store.write();
+	reorder_buffer_.writeback();
 }
 
 int Simulator::execute(const Instruction current_instruction) {
@@ -64,10 +70,24 @@ int Simulator::execute(const Instruction current_instruction) {
     }
     switch(current_instruction.opcode.settings.unit){
         case MATH:
-            alu.input.push(current_instruction);
+			if(alu.reservation_station.is_free())
+			{
+				alu.reservation_station.insert(current_instruction);
+				reorder_buffer_.insert(current_instruction);
+			}else
+			{
+				instruction_buffer.push_front(current_instruction);
+			}
             break;
         case LDSTR:
-            load_store.input.push(current_instruction);
+			if (load_store.reservation_station.is_free())
+			{
+				load_store.reservation_station.insert(current_instruction);
+				reorder_buffer_.insert(current_instruction);
+			}else
+			{
+				instruction_buffer.push_front(current_instruction);
+			}
             break;
         case BRANCH:
             branch_unit.input.push(current_instruction);
@@ -98,9 +118,7 @@ int Simulator::tick() {
 void Simulator::flush() {
 	instruction_buffer.flush();
 	simState.register_file.fetch_buffer.clear();
-    load_store.input.flush();
     branch_unit.input.flush();
-    alu.input.flush();
 	fetcher.state = READY;
     simState.flush = false;
 }

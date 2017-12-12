@@ -99,6 +99,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="reorder_buffer.cpp" />
+    <ClCompile Include="reservation_station.cpp" />
     <ClCompile Include="saturating_counter.cpp" />
     <ClCompile Include="src\components\alu.cpp" />
     <ClCompile Include="src\components\branch_unit.cpp" />
@@ -141,6 +143,8 @@
     <ClInclude Include="include\state.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\targetver.h" />
+    <ClInclude Include="reorder_buffer.h" />
+    <ClInclude Include="reservation_station.h" />
     <ClInclude Include="saturating_counter.h" />
     <ClInclude Include="static_branch_predictor.h" />
   </ItemGroup>

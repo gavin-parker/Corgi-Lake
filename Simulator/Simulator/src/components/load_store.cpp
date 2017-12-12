@@ -10,27 +10,28 @@ static void print_operand(int64_t operand, RegisterFile *register_file) {
 
 uint64_t LoadStore::execute(Instruction instruction)
 {
-	int64_t r0 = current_instruction.operands[0];
-	int64_t r1 = current_instruction.operands[1];
-	int64_t r2 = current_instruction.operands[2];
-	uint64_t v;
-	uint64_t result = 0;
+	const int r0 = reservation_station.args[0];
+	const int r1 = reservation_station.args[1];
+	const int r2 = reservation_station.args[2];
+	int v;
+	int result = 0;
 	switch (current_instruction.opcode.op)
 	{
 	case LD:
 		if (memory->state != EXECUTING) {
-
-			result = (*memory)[register_file->gp[r1].data + r2].data;
+			v = instruction.operands[2];
+			result = (*memory)[r1 + v].data;
 		}
 		break;
 	case LDI:
 		if (memory->state != EXECUTING) {
-			result = r1;
+			v = instruction.operands[1];
+			result = v;
 		}
 		break;
 	case STR:
 		if (memory->state != EXECUTING) {
-			(*memory)[register_file->gp[r0].data + register_file->gp[r1].data] = register_file->gp[r2];
+			(*memory)[r0 + r1] = register_file->gp[r2];
 		}
 		break;
 	case STRI:
@@ -46,8 +47,13 @@ uint64_t LoadStore::execute(Instruction instruction)
 	return result;
 }
 
-LoadStore::LoadStore(SimState *simState) : register_file(&(*simState).register_file), memory(&(*simState).memory), simState(simState)
+LoadStore::LoadStore(SimState *simState, ReorderBuffer *reorder_buffer) :	register_file(&(*simState).register_file),
+																			memory(&(*simState).memory),
+																			simState(simState),
+																			reservation_station(ReservationStation(register_file, reorder_buffer)),
+																			reorder_buffer(reorder_buffer)
 {
+	//register_file->reservation_stations.push_back(&reservation_station);
 }
 
 LoadStore::~LoadStore()
@@ -56,13 +62,14 @@ LoadStore::~LoadStore()
 
 int LoadStore::tick() {
 	if (result_ready) {
-		output.push_back(lastResult);
+		reorder_buffer->update(lastResult);
+		reservation_station.complete(lastResult);
 		result_ready = false;
 	}
 	switch (state) {
 	case READY:
-		if (!input.isEmpty()) {
-            current_instruction = input.pop();
+		if (reservation_station.is_ready()) {
+			current_instruction = reservation_station.current_instruction;
             if (current_instruction.opcode.op == NOP) {
                 register_file->print(current_instruction);
                 return 0;
@@ -92,15 +99,6 @@ int LoadStore::tick() {
 	return 0;
 }
 
-void LoadStore::write()
-{
-	while (!output.empty()) {
-		Result result = output.front();
-		output.pop_front();
-		register_file->gp[result.instruction.operands[0]].data = result.result;
-	}
-}
-
 bool LoadStore::isHazard(Instruction other)
 {
 	return ((state == EXECUTING && current_instruction.isHazard(other))
@@ -111,6 +109,5 @@ void LoadStore::flush()
 {
 	//result_ready = false;
 	state = READY;
-	input.flush();
 	//output.clear();
 }

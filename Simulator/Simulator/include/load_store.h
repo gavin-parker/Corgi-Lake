@@ -8,6 +8,9 @@
 #include "result.h"
 #include "buffer.h"
 #include <memory>
+#include "../reservation_station.h"
+#include "../reorder_buffer.h"
+
 class LoadStore : public Component
 {
 private:
@@ -17,14 +20,13 @@ private:
 	RegisterFile *register_file;
 	SimState *simState;
 public:
-	std::deque<Result>	output;
-	Buffer				input;
+	ReservationStation reservation_station;
 	bool result_ready = false;
 	Result lastResult;
-	LoadStore(SimState *simState);
+	ReorderBuffer *reorder_buffer;
+	LoadStore(SimState *simState, ReorderBuffer *reorder_buffer);
 	~LoadStore();
 	int tick();
-	void write();
 	static const int pipeline_length = 3;
 	bool isHazard(Instruction other);
 	void flush(); //Stop executing current instruction and empty the buffer

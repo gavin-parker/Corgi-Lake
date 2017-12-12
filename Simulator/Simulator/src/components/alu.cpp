@@ -11,7 +11,9 @@ static void print_operand(int64_t operand, RegisterFile *register_file) {
 	std::cout << "(" << register_file->gp[operand].data << ")";
 }
 
-ALU::ALU(SimState *simState) : sim_state_(simState)
+ALU::ALU(SimState* simState, ReorderBuffer *reorder_buffer) :	sim_state_(simState),
+																reservation_station(ReservationStation(&simState->register_file, reorder_buffer)),
+																reorder_buffer(reorder_buffer)
 {
 	register_file_ = &(*simState).register_file;
 }
@@ -21,39 +23,38 @@ ALU::~ALU()
 }
 
 uint64_t ALU::execute(Instruction instruction) {
-	uint64_t r0 = instruction.operands[0];
-	const uint64_t r1 = instruction.operands[1];
-	const uint64_t r2 = instruction.operands[2];
-	uint64_t v;
+	const int r1 = reservation_station.args[1];
+	const int r2 = reservation_station.args[2];
+	int v;
 	auto result = 0;
 	switch (instruction.opcode.op) {
 	case IADD:
-		result = register_file_->gp[r1].data + register_file_->gp[r2].data;
+		result = r1 + r2;
 		state = EXECUTING;
 		break;
 	case IADDI:
 	{
-		v = r2;
-		result = register_file_->gp[r1].data + v;
+		v = instruction.operands[2];
+		result = r1 + v;
 		state = EXECUTING;
 		break;
 	}
 	case IMUL:
-		result = register_file_->gp[r1].data * register_file_->gp[r2].data;
+		result = r1 * r2;
 		state = EXECUTING;
 		break;
 	case IMULI:
-		v = r2;
-		result = register_file_->gp[r1].data * v;
+		v = instruction.operands[2];
+		result = r1 * v;
 		state = EXECUTING;
 		break;
 	case ICMP:
 	{
 		uint64_t ans = 0;
-		if (register_file_->gp[r1].data - register_file_->gp[r2].data < 0) {
+		if (r1 - r2 < 0) {
 			result = -1;
 		}
-		else if (register_file_->gp[r1].data - register_file_->gp[r2].data > 0) {
+		else if (r1 - r2 > 0) {
 			result = 1;
 		}
 		else {
@@ -64,7 +65,7 @@ uint64_t ALU::execute(Instruction instruction) {
 		break;
 	}
 	case ISUB:
-		result = register_file_->gp[r1].data - register_file_->gp[r2].data;
+		result = r1 - r2;
 		state = EXECUTING;
 		break;
 	default: ;
@@ -75,13 +76,14 @@ uint64_t ALU::execute(Instruction instruction) {
 
 int ALU::tick() {
 	if (result_ready) {
-		output.push_back(lastResult);
+		reservation_station.complete(lastResult);
+		reorder_buffer->update(lastResult);
 		result_ready = false;
 	}
 	switch (state) {
 	case READY:
-		if (!input.isEmpty()) {
-            current_instruction = input.pop();
+		if (reservation_station.is_ready()) {
+			current_instruction = reservation_station.current_instruction;
             if (current_instruction.opcode.op == NOP) {
                 register_file_->print(current_instruction);
                 return 0;
@@ -96,7 +98,6 @@ int ALU::tick() {
 			register_file_->print(current_instruction);
 			lastResult = Result(current_instruction, execute(current_instruction));
 			result_ready = true;
-
 			state = READY;
 		}
 		else {
@@ -109,20 +110,9 @@ int ALU::tick() {
 	return 0;
 }
 
-void ALU::write()
-{
-	while (!output.empty()) {
-		Result res = output.front();
-		output.pop_front();
-		register_file_->gp[res.instruction.operands[0]].data = res.result;
-	}
-}
-
 void ALU::flush()
 {
 	state = READY;
-	//input->flush();
-	output.clear();
 }
 
 bool ALU::is_hazard(Instruction other)

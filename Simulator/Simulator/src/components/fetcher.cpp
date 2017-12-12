@@ -30,7 +30,7 @@ int Fetcher::tick() {
 			register_file->fetch_buffer.push_back(next);
 			Opcode opcode = next.instruction.opcode;
 			if (opcode.settings.unit == BRANCH && branch_predictor->predict(next.instruction)) {
-					uint32_t target = 0;
+				int target = 0;
 					if (opcode.op == BLT) {
 						target = next.instruction.location + next.instruction.operands[2];
 					}

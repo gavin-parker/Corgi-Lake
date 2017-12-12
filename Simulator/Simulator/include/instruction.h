@@ -17,10 +17,10 @@ class Instruction
 {
 public:
 	Opcode opcode;
-	std::vector<int32_t> operands;
-	uint64_t location;
+	std::vector<int> operands;
+	int location;
 	Instruction();
-	Instruction(OP op, int64_t location, int32_t r0, int32_t r1, int32_t r2);
+	Instruction(OP op, int location, int r0, int r1, int r2);
 	~Instruction();
 	Instruction(const Instruction &other);
 	Instruction(Opcode opcode);

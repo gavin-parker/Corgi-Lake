@@ -1,0 +1,4 @@
+# Math instructions for testing Tomasulo
+LDI _a 5
+LDI _b 6
+LDI _c 2

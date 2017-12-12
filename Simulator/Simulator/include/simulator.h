@@ -8,6 +8,7 @@
 #include "simulator_state.h"
 #include "../static_branch_predictor.h"
 #include "../saturating_counter.h"
+#include "../reorder_buffer.h"
 #define HALT_PROGRAM -1
 class Simulator : public Component
 {
@@ -23,7 +24,7 @@ class Simulator : public Component
 	BranchUnit branch_unit;
 	SaturatingCounter branch_predictor;
 	ALU alu;
-
+	ReorderBuffer reorder_buffer_;
 public:	
 	SimState simState;
 	int ticks = 0;

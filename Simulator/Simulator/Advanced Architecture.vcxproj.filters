@@ -69,6 +69,12 @@
     <ClCompile Include="static_branch_predictor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="reservation_station.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reorder_buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\alu.h">
@@ -141,6 +147,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="static_branch_predictor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reservation_station.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reorder_buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

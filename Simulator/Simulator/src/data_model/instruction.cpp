@@ -6,7 +6,7 @@ Instruction::Instruction() : opcode(Opcode(NOP)), location(0), operands({0,0,0})
 {
 }
 
-Instruction::Instruction(OP op, int64_t location, int32_t r0, int32_t r1, int32_t r2) : opcode(Opcode(op)), location(location), operands({r0,r1,r2})
+Instruction::Instruction(OP op, int location, int r0, int r1, int r2) : opcode(Opcode(op)), location(location), operands({r0,r1,r2})
 {
 }
 
