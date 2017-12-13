@@ -8,7 +8,7 @@ static void print_operand(const int64_t operand, RegisterFile *register_file) {
 	std::cout << "(" << register_file->gp[operand].data << ")";
 }
 
-BranchUnit::BranchUnit(ALU* alu, LoadStore * load_store, BranchPredictor *branch_predictor, SimState *simState) : alu(alu), load_store(load_store), branch_predictor(branch_predictor), program_counter(&(*simState).program_counter), register_file(&(*simState).register_file), simState(simState)
+BranchUnit::BranchUnit(BranchPredictor *branch_predictor, SimState *simState) : branch_predictor(branch_predictor), program_counter(&(*simState).program_counter), register_file(&(*simState).register_file), simState(simState)
 {
 }
 

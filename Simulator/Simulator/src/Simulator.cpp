@@ -3,18 +3,22 @@
 
 #include "../include/simulator.h"
 #include <cassert>
+#include <algorithm>
 std::unordered_set<int64_t> breakpoints = { 3 };
 
 
 Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), boot_disk, 0}),
 													reorder_buffer_(&simState.register_file),
-													alu(&simState, &reorder_buffer_),
+													alus_(2, ALU(&simState, &reorder_buffer_)),
 													fetcher(&simState, &branch_predictor),
 													load_store(LoadStore(&simState, &reorder_buffer_)),
-													branch_unit(&alu, &load_store, &branch_predictor, &simState)
+													branch_unit(&branch_predictor, &simState)
 {
 	simState.memory = boot_disk;
-	simState.register_file.reservation_stations.push_back(&alu.reservation_station);
+	for(auto &alu : alus_)
+	{
+		simState.register_file.reservation_stations.push_back(&alu.reservation_station);
+	}
 	simState.register_file.reservation_stations.push_back(&load_store.reservation_station);
 }
 
@@ -50,6 +54,7 @@ void Simulator::writeback()
 }
 
 int Simulator::execute(const Instruction current_instruction) {
+	 
 
 	if (breakpoints.find(current_instruction.location) != breakpoints.end()) {
 		int a = 3;
@@ -68,17 +73,20 @@ int Simulator::execute(const Instruction current_instruction) {
         instruction_buffer.push_front(current_instruction);
         return 0;
     }
+	state = READY;
     switch(current_instruction.opcode.settings.unit){
         case MATH:
-			if(alu.reservation_station.is_free())
+			for(auto &alu : alus_)
 			{
-				alu.reservation_station.insert(current_instruction);
-				reorder_buffer_.insert(current_instruction);
-			}else
-			{
-				instruction_buffer.push_front(current_instruction);
+				if (alu.reservation_station.is_free())
+				{
+					alu.reservation_station.insert(current_instruction);
+					reorder_buffer_.insert(current_instruction);
+					return 0;
+				}
 			}
-            break;
+			instruction_buffer.push_front(current_instruction);
+			break;
         case LDSTR:
 			if (load_store.reservation_station.is_free())
 			{
@@ -94,7 +102,6 @@ int Simulator::execute(const Instruction current_instruction) {
             break;
         case SKIP:break;
     }
-    state = READY;
     return 0;
 };
 
@@ -102,7 +109,8 @@ int Simulator::tick() {
 
 	fetch();
 	decode();
-	if (load_store.state == EXECUTING || branch_unit.state == EXECUTING || alu.state == EXECUTING)
+	auto isExecuting = std::find_if(alus_.begin(), alus_.end(), [](ALU alu) {return alu.state == EXECUTING; });
+	if (load_store.state == EXECUTING || branch_unit.state == EXECUTING || isExecuting != alus_.end())
 	{
 		return 0;
 	}
@@ -128,7 +136,7 @@ void Simulator::simulate() {
 	fetcher.state = READY;
 	load_store.state = READY;
 	branch_unit.state = READY;
-	alu.state = READY;
+	std::for_each(alus_.begin(), alus_.end(), [](ALU &alu) {alu.state = READY; });
 	simState.register_file.stall = false;
 	/*
 	 * Execute pipeline stages.
@@ -148,13 +156,16 @@ void Simulator::simulate() {
 		}
 		simState.memory.tick();
 		load_store.tick();
-		alu.tick();
+		std::for_each(alus_.begin(), alus_.end(), [](ALU &alu) {alu.tick(); });
 		writeback();
 	}
 }
 
 bool Simulator::findHazard(Instruction other) {
-	return branch_unit.isHazard(other) || load_store.isHazard(other) || alu.is_hazard(other);
+
+	auto aluHazard = std::find_if(alus_.begin(), alus_.end(), [other](ALU alu) {return alu.is_hazard(other); });
+
+	return branch_unit.isHazard(other) || load_store.isHazard(other) || aluHazard != alus_.end();
 }
 
 

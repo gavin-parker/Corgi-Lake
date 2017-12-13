@@ -70,7 +70,9 @@ uint64_t ALU::execute(Instruction instruction) {
 		break;
 	default: ;
 	}
-	sim_state_->instructions_executed++;
+	if (instruction.opcode.op != NOP) {
+		sim_state_->instructions_executed++;
+	}
 	return result;
 }
 

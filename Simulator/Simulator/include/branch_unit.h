@@ -8,8 +8,6 @@ class BranchUnit :
 	public Component
 {
 private:
-	ALU *alu;
-	LoadStore *load_store;
 	RegisterFile *register_file;
 	void execute(Instruction current_instruction);
 	uint64_t *program_counter;
@@ -19,7 +17,7 @@ private:
 	BranchPredictor *branch_predictor;
 public:
 	Buffer input;
-	BranchUnit(ALU *alu, LoadStore *load_store, BranchPredictor *branch_predictor, SimState *simState);
+	BranchUnit(BranchPredictor *branch_predictor, SimState *simState);
 	~BranchUnit();
 	int tick();
 	const int pipeline_length = 2;

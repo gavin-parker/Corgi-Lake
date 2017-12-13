@@ -23,7 +23,7 @@ class Simulator : public Component
 	Buffer instruction_buffer;
 	BranchUnit branch_unit;
 	SaturatingCounter branch_predictor;
-	ALU alu;
+	std::vector<ALU> alus_;
 	ReorderBuffer reorder_buffer_;
 public:	
 	SimState simState;
