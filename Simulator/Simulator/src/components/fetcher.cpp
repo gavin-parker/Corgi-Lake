@@ -22,7 +22,10 @@ int Fetcher::tick() {
 		state = DONE;
 
 		while (register_file->fetch_buffer.size() < 5) {
-			assert(simState->program_counter < memory->size());
+			if(simState->program_counter >= memory->size())
+			{
+				return 0;
+			}
 			if ( register_file->stall) {
 				break;
 			}

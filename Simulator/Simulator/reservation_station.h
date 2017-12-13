@@ -18,6 +18,7 @@ public:
 	void insert(Instruction instruction);
 	void complete(Result result);
 	void resolve(ReservationStation* dependent, Result result);
+	void clear();
 	std::vector<int> args = { 0,0,0 };
 	std::vector< bool> ready_args = { false, false, false };
 	std::vector<ReservationStation*> dependencies = { nullptr,nullptr,nullptr };

@@ -15,9 +15,10 @@ private:
 	Instruction current_instruction;
 	SimState *simState;
 	BranchPredictor *branch_predictor;
+	ReorderBuffer *reorder_buffer_;
 public:
-	Buffer input;
-	BranchUnit(BranchPredictor *branch_predictor, SimState *simState);
+	ReservationStation reservation_station;
+	BranchUnit( ReorderBuffer *reorder_buffer, BranchPredictor *branch_predictor, SimState *simState);
 	~BranchUnit();
 	int tick();
 	const int pipeline_length = 2;

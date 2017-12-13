@@ -1,8 +1,8 @@
 #include "reorder_buffer.h"
+#include <cassert>
 
 
-
-ReorderBuffer::ReorderBuffer(RegisterFile *register_file) : register_file_(register_file)
+ReorderBuffer::ReorderBuffer(RegisterFile *register_file, SimState *sim_state) : register_file_(register_file), sim_state_(sim_state)
 {
 }
 
@@ -13,30 +13,49 @@ ReorderBuffer::~ReorderBuffer()
 
 void ReorderBuffer::insert(Instruction instruction)
 {
-	buffer.push_back({ instruction, false });
+	buffer.push_back({ instruction, false, false });
 }
 
-void ReorderBuffer::update(Result result)
+void ReorderBuffer::update(Result result, bool success)
 {
+	bool updated = false;
 	for(auto &ordered_instruction : buffer)
 	{
 		if(result.instruction == ordered_instruction.instruction)
 		{
 			ordered_instruction.finished = true;
 			ordered_instruction.result = result.result;
+			ordered_instruction.success = success;
+			updated = true;
+			return;
 		}
 	}
+	assert(updated);
 }
 
 void ReorderBuffer::writeback()
 {
 	while (buffer.size() > 0) {
 		auto ordered_instruction = buffer.front();
+		const auto isBranch = ordered_instruction.instruction.opcode.settings.unit == BRANCH;
 		if (ordered_instruction.finished)
 		{
-			const auto destination = ordered_instruction.instruction.operands[0];
-			register_file_->gp[destination].data = ordered_instruction.result;
-			buffer.pop_front();
+			//Mispredicted branch
+			if(isBranch && ordered_instruction.success)
+			{
+				//change PC && flush
+				sim_state_->program_counter = ordered_instruction.result;
+				sim_state_->flush = true;
+				buffer.clear();
+			}else if(isBranch && !ordered_instruction.success)
+			{
+				buffer.pop_front();
+			}
+			else {
+				const auto destination = ordered_instruction.instruction.operands[0];
+				register_file_->gp[destination].data = ordered_instruction.result;
+				buffer.pop_front();
+			}
 		}
 		else
 		{

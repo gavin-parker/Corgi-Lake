@@ -101,3 +101,11 @@ void ReservationStation::resolve(ReservationStation* dependent, Result result)
 		}
 	}
 }
+
+void ReservationStation::clear()
+{
+	isFree = true;
+	args = { 0,0,0 };
+	ready_args = { false, false, false };
+	dependencies = { nullptr, nullptr, nullptr };
+}

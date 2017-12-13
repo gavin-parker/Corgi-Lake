@@ -11,8 +11,6 @@ static const char* opcode_string(OP op) {
 	return OpcodeStrings[op];
 }
 
-
-
 class Instruction
 {
 public:

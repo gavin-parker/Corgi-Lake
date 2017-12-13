@@ -4,8 +4,6 @@
 #include "buffer.h"
 #include "instruction.h"
 #include <vector>
-#include "../reorder_buffer.h"
-
 struct SimState {
 	RegisterFile register_file;
 	Memory memory;

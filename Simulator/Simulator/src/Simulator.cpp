@@ -8,11 +8,11 @@ std::unordered_set<int64_t> breakpoints = { 3 };
 
 
 Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), boot_disk, 0}),
-													reorder_buffer_(&simState.register_file),
+													reorder_buffer_(&simState.register_file, &simState),
 													alus_(2, ALU(&simState, &reorder_buffer_)),
 													fetcher(&simState, &branch_predictor),
 													load_store(LoadStore(&simState, &reorder_buffer_)),
-													branch_unit(&branch_predictor, &simState)
+													branch_unit(&reorder_buffer_, &branch_predictor, &simState)
 {
 	simState.memory = boot_disk;
 	for(auto &alu : alus_)
@@ -20,6 +20,7 @@ Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), b
 		simState.register_file.reservation_stations.push_back(&alu.reservation_station);
 	}
 	simState.register_file.reservation_stations.push_back(&load_store.reservation_station);
+	simState.register_file.reservation_stations.push_back(&branch_unit.reservation_station);
 }
 
 Simulator::~Simulator()
@@ -67,39 +68,42 @@ int Simulator::execute(const Instruction current_instruction) {
 		return 0;
 	}
 
-    bool isHazard = findHazard(current_instruction);
-    if(isHazard) {
-        simState.register_file.print(Instruction(NOP));
-        instruction_buffer.push_front(current_instruction);
-        return 0;
-    }
 	state = READY;
-    switch(current_instruction.opcode.settings.unit){
-        case MATH:
-			for(auto &alu : alus_)
+	switch (current_instruction.opcode.settings.unit) {
+	case MATH:
+		for (auto &alu : alus_)
+		{
+			if (alu.reservation_station.is_free())
 			{
-				if (alu.reservation_station.is_free())
-				{
-					alu.reservation_station.insert(current_instruction);
-					reorder_buffer_.insert(current_instruction);
-					return 0;
-				}
-			}
-			instruction_buffer.push_front(current_instruction);
-			break;
-        case LDSTR:
-			if (load_store.reservation_station.is_free())
-			{
-				load_store.reservation_station.insert(current_instruction);
+				alu.reservation_station.insert(current_instruction);
 				reorder_buffer_.insert(current_instruction);
-			}else
-			{
-				instruction_buffer.push_front(current_instruction);
+				return 0;
 			}
-            break;
-        case BRANCH:
-            branch_unit.input.push(current_instruction);
-            break;
+		}
+		instruction_buffer.push_front(current_instruction);
+		break;
+	case LDSTR:
+		if (load_store.reservation_station.is_free())
+		{
+			load_store.reservation_station.insert(current_instruction);
+			reorder_buffer_.insert(current_instruction);
+		}
+		else
+		{
+			instruction_buffer.push_front(current_instruction);
+		}
+		break;
+	case BRANCH:
+		if (branch_unit.reservation_station.is_free())
+		{
+			branch_unit.reservation_station.insert(current_instruction);
+			reorder_buffer_.insert(current_instruction);
+		}else
+		{
+			instruction_buffer.push_front(current_instruction);
+		}
+
+         break;
         case SKIP:break;
     }
     return 0;
@@ -109,11 +113,6 @@ int Simulator::tick() {
 
 	fetch();
 	decode();
-	auto isExecuting = std::find_if(alus_.begin(), alus_.end(), [](ALU alu) {return alu.state == EXECUTING; });
-	if (load_store.state == EXECUTING || branch_unit.state == EXECUTING || isExecuting != alus_.end())
-	{
-		return 0;
-	}
 	if (!instruction_buffer.isEmpty()) {
 
 		stall_instruction = instruction_buffer.pop();
@@ -126,8 +125,23 @@ int Simulator::tick() {
 void Simulator::flush() {
 	instruction_buffer.flush();
 	simState.register_file.fetch_buffer.clear();
-    branch_unit.input.flush();
 	fetcher.state = READY;
+	for( auto &reservation_station : simState.register_file.reservation_stations)
+	{
+		reservation_station->clear();
+	}
+	load_store.result_ready = false;
+	load_store.state = READY;
+	for( auto &alu : alus_)
+	{
+		alu.result_ready = false;
+		alu.state = READY;
+	}
+	branch_unit.state = READY;
+	for(int i=0; i < 64; i++)
+	{
+		simState.register_file.register_address_table[i] = nullptr;
+	}
     simState.flush = false;
 }
 
@@ -151,13 +165,13 @@ void Simulator::simulate() {
 		}
 		fetcher.tick();
 		branch_unit.tick();
-		if (simState.flush) {
-			flush();
-		}
 		simState.memory.tick();
 		load_store.tick();
 		std::for_each(alus_.begin(), alus_.end(), [](ALU &alu) {alu.tick(); });
 		writeback();
+		if (simState.flush) {
+			flush();
+		}
 	}
 }
 

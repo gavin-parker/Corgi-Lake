@@ -8,7 +8,12 @@ static void print_operand(const int64_t operand, RegisterFile *register_file) {
 	std::cout << "(" << register_file->gp[operand].data << ")";
 }
 
-BranchUnit::BranchUnit(BranchPredictor *branch_predictor, SimState *simState) : branch_predictor(branch_predictor), program_counter(&(*simState).program_counter), register_file(&(*simState).register_file), simState(simState)
+BranchUnit::BranchUnit(ReorderBuffer *reorder_buffer, BranchPredictor *branch_predictor, SimState *simState) :
+																			reorder_buffer_(reorder_buffer),
+																			branch_predictor(branch_predictor),
+																			program_counter(&(*simState).program_counter),
+																			register_file(&(*simState).register_file),
+																			simState(simState), reservation_station(ReservationStation(register_file, reorder_buffer))
 {
 }
 
@@ -17,25 +22,26 @@ BranchUnit::~BranchUnit()
 }
 
 void BranchUnit::execute(Instruction current_instruction) {
-	int64_t r0 = current_instruction.operands[0];
-	int64_t r1 = current_instruction.operands[1];
-	int64_t r2 = current_instruction.operands[2];
+
+	const int r0 = reservation_station.args[0];
+	const int r1 = reservation_station.args[1];
+	const int r2 = reservation_station.args[2];
 	const bool prediction = branch_predictor->getPrediction(current_instruction);
 	auto branched = true;
 	auto target = current_instruction.location + 1;
 	switch (current_instruction.opcode.op)
 	{
 	case BRA:
-		target = r0;
+		target = current_instruction.operands[0];
 		state = READY;
 		break;
 	case JUM:
-		target = current_instruction.location + r0;
+		target = current_instruction.location + current_instruction.operands[0];
 		state = READY;
 		break;
 	case BLT:
-		if (register_file->gp[r0].data < register_file->gp[r1].data) {
-			target = current_instruction.location + r2;
+		if (r0 < r1) {
+			target = current_instruction.location + current_instruction.operands[2];
 		}
 		else {
 			branched = false;
@@ -43,7 +49,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 		state = READY;
 		break;
 	case HALTEZ:
-		if (register_file->gp[r0].data == 0) {
+		if (r0 == 0) {
 			halt = true;
 		}
 		else {
@@ -52,7 +58,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 		state = READY;
 		break;
 	case HALTEQ:
-		if (register_file->gp[r0].data == r1) {
+		if (r0 == current_instruction.operands[1]) {
 			halt = true;
 		}
 		else {
@@ -68,10 +74,14 @@ void BranchUnit::execute(Instruction current_instruction) {
 	/*
 	 * If the branch was predicted, don't change the program counter
 	 */
+	Result res = Result(current_instruction, target);
+	reservation_station.complete(res);
 	if (prediction != branched) {
-		(*program_counter) = target;
-		simState->flush = true;
+		reorder_buffer_->update(res, true);
 		simState->mispredicts++;
+	}else
+	{
+		reorder_buffer_->update(res, false);
 	}
 	branch_predictor->updatePrediction(current_instruction, branched);
 }
@@ -80,11 +90,8 @@ int BranchUnit::tick()
 {
 	switch (state) {
 	case READY:
-		if (!input.isEmpty()) {
-            current_instruction = input.pop();
-            if (current_instruction.opcode.op == NOP) {
-                return 0;
-            }
+		if (reservation_station.is_ready()) {
+			current_instruction = reservation_station.current_instruction;
             state = EXECUTING;
             wait_cycles = current_instruction.opcode.settings.ticks;
         }
@@ -106,7 +113,6 @@ int BranchUnit::tick()
 
 void BranchUnit::flush()
 {
-	input.flush();
 	state = READY;
 }
 
