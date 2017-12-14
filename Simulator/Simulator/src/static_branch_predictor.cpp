@@ -1,15 +1,13 @@
-#include "static_branch_predictor.h"
+#include "../include/static_branch_predictor.h"
 
 
 
 StaticBranchPredictor::StaticBranchPredictor()
-{
-}
+= default;
 
 
 StaticBranchPredictor::~StaticBranchPredictor()
-{
-}
+= default;
 
 bool StaticBranchPredictor::predict(Instruction instruction)
 {
@@ -23,9 +21,5 @@ bool StaticBranchPredictor::predict(Instruction instruction)
 
 bool StaticBranchPredictor::getPrediction(Instruction instruction)
 {
-	if (instruction.opcode.op == HALTEQ || instruction.opcode.op == HALTEZ)
-	{
-		return false;
-	}
-	return true;
+	return !(instruction.opcode.op == HALTEQ || instruction.opcode.op == HALTEZ);
 }

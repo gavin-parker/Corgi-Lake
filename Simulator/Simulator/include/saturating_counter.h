@@ -1,5 +1,5 @@
 #pragma once
-#include "c:\Users\gavin\workspace\Advanced-Architecture\Simulator\Simulator\include\branch_predictor.h"
+#include "branch_predictor.h"
 enum class CounterState { Strongly_Not_Taken, Weakly_Not_Taken, Weakly_Taken, Strongly_Taken };
 
 class SaturatingCounter :

@@ -1,4 +1,4 @@
-#include "reorder_buffer.h"
+#include "../include/reorder_buffer.h"
 #include <cassert>
 
 
@@ -8,8 +8,7 @@ ReorderBuffer::ReorderBuffer(RegisterFile *register_file, SimState *sim_state) :
 
 
 ReorderBuffer::~ReorderBuffer()
-{
-}
+= default;
 
 void ReorderBuffer::insert(Instruction instruction)
 {
@@ -24,9 +23,8 @@ void ReorderBuffer::update(Result result, bool success)
 		if(result.instruction == ordered_instruction.instruction)
 		{
 			ordered_instruction.finished = true;
-			ordered_instruction.result = result.result;
+			ordered_instruction.result = static_cast<int>(result.result);
 			ordered_instruction.success = success;
-			updated = true;
 			return;
 		}
 	}
@@ -35,12 +33,12 @@ void ReorderBuffer::update(Result result, bool success)
 
 void ReorderBuffer::writeback()
 {
-	while (buffer.size() > 0) {
+	while (!buffer.empty()) {
 		auto ordered_instruction = buffer.front();
 		const auto isBranch = ordered_instruction.instruction.opcode.settings.unit == BRANCH;
 		if (ordered_instruction.finished)
 		{
-			//Mispredicted branch
+
 			if(isBranch && ordered_instruction.success)
 			{
 				//change PC && flush

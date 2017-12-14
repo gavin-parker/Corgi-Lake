@@ -1,14 +1,7 @@
-#include "../../include/stdafx.h"
+
 #include "../../include/load_store.h"
-#include <algorithm>
 
-
-static void print_operand(int64_t operand, RegisterFile *register_file) {
-	std::cout << " r" << operand;
-	std::cout << "(" << register_file->gp[operand].data << ")";
-}
-
-uint64_t LoadStore::execute(Instruction instruction)
+int LoadStore::execute(Instruction instruction)
 {
 	const int r0 = reservation_station.args[0];
 	const int r1 = reservation_station.args[1];
@@ -57,8 +50,7 @@ LoadStore::LoadStore(SimState *simState, ReorderBuffer *reorder_buffer) :	regist
 }
 
 LoadStore::~LoadStore()
-{
-}
+= default;
 
 int LoadStore::tick() {
 	if (result_ready) {
@@ -81,7 +73,7 @@ int LoadStore::tick() {
 	case EXECUTING:
 		if (wait_cycles <= 1) {
 			register_file->print(current_instruction);
-			uint64_t result = execute(current_instruction);
+			auto result = execute(current_instruction);
 			if (current_instruction.opcode.op != STR && current_instruction.opcode.op != STRI) {
 				lastResult = Result(current_instruction, result);
 				result_ready = true;
@@ -99,15 +91,7 @@ int LoadStore::tick() {
 	return 0;
 }
 
-bool LoadStore::isHazard(Instruction other)
-{
-	return ((state == EXECUTING && current_instruction.isHazard(other))
-            || (result_ready && lastResult.isHazard(other)));
-}
-
 void LoadStore::flush()
 {
-	//result_ready = false;
 	state = READY;
-	//output.clear();
 }

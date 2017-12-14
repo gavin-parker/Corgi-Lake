@@ -14,9 +14,7 @@ public:
 	Instruction pop();
 	bool isEmpty();
 	void flush();
-	size_t find_hazard(Instruction instruction);
 	size_t size();
-	size_t completion_time();
 
-    void push_front(Instruction item);
+	void push_front(Instruction item);
 };

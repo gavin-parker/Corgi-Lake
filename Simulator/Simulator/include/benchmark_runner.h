@@ -1,7 +1,5 @@
 #pragma once
 
-#define BENCHMARK_PASS 0
-#define BENCHMARK_FAIL -1
 #include <iostream>
 #include <fstream>
 #include <string>

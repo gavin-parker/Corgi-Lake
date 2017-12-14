@@ -1,5 +1,5 @@
 #pragma once
-#include "c:\Users\gavin\workspace\Advanced-Architecture\Simulator\Simulator\include\branch_predictor.h"
+#include "branch_predictor.h"
 class StaticBranchPredictor :
 	public BranchPredictor
 {

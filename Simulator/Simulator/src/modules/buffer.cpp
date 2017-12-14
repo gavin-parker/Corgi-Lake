@@ -1,14 +1,11 @@
-#include "../../include/stdafx.h"
+
 #include "../../include/buffer.h"
-#include <algorithm>
-#include <cassert>
+
 Buffer::Buffer()
-{
-}
+= default;
 
 Buffer::~Buffer()
-{
-}
+= default;
 
 void Buffer::push(Instruction item)
 {
@@ -28,7 +25,7 @@ Instruction Buffer::pop()
 
 bool Buffer::isEmpty()
 {
-	return (queue.size() == 0);
+	return (queue.empty());
 }
 
 void Buffer::flush()

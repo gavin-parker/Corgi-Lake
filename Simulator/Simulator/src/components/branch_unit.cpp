@@ -1,12 +1,5 @@
-#include "../../include/stdafx.h"
-#include "../../include/branch_unit.h"
-#include <iostream>
-#include <assert.h>
 
-static void print_operand(const int64_t operand, RegisterFile *register_file) {
-	std::cout << " r" << operand;
-	std::cout << "(" << register_file->gp[operand].data << ")";
-}
+#include "../../include/branch_unit.h"
 
 BranchUnit::BranchUnit(ReorderBuffer *reorder_buffer, BranchPredictor *branch_predictor, SimState *simState) :
 																			reorder_buffer_(reorder_buffer),
@@ -114,9 +107,4 @@ int BranchUnit::tick()
 void BranchUnit::flush()
 {
 	state = READY;
-}
-
-bool BranchUnit::isHazard(Instruction other)
-{
-	return false;
 }

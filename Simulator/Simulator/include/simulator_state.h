@@ -7,7 +7,7 @@
 struct SimState {
 	RegisterFile register_file;
 	Memory memory;
-	uint64_t program_counter = 0;
+	int program_counter = 0;
 	int instructions_executed = 0;
 	bool flush = false;
 	int mispredicts = 0;

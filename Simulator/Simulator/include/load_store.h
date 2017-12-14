@@ -8,14 +8,14 @@
 #include "result.h"
 #include "buffer.h"
 #include <memory>
-#include "../reservation_station.h"
-#include "../reorder_buffer.h"
+#include "reservation_station.h"
+#include "reorder_buffer.h"
 
 class LoadStore : public Component
 {
 private:
 	Instruction current_instruction;
-	uint64_t execute(Instruction instruction);
+	int execute(Instruction instruction);
 	Memory *memory;
 	RegisterFile *register_file;
 	SimState *simState;
@@ -28,7 +28,5 @@ public:
 	~LoadStore();
 	int tick();
 	static const int pipeline_length = 3;
-	bool isHazard(Instruction other);
 	void flush(); //Stop executing current instruction and empty the buffer
 };
-

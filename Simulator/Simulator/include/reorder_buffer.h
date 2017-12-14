@@ -1,9 +1,9 @@
 #pragma once
-#include "include/instruction.h"
-#include "include/result.h"
+#include "instruction.h"
+#include "result.h"
 #include <deque>
-#include "include/register_file.h"
-#include "include/simulator_state.h"
+#include "register_file.h"
+#include "simulator_state.h"
 
 struct OrderedInstruction
 {

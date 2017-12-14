@@ -1,6 +1,6 @@
-#include "reservation_station.h"
+#include "../include/reservation_station.h"
 #include <assert.h>
-#include "include/result.h"
+#include "../include/result.h"
 
 ReservationStation::ReservationStation(RegisterFile* register_file, ReorderBuffer* reorder_buffer) : register_file(register_file), reorder_buffer_(reorder_buffer)
 {

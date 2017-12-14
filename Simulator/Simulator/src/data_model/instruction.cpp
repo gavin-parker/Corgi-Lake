@@ -1,4 +1,6 @@
-#include "../../include/stdafx.h"
+#include <utility>
+
+
 #include "../../include/instruction.h"
 
 
@@ -11,43 +13,13 @@ Instruction::Instruction(OP op, int location, int r0, int r1, int r2) : opcode(O
 }
 
 Instruction::~Instruction()
-{
-}
+= default;
 
 Instruction::Instruction(const Instruction & other) : opcode(other.opcode.op), location(other.location), operands(other.operands)
 {
 
 }
 
-Instruction::Instruction(Opcode opcode) : opcode(opcode), location(0)
+Instruction::Instruction(Opcode opcode) : opcode(std::move(opcode)), location(0)
 {
-}
-
-bool Instruction::raw(Instruction other) const
-{
-	for (auto read : other.opcode.reads) {
-		int32_t read_operand = other.operands[read];
-		for (auto write : opcode.writes) {
-			int32_t write_operand = operands[write];
-			if (read_operand == write_operand) {
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
-bool Instruction::war(Instruction other)
-{
-	return false;
-}
-
-bool Instruction::waw(Instruction other)
-{
-	return false;
-}
-
-bool Instruction::isHazard(Instruction other) const
-{
-	return raw(other);
 }

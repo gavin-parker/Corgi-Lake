@@ -11,9 +11,5 @@ public:
 	virtual int tick() {
 		return 0;
 	};
-
-	virtual void start() {
-		state = READY;
-	}
 };
 

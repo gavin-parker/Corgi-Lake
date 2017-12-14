@@ -11,7 +11,6 @@ using std::istream_iterator;
 Data Assembler::assemble(std::vector<string> tokens, const int line_number) {
 	const auto op = opcodes_[tokens[0]];
 	const Opcode mneumonic(op);
-	auto i = 0;
 	int dat = 0;
 	auto is_data = false;
 	std::vector<int32_t> args = { 0,0,0 };
@@ -25,7 +24,7 @@ Data Assembler::assemble(std::vector<string> tokens, const int line_number) {
 		}
 	}
 	Instruction instruction(mneumonic.op, line_number, args[0], args[1], args[2]);
-	Data data = {is_data, instruction, dat, tokens };
+	Data data = {instruction, dat };
 	return data;
 }
 
@@ -61,7 +60,7 @@ std::vector<Data> Assembler::load_assembly_file(const std::string path) {
 				}
 				if (word[0] == '@') {
 					const auto label = word.substr(1, word.size());
-					labels_[label] = index;
+					labels_[label] = static_cast<unsigned int>(index);
 				}
 				if (word[0] == 'r') {
 					registers_.insert(stoi(word.substr(1, word.size())));
@@ -69,7 +68,7 @@ std::vector<Data> Assembler::load_assembly_file(const std::string path) {
 				}
 				trimmed.push_back(word);
 			}
-			if (trimmed.size() > 0) {
+			if (!trimmed.empty()) {
 				first_pass.push_back(trimmed);
 				index++;
 			}
@@ -98,12 +97,12 @@ std::vector<Data> Assembler::load_assembly_file(const std::string path) {
 				labelled.push_back(word);
 			}
 		}
-		if (line.size() > 0) {
+		if (!line.empty()) {
 			disk.push_back(assemble(labelled, line_number));
 			line_number++;
 		}
 	}
-	disk.resize(200, { true, Instruction(DATA, 0, 0, 0, 0), 0, {} });
+	disk.resize(200, { Instruction(DATA, 0, 0, 0, 0), 0});
 	return disk;
 }
 
@@ -125,10 +124,7 @@ uint32_t Assembler::assign_register(const std::string word)
 }
 
 Assembler::Assembler()
-{
-}
-
+= default;
 
 Assembler::~Assembler()
-{
-}
+= default;

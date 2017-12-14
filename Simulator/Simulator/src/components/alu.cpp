@@ -1,28 +1,18 @@
-#include "../../include/stdafx.h"
+
 #include "../../include/alu.h"
-#include "../../include/result.h"
-#include "../../include/instruction.h"
-#include <iostream>
-#include <algorithm>
-#include <cassert>
 
-static void print_operand(int64_t operand, RegisterFile *register_file) {
-	std::cout << " r" << operand;
-	std::cout << "(" << register_file->gp[operand].data << ")";
-}
-
-ALU::ALU(SimState* simState, ReorderBuffer *reorder_buffer) :	sim_state_(simState),
-																reservation_station(ReservationStation(&simState->register_file, reorder_buffer)),
-																reorder_buffer(reorder_buffer)
+ALU::ALU(SimState* simState, ReorderBuffer *reorder_buffer) :
+        sim_state_(simState),
+        reorder_buffer(reorder_buffer),
+        reservation_station(ReservationStation(&simState->register_file, reorder_buffer))
 {
 	register_file_ = &(*simState).register_file;
 }
 
 ALU::~ALU()
-{
-}
+= default;
 
-uint64_t ALU::execute(Instruction instruction) {
+int ALU::execute(Instruction instruction) {
 	const int r1 = reservation_station.args[1];
 	const int r2 = reservation_station.args[2];
 	int v;
@@ -50,17 +40,12 @@ uint64_t ALU::execute(Instruction instruction) {
 		break;
 	case ICMP:
 	{
-		uint64_t ans = 0;
-		if (r1 - r2 < 0) {
+        result = 0;
+        if (r1 - r2 < 0) {
 			result = -1;
-		}
-		else if (r1 - r2 > 0) {
+		}else if (r1 - r2 > 0) {
 			result = 1;
 		}
-		else {
-			result = 0;
-		}
-
 		state = READY;
 		break;
 	}
@@ -98,7 +83,7 @@ int ALU::tick() {
 		if (wait_cycles <= 1) {
 			/*Hold result in lastResult to simulate writeback happening on NEXT tick!!*/
 			register_file_->print(current_instruction);
-			lastResult = Result(current_instruction, execute(current_instruction));
+			lastResult = Result(current_instruction, static_cast<uint64_t>(execute(current_instruction)));
 			result_ready = true;
 			state = READY;
 		}
@@ -115,10 +100,4 @@ int ALU::tick() {
 void ALU::flush()
 {
 	state = READY;
-}
-
-bool ALU::is_hazard(Instruction other)
-{
-    return ((state == EXECUTING && current_instruction.isHazard(other))
-     || (result_ready && lastResult.isHazard(other)));
 }

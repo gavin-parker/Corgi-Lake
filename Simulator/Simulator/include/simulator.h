@@ -6,10 +6,9 @@
 #include "load_store.h"
 #include "branch_unit.h"
 #include "simulator_state.h"
-#include "../static_branch_predictor.h"
-#include "../saturating_counter.h"
-#include "../reorder_buffer.h"
-#define HALT_PROGRAM -1
+#include "static_branch_predictor.h"
+#include "saturating_counter.h"
+#include "reorder_buffer.h"
 class Simulator : public Component
 {
 	void fetch();
@@ -31,7 +30,5 @@ public:
 	explicit Simulator(std::vector<Data> boot_disk);
 	~Simulator();
 	void simulate();
-	int tick();
-	bool debug = true;
-	bool findHazard(Instruction other);
+    int tick();
 };

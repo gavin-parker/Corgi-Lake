@@ -8,7 +8,6 @@ set(SOURCE_FILES
         Simulator/Simulator/include/alu.h
         Simulator/Simulator/src/testing/assembler.cpp
         Simulator/Simulator/include/assembler.h
-        Simulator/Simulator/include/bank.h
         Simulator/Simulator/src/testing/benchmark_runner.cpp
         Simulator/Simulator/include/benchmark_runner.h
         Simulator/Simulator/src/modules/branch_predictor.cpp
@@ -20,6 +19,10 @@ set(SOURCE_FILES
         Simulator/Simulator/src/components/component.cpp
         Simulator/Simulator/include/component.h
         Simulator/Simulator/include/data.h
+        Simulator/Simulator/include/reorder_buffer.h
+        Simulator/Simulator/include/reservation_station.h
+        Simulator/Simulator/include/saturating_counter.h
+        Simulator/Simulator/include/static_branch_predictor.h
         Simulator/Simulator/src/components/fetcher.cpp
         Simulator/Simulator/include/fetcher.h
         Simulator/Simulator/src/data_model/instruction.cpp
@@ -31,17 +34,20 @@ set(SOURCE_FILES
         Simulator/Simulator/src/data_model/opcode.cpp
         Simulator/Simulator/include/opcode.h
         Simulator/Simulator/include/opcode_settings.h
-        Simulator/Simulator/include/operation.h
         Simulator/Simulator/include/register_file.h
         Simulator/Simulator/src/modules/RegisterFile.cpp
         Simulator/Simulator/src/data_model/result.cpp
         Simulator/Simulator/include/result.h
         Simulator/Simulator/src/Simulator.cpp
+        Simulator/Simulator/src/reorder_buffer.cpp
+        Simulator/Simulator/src/reservation_station.cpp
+        Simulator/Simulator/src/saturating_counter.cpp
+        Simulator/Simulator/src/static_branch_predictor.cpp
         Simulator/Simulator/include/simulator.h
         Simulator/Simulator/include/simulator_state.h
         Simulator/Simulator/include/state.h
         Simulator/Simulator/src/stdafx.cpp
         Simulator/Simulator/include/stdafx.h
-        Simulator/Simulator/include/targetver.h Simulator/Simulator/src/components/bank.cpp)
+        Simulator/Simulator/include/targetver.h )
 
 add_executable(Advanced_Architecture ${SOURCE_FILES})

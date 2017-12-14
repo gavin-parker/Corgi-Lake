@@ -1,5 +1,5 @@
 #pragma once
-#include "include/register_file.h"
+#include "register_file.h"
 #include "reorder_buffer.h"
 
 class Result;

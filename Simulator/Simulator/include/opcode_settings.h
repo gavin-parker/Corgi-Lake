@@ -2,15 +2,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include "opcode.h"
-/*
-struct OP_SETTINGS {
-	int ticks = 1;
-	int operands = 3;
-	UNIT unit;
-	std::unordered_set<uint16_t> reads;
-	std::unordered_set<uint16_t> writes;
-	std::string name;
-};*/
+
 // OP TICKS OPERANDS UNIT READS WRITES NAME
 std::unordered_map<OP, OP_SETTINGS> op_map = {
 	{ DATA	,{ 0	,1	,SKIP		,{}			,{}		, "DATA" } },

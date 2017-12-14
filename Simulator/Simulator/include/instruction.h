@@ -21,14 +21,8 @@ public:
 	Instruction(OP op, int location, int r0, int r1, int r2);
 	~Instruction();
 	Instruction(const Instruction &other);
-	Instruction(Opcode opcode);
-	bool raw(Instruction other) const;
-	bool war(Instruction other);
-	bool waw(Instruction other);
-	bool isHazard(Instruction other) const;
-	int num_operands() {
-		return opcode.operand_num;
-	}
+
+	explicit Instruction(Opcode opcode);
 	bool operator==(const Instruction& instruction)const
 	{
 		return opcode.op == instruction.opcode.op
@@ -44,7 +38,7 @@ namespace std
 	template<>
 	struct hash<Instruction> {
 		size_t operator()(const Instruction &pt) const {
-			return std::hash<int>()((int)pt.location);
+			return std::hash<int>()(pt.location);
 		}
 	};
 };

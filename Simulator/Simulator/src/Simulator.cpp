@@ -2,19 +2,16 @@
 //
 
 #include "../include/simulator.h"
-#include <cassert>
 #include <algorithm>
-std::unordered_set<int64_t> breakpoints = { 3 };
 
 
-Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), boot_disk, 0}),
+Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), Memory(boot_disk), 0}),
 													reorder_buffer_(&simState.register_file, &simState),
 													alus_(2, ALU(&simState, &reorder_buffer_)),
 													fetcher(&simState, &branch_predictor),
 													load_store(LoadStore(&simState, &reorder_buffer_)),
 													branch_unit(&reorder_buffer_, &branch_predictor, &simState)
 {
-	simState.memory = boot_disk;
 	for(auto &alu : alus_)
 	{
 		simState.register_file.reservation_stations.push_back(&alu.reservation_station);
@@ -24,8 +21,7 @@ Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), b
 }
 
 Simulator::~Simulator()
-{
-}
+= default;
 
 void Simulator::fetch() {
 	if (fetcher.state == READY) {
@@ -40,7 +36,7 @@ void Simulator::decode()
 {
 	const auto fetch_buffer = &simState.register_file.fetch_buffer;
 	if (fetcher.state == DONE && instruction_buffer.size() < 128) {
-		for (const auto next : (*fetch_buffer)) {
+		for (const auto &next : (*fetch_buffer)) {
 			instruction_buffer.push(next.instruction);
 		}
 		(*fetch_buffer).clear();
@@ -55,12 +51,6 @@ void Simulator::writeback()
 }
 
 int Simulator::execute(const Instruction current_instruction) {
-	 
-
-	if (breakpoints.find(current_instruction.location) != breakpoints.end()) {
-		int a = 3;
-		std::cout << "";
-	}
 
 	if (current_instruction.opcode.settings.unit == SKIP)
 	{
@@ -138,9 +128,8 @@ void Simulator::flush() {
 		alu.state = READY;
 	}
 	branch_unit.state = READY;
-	for(int i=0; i < 64; i++)
-	{
-		simState.register_file.register_address_table[i] = nullptr;
+	for (auto &i : simState.register_file.register_address_table) {
+        i = nullptr;
 	}
     simState.flush = false;
 }
@@ -156,9 +145,8 @@ void Simulator::simulate() {
 	 * Execute pipeline stages.
 	 */
 	while (true) {
-		int err = 0;
-		ticks++;
-		err = tick();
+        ticks++;
+		tick();
 		//If halted, just stop
 		if (branch_unit.halt) {
 			return;
@@ -174,12 +162,4 @@ void Simulator::simulate() {
 		}
 	}
 }
-
-bool Simulator::findHazard(Instruction other) {
-
-	auto aluHazard = std::find_if(alus_.begin(), alus_.end(), [other](ALU alu) {return alu.is_hazard(other); });
-
-	return branch_unit.isHazard(other) || load_store.isHazard(other) || aluHazard != alus_.end();
-}
-
 

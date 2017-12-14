@@ -7,8 +7,8 @@
 #include "result.h"
 #include "simulator_state.h"
 #include <memory>
-#include "../reservation_station.h"
-#include "../reorder_buffer.h"
+#include "reservation_station.h"
+#include "reorder_buffer.h"
 
 class ALU : public Component
 {
@@ -24,7 +24,7 @@ public:
 	bool result_ready = false;
 	ALU(SimState *sim_state, ReorderBuffer *reorder_buffer);
 	~ALU();
-	uint64_t execute(Instruction instruction);
+	int execute(Instruction instruction);
 	int tick() override;
 	const int pipeline_length = 3;
 	void flush(); //Stop executing current instruction and empty the buffer

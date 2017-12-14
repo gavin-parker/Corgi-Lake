@@ -1,15 +1,13 @@
-#include "saturating_counter.h"
+#include "../include/saturating_counter.h"
 
 
 
 SaturatingCounter::SaturatingCounter()
-{
-}
+= default;
 
 
 SaturatingCounter::~SaturatingCounter()
-{
-}
+= default;
 
 CounterState iterate(CounterState state, bool taken )
 {
@@ -20,11 +18,9 @@ CounterState iterate(CounterState state, bool taken )
 	case CounterState::Weakly_Not_Taken:
 		if (taken) return CounterState::Weakly_Taken;
 		return CounterState::Strongly_Not_Taken;
-		break;
 	case CounterState::Weakly_Taken:
 		if (taken) return CounterState::Strongly_Taken;
 		return CounterState::Weakly_Not_Taken;
-		break;
 	case CounterState::Strongly_Taken:
 		if (!taken) return CounterState::Weakly_Taken;
 		break;
@@ -38,7 +34,7 @@ bool SaturatingCounter::predict(const Instruction instruction)
 	{
 		return false;
 	}
-	if(prediction_map.find(instruction) == prediction_map.end())
+	if(prediction_map.end() == prediction_map.find(instruction))
 	{
 		prediction_map[instruction] = CounterState::Weakly_Taken;
 	}else

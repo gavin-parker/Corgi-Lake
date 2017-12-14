@@ -3,10 +3,8 @@
 
 
 BranchPredictor::BranchPredictor()
-{
-}
+= default;
 
 
 BranchPredictor::~BranchPredictor()
-{
-}
+= default;

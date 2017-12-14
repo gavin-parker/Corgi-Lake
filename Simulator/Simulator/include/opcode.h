@@ -14,7 +14,6 @@ namespace std
 	};
 }
 
-const int pipeline_lengths[] = { 3, 3, 3, 0 };
 struct OP_SETTINGS {
 	int ticks = 1;
 	int operands = 3;
@@ -31,6 +30,7 @@ public:
 	std::unordered_set<uint16_t> reg_args;
 	OP op;
 	int operand_num;
-	Opcode(OP op) ;
+
+	explicit Opcode(OP op) ;
 	OP_SETTINGS settings;
 };
