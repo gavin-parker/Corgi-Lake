@@ -17,12 +17,19 @@ public:
 	Opcode opcode;
 	std::vector<int> operands;
 	int location;
+	int tag = 0;
 	Instruction();
 	Instruction(OP op, int location, int r0, int r1, int r2);
 	~Instruction();
 	Instruction(const Instruction &other);
 
 	explicit Instruction(Opcode opcode);
+
+    bool sameTag(const Instruction& instruction) const
+    {
+        return (*this == instruction) && instruction.tag == tag;
+    }
+
 	bool operator==(const Instruction& instruction)const
 	{
 		return opcode.op == instruction.opcode.op

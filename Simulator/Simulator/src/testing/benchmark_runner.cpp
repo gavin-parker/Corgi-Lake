@@ -21,10 +21,17 @@ BenchmarkRunner::BenchmarkRunner()
 BenchmarkRunner::~BenchmarkRunner()
 = default;
 
-int main()
+int main(int argc, char *argv[])
 {
+    std::vector<std::string> paths;
+    if(argc == 1){
+        paths = { "vector_add.corg", "vector_sum.corg", "dot_product.corg", "raw_hazards.corg", "gcd.corg" , "factorial.corg" };
+    }else{
+        for(int i=1; i < argc; i++){
+            paths.push_back(argv[i]);
+        }
+    }
 	BenchmarkRunner benchmarker;
-	std::vector<std::string> paths = { "vector_add.corg", "vector_sum.corg",/* "label_test.corg"*/ "dot_product.corg",/* "raw_hazards.corg",*/ "gcd.corg" , "factorial.corg" };
 	int tests_passed = 0;
 	int tests_failed = 0;
 	std::vector<std::string> failed_tests;
@@ -32,7 +39,7 @@ int main()
 	std::vector<benchmark_result> results;
 	for (const auto &path : paths) {
         std::cout << "Executing: " << path << std::endl;
-		std::vector<Data> disk = assembler.load_assembly_file(std::string("C:/Users/gavin/workspace/Advanced-Architecture/Simulator/Simulator/tests/" + path));
+		std::vector<Data> disk = assembler.load_assembly_file(std::string("/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/tests/" + path));
 		Simulator simulator(disk);
 		try {
 			simulator.simulate();

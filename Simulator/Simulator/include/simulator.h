@@ -24,6 +24,8 @@ class Simulator : public Component
 	SaturatingCounter branch_predictor;
 	std::vector<ALU> alus_;
 	ReorderBuffer reorder_buffer_;
+	const int max_issue = 8;
+	int counter = 0;
 public:	
 	SimState simState;
 	int ticks = 0;

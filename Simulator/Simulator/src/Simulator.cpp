@@ -7,7 +7,7 @@
 
 Simulator::Simulator(std::vector<Data> boot_disk) : simState({ RegisterFile(), Memory(boot_disk), 0}),
 													reorder_buffer_(&simState.register_file, &simState),
-													alus_(2, ALU(&simState, &reorder_buffer_)),
+													alus_(4, ALU(&simState, &reorder_buffer_)),
 													fetcher(&simState, &branch_predictor),
 													load_store(LoadStore(&simState, &reorder_buffer_)),
 													branch_unit(&reorder_buffer_, &branch_predictor, &simState)
@@ -36,8 +36,11 @@ void Simulator::decode()
 {
 	const auto fetch_buffer = &simState.register_file.fetch_buffer;
 	if (fetcher.state == DONE && instruction_buffer.size() < 128) {
+        int instructions_pushed = 0;
 		for (const auto &next : (*fetch_buffer)) {
+            if(instructions_pushed == fetcher.max_fetch) break;
 			instruction_buffer.push(next.instruction);
+            instructions_pushed++;
 		}
 		(*fetch_buffer).clear();
 		state = READY;
@@ -50,7 +53,7 @@ void Simulator::writeback()
 	reorder_buffer_.writeback();
 }
 
-int Simulator::execute(const Instruction current_instruction) {
+int Simulator::execute(Instruction current_instruction) {
 
 	if (current_instruction.opcode.settings.unit == SKIP)
 	{
@@ -65,6 +68,8 @@ int Simulator::execute(const Instruction current_instruction) {
 		{
 			if (alu.reservation_station.is_free())
 			{
+                current_instruction.tag = counter;
+                counter++;
 				alu.reservation_station.insert(current_instruction);
 				reorder_buffer_.insert(current_instruction);
 				return 0;
@@ -75,6 +80,8 @@ int Simulator::execute(const Instruction current_instruction) {
 	case LDSTR:
 		if (load_store.reservation_station.is_free())
 		{
+            current_instruction.tag = counter;
+            counter++;
 			load_store.reservation_station.insert(current_instruction);
 			reorder_buffer_.insert(current_instruction);
 		}
@@ -86,6 +93,8 @@ int Simulator::execute(const Instruction current_instruction) {
 	case BRANCH:
 		if (branch_unit.reservation_station.is_free())
 		{
+            current_instruction.tag = counter;
+            counter++;
 			branch_unit.reservation_station.insert(current_instruction);
 			reorder_buffer_.insert(current_instruction);
 		}else
@@ -103,12 +112,13 @@ int Simulator::tick() {
 
 	fetch();
 	decode();
-	if (!instruction_buffer.isEmpty()) {
+    for(int i=0; i < max_issue; i++) {
+        if (!instruction_buffer.isEmpty()) {
+            stall_instruction = instruction_buffer.pop();
+            execute(stall_instruction);
 
-		stall_instruction = instruction_buffer.pop();
-		execute(stall_instruction);
-
-	}
+        }
+    }
 	return 0;
 }
 

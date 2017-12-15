@@ -15,7 +15,7 @@ Instruction::Instruction(OP op, int location, int r0, int r1, int r2) : opcode(O
 Instruction::~Instruction()
 = default;
 
-Instruction::Instruction(const Instruction & other) : opcode(other.opcode.op), location(other.location), operands(other.operands)
+Instruction::Instruction(const Instruction & other) : opcode(other.opcode.op), location(other.location), operands(other.operands), tag(other.tag)
 {
 
 }

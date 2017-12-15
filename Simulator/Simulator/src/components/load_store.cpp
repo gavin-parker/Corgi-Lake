@@ -72,7 +72,6 @@ int LoadStore::tick() {
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
-			register_file->print(current_instruction);
 			auto result = execute(current_instruction);
 			if (current_instruction.opcode.op != STR && current_instruction.opcode.op != STRI) {
 				lastResult = Result(current_instruction, result);

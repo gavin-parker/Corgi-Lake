@@ -91,7 +91,6 @@ int BranchUnit::tick()
 		break;
 	case EXECUTING:
 		if (wait_cycles <= 1) {
-			register_file->print(current_instruction);
 			execute(current_instruction);
 		}
 		else {

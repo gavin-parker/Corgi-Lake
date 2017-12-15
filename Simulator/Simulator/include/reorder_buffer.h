@@ -19,6 +19,7 @@ private:
 	std::deque<OrderedInstruction> buffer;
 	RegisterFile *register_file_;
 	SimState *sim_state_;
+	int counter = 0;
 public:
 	ReorderBuffer(RegisterFile *register_file, SimState *sim_state);
 	~ReorderBuffer();

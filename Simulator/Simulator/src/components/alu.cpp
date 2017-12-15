@@ -72,7 +72,6 @@ int ALU::tick() {
 		if (reservation_station.is_ready()) {
 			current_instruction = reservation_station.current_instruction;
             if (current_instruction.opcode.op == NOP) {
-                register_file_->print(current_instruction);
                 return 0;
             }
             state = EXECUTING;
@@ -82,7 +81,6 @@ int ALU::tick() {
 	case EXECUTING:
 		if (wait_cycles <= 1) {
 			/*Hold result in lastResult to simulate writeback happening on NEXT tick!!*/
-			register_file_->print(current_instruction);
 			lastResult = Result(current_instruction, static_cast<uint64_t>(execute(current_instruction)));
 			result_ready = true;
 			state = READY;
