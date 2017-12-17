@@ -11,6 +11,7 @@ struct OrderedInstruction
 	bool finished = false;
 	int result;
 	bool success = false;
+    int target;
 };
 
 class ReorderBuffer
@@ -24,7 +25,8 @@ public:
 	ReorderBuffer(RegisterFile *register_file, SimState *sim_state);
 	~ReorderBuffer();
 	void insert(Instruction instruction);
-	void update(Result result, bool success = true);
-	void writeback();
+	void update(Result result, bool success = true, int target=0);
+    void writeback();
 	bool get_result_for_dependency(int reg, int *result);
+	bool check_memory_dependency(int target, bool isLoad);
 };

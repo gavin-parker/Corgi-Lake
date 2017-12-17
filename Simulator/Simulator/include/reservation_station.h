@@ -19,6 +19,7 @@ public:
 	void complete(Result result);
 	void resolve(ReservationStation* dependent, Result result);
 	void clear();
+	bool is_memory_dependency(bool isLoad, int target);
 	std::vector<int> args = { 0,0,0 };
 	std::vector< bool> ready_args = { false, false, false };
 	std::vector<ReservationStation*> dependencies = { nullptr,nullptr,nullptr };

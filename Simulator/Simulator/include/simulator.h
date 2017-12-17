@@ -17,7 +17,7 @@ class Simulator : public Component
 	int execute(Instruction current_instruction);
 	void flush();
 	Fetcher fetcher;
-	LoadStore load_store;
+    std::vector<LoadStore> load_stores_;
 	Instruction stall_instruction;
 	Buffer instruction_buffer;
 	BranchUnit branch_unit;

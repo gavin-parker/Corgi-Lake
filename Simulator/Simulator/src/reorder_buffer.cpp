@@ -15,7 +15,7 @@ void ReorderBuffer::insert(Instruction instruction)
 	buffer.push_back({ instruction, false, false });
 }
 
-void ReorderBuffer::update(Result result, bool success)
+void ReorderBuffer::update(Result result, bool success, int target)
 {
 	bool updated = false;
 	for(auto &ordered_instruction : buffer)
@@ -25,6 +25,8 @@ void ReorderBuffer::update(Result result, bool success)
 			ordered_instruction.finished = true;
 			ordered_instruction.result = static_cast<int>(result.result);
 			ordered_instruction.success = success;
+            ordered_instruction.target = target;
+
 			return;
 		}
 	}
@@ -77,4 +79,24 @@ bool ReorderBuffer::get_result_for_dependency(int reg, int *result)
 		}
 	}
 	return false;
+}
+/*
+ * Return true if there is a dependency
+ */
+bool ReorderBuffer::check_memory_dependency(int target, bool isLoad) {
+    for(auto it = buffer.rbegin(); it != buffer.rend(); ++it) {
+        auto ordered_instruction = *it;
+        if(ordered_instruction.instruction.opcode.settings.unit) {
+            OP op = ordered_instruction.instruction.opcode.op;
+            bool isLoadB = op == LD || op == LDI;
+            /*
+             * only Loads are allowed OoO
+             */
+            if((!(isLoad && isLoadB) && target == ordered_instruction.target)
+               || !ordered_instruction.finished){
+                return true;
+            }
+        }
+    }
+    return false;
 }

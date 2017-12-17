@@ -23,6 +23,19 @@ bool ReservationStation::is_ready()
 			return false;
 		}
 	}
+    if(current_instruction.opcode.settings.unit == LDSTR){
+        int target = args[0];
+        OP op = current_instruction.opcode.op;
+        if (op == LD || op == STR){
+            target = args[0] + args[1];
+        }
+        bool isLoad = op == LD || op == LDI;
+        for(auto rs : register_file->reservation_stations){
+            if(rs->is_memory_dependency(isLoad, target)){
+                return false;
+            }
+        }
+    }
 	return true;
 }
 
@@ -108,4 +121,23 @@ void ReservationStation::clear()
 	args = { 0,0,0 };
 	ready_args = { false, false, false };
 	dependencies = { nullptr, nullptr, nullptr };
+}
+/*
+ * Memory dependency exists if LD then STR or vv. and same/unknown target
+ *
+ */
+bool ReservationStation::is_memory_dependency(bool isLoad, int target) {
+    if(!is_free() || current_instruction.opcode.settings.unit != LDSTR){
+        return false;
+    }
+    OP op = current_instruction.opcode.op;
+    bool isLoad_b = op == LD || op == LDI;
+    if(isLoad && isLoad_b) return false;
+    if(!ready_args[0]) return true;
+    int target_b = args[0];
+    if(op == LD || op == STR){
+        if(!ready_args[1]) return true;
+        target_b += args[1];
+    }
+    return target == target_b;
 }
