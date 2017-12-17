@@ -35,7 +35,7 @@ void Simulator::fetch() {
 void Simulator::decode()
 {
 	const auto fetch_buffer = &simState.register_file.fetch_buffer;
-	if (fetcher.state == DONE && instruction_buffer.size() < 128) {
+	if (fetcher.state == DONE && instruction_buffer.size() < (max_instruction_queue_length- fetcher.max_fetch)) {
         int instructions_pushed = 0;
 		for (const auto &next : (*fetch_buffer)) {
             if(instructions_pushed == fetcher.max_fetch) break;

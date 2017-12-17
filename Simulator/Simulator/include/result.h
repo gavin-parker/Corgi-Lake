@@ -3,7 +3,7 @@
 class Result {
 public:
 	Instruction instruction;
-	uint64_t result;
+	int result;
 	Result(Instruction instruction, int result);
 	~Result();
 	Result();

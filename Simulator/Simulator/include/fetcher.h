@@ -12,7 +12,7 @@ private:
 	SimState *simState;
 	BranchPredictor *branch_predictor;
 public:
-	const int max_fetch = 8;
+	const int max_fetch = 6;
 	Fetcher(SimState *simState, BranchPredictor *branch_predictor);
 	~Fetcher();
 	int tick();

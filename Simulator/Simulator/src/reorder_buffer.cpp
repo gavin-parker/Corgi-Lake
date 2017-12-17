@@ -63,14 +63,16 @@ void ReorderBuffer::writeback()
 
 bool ReorderBuffer::get_result_for_dependency(int reg, int *result)
 {
-	for(auto ordered_instruction : buffer)
+	for(auto it = buffer.rbegin(); it != buffer.rend(); ++it)
 	{
+        auto ordered_instruction = *it;
 		for(auto write : ordered_instruction.instruction.opcode.writes)
 		{
 			auto target_reg = ordered_instruction.instruction.operands[write];
 			if(target_reg == reg && ordered_instruction.finished)
 			{
 				*result = ordered_instruction.result;
+                return true;
 			}
 		}
 	}

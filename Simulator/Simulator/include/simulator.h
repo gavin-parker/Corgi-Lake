@@ -26,6 +26,7 @@ class Simulator : public Component
 	ReorderBuffer reorder_buffer_;
 	const int max_issue = 8;
 	int counter = 0;
+	const int max_instruction_queue_length = 40;
 public:	
 	SimState simState;
 	int ticks = 0;
