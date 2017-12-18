@@ -41,6 +41,15 @@ void BranchUnit::execute(Instruction current_instruction) {
 		}
 		state = READY;
 		break;
+	case JLT:
+		if (r0 < r1) {
+			target = current_instruction.operands[2];
+		}
+		else {
+			branched = false;
+		}
+		state = READY;
+		break;
 	case HALTEZ:
 		if (r0 == 0) {
 			halt = true;

@@ -14,7 +14,7 @@ class Assembler
 											{"ICMP", ICMP}, {"LD", LD}, {"LDI", LDI}, {"BRA", BRA},
 											{"JUM", JUM}, {"BLT", BLT}, {"HALTEZ", HALTEZ}, {"IMUL", IMUL},
 											{"IMULI", IMULI}, {"STR",STR}, {"STRI", STRI},
-											{"HALTEQ", HALTEQ}, {"NOP", NOP }, {"ISUB", ISUB} };
+											{"HALTEQ", HALTEQ}, {"NOP", NOP }, {"ISUB", ISUB}, {"JLT", JLT}, {"PRNT", PRNT}, {"AND", AND}, {"NOT", NOT} };
 
 public:
 	Assembler();

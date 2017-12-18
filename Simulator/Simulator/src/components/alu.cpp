@@ -53,6 +53,17 @@ int ALU::execute(Instruction instruction) {
 		result = r1 - r2;
 		state = EXECUTING;
 		break;
+    case PRNT:
+        std::cout << reservation_station.args[0] << std::endl;
+        result = 0;
+            break;
+    case AND:
+        result = r1 & r2;
+        break;
+    case NOT:
+        result = !r1;
+        break;
+
 	default: ;
 	}
 	if (instruction.opcode.op != NOP) {

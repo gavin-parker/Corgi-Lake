@@ -5,7 +5,7 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
     def __init__(self, outFile):
         self.outFile = outFile
         self.stack_pointer = 100
-        self.registers = [0] * 100
+        self.registers = [0] * 120
         self.labels = [0] * 100
     def getRegister(self):
         for idx, slot in enumerate(self.registers):
@@ -26,6 +26,7 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
     def visitProgram(self, ctx):
         self.outFile.write('LDI _sp 100 \n')
         self.outFile.write('LDI _cm1 -1 \n')
+        self.outFile.write('LDI _c1 -1 \n')
         self.outFile.write('LDI _cz 0 \n')
         self.visitChildren(ctx)
         self.outFile.write('LDI _fin 0  \n')
@@ -43,31 +44,36 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
             assert(ctx.ASSIGNMENT())
             val = self.visit(ctx.exp())
             ident = ctx.IDENT().getText()
-            self.writeOp('IADDI', ['_' + str(ident) ,' _' + str(val) + ' 0'])
+            self.writeOp('IADDI', ['_' + str(ident) , str(val), ' 0'])
         elif ctx.IF():
             boolean = self.visitBoolexp(ctx.boolexp())
             after_label = self.getLabel()
             else_label = self.getLabel()
-            self.writeOp('BLT', [boolean, '_cz', '~' + else_label])
-            self.writeOp('BLT', ['_cz', boolean, '~' + else_label])
+            self.writeOp('JLT', [boolean, '_cz', '~' + else_label])
+            self.writeOp('JLT', ['_cz', boolean, '~' + else_label])
             self.visitStatement(ctx.statement(0))
             self.writeOp('BRA', ['~' + after_label])
             self.visitStatement(ctx.statement(1))
             self.writeOp('NOP', ['@' + after_label])
         elif ctx.WHILE():
-            boolean = self.visitBoolexp(ctx.boolexp())
-            after_label = self.getLabel()
             start_label = self.getLabel()
             self.writeOp('NOP', ['@' + start_label])
-            self.writeOp('BLT', [boolean, '_cz', '~' + after_label])
-            self.writeOp('BLT', ['_cz', boolean, '~' + after_label])
+            boolean = self.visitBoolexp(ctx.boolexp())
+            after_label = self.getLabel()
+            self.writeOp('JLT', [boolean, '_cz', '~' + after_label])
+            self.writeOp('JLT', ['_cz', boolean, '~' + after_label])
             self.visitStatement(ctx.statement(0))
             self.writeOp('BRA', ['~' + start_label])
             self.writeOp('NOP', ['@' + after_label])
         elif ctx.statements():
             self.visitStatements(ctx.statements())
-        return self.visitChildren(ctx)
-
+        elif ctx.exp():
+            exp = self.visitExp(ctx.exp())
+            self.writeOp('PRNT', [exp])
+        elif ctx.boolexp():
+            exp = self.visitBoolexp(ctx.boolexp())
+            self.writeOp('PRNT', [exp])
+        return
 
     # Visit a parse tree produced by CorgiScriptParser#exp.
     # term ((PLUS | SUB) term )*
@@ -92,9 +98,9 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
     # return register and whether =0 target or <0 target
     def visitBoolean_(self, ctx):
         if ctx.TRUE():
-            return True
+            return '_cz'
         if ctx.FALSE():
-            return False
+            return '_cm1'
         if ctx.EQUAL() or ctx.LESSEQUAL():
             exp1 = self.visitExp(ctx.exp(0))
             exp2 = self.visitExp(ctx.exp(1))
@@ -104,10 +110,11 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
                 return outReg
             regb = self.getRegister()
             self.writeOp('IADDI', [regb, exp2, 1])
+            assert (outReg is not None)
             self.writeOp('ICMP', [outReg, exp1, regb])
             self.writeOp('ICMP', [outReg, outReg, '_cm1'])
             return outReg
-        return self.visitChildren(ctx)
+        return self.visitBoolexp(ctx.boolexp())
 
 
     # Visit a parse tree produced by CorgiScriptParser#boolterm.
@@ -115,7 +122,15 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
         boolean = self.visitBoolean_(ctx.boolean_())
         if ctx.NOT():
             outReg = self.getRegister()
-            self.writeOp('ICMP', [outReg, '_cz', boolean])
+            label_a = self.getLabel()
+            label_b = self.getLabel()
+            self.writeOp('JLT', ['_cz', boolean, '~' + label_a])
+            self.writeOp('JLT', [boolean, '_cz', '~' + label_a])
+            self.writeOp('LDI', [outReg, 1])
+            self.writeOp('BRA', ['~' + label_b])
+            self.writeOp('NOP', ['@' + label_a])
+            self.writeOp('LDI', [outReg, 0])
+            self.writeOp('NOP', ['@' + label_b])
             return outReg
         return boolean
 
@@ -177,6 +192,7 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
     def writeOp(self, opcode, operands, label = False):
         self.outFile.write(opcode)
         for operand in operands:
+            assert(operand is not None)
             self.outFile.write(' ' + str(operand))
         if label:
             self.outFile.write('@' + str(label))

@@ -8,6 +8,9 @@ ACA Simulator
 |:------:|:--------:|:------|
 |IADD    | r0,r1,r2 | Add the integer contents of r1 and r2 and store in r0 |
 |IADDI	 | r0,r1,v  | Add the integer contents of r1 and v and store in r0 |
+|AND	 | r0,r1,r2 | And the integer contents of r1 and v and store in r0 |
+|NOT	 | r0,r1    | Not the integer contents of r1 and store in r0 |
+|PRNT	 | r0       | print the integer contents of r0 |
 |IMUL	 | r0,r1,r2 | Multiply the integer contents of r1 and r2 and store in r0 |
 |IMULI   | r0,r1,v  | Multiply the integer contents of r1 and v and store in r0 |
 |ISUB	 | r0,r1,r2 | Subtract the integer contents of r2 from r1 and store in r0 |
@@ -19,5 +22,6 @@ ACA Simulator
 |BRA	 | v		| Branch to immediate address |
 |JUM	 | v		| Relative branch to address |
 |BLT	 | r0, r1, v| Relative branch to address if r0 < r1 |
+|JLT	 | r0, r1, v| Absolute branch to address if r0 < r1 |
 |HALTEZ	 | r0		| Halt the program if r0 == 0 |
 |HALTEQ  | r0,v		| Halt the program if r0 ==v |

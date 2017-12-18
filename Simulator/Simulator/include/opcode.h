@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_set>
 #include <unordered_map>
-enum OP { DATA, IADD, IADDI, IMUL, IMULI, ICMP, LD, STR, LDI, STRI, BRA, JUM, BLT, HALTEZ, HALTEQ, NOP, ISUB };
+enum OP { DATA, IADD, IADDI, IMUL, IMULI, ICMP, LD, STR, LDI, STRI, BRA, JUM, BLT, HALTEZ, HALTEQ, NOP, ISUB, JLT, PRNT, AND, NOT };
 enum UNIT { MATH, LDSTR, BRANCH, SKIP };
 
 namespace std

@@ -20,7 +20,6 @@ int Fetcher::tick() {
 		break;
 	case EXECUTING:
 		state = DONE;
-
 		while (register_file->fetch_buffer.size() < 5) {
 			if(simState->program_counter >= memory->size())
 			{
@@ -36,6 +35,8 @@ int Fetcher::tick() {
 				int target = 0;
 					if (opcode.op == BLT) {
 						target = next.instruction.location + next.instruction.operands[2];
+					}else if(opcode.op == JLT){
+						target = next.instruction.operands[2];
 					}
 					else if(opcode.op ==  BRA){
 						target = next.instruction.operands[0];

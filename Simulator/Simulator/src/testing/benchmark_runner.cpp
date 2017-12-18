@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 {
     std::vector<std::string> paths;
     if(argc == 1){
-        paths = { "vector_add.corg", "vector_sum.corg", "dot_product.corg", "raw_hazards.corg", "gcd.corg" , "factorial.corg" };
+        paths = { "vector_add.corg", "vector_sum.corg", "dot_product.corg", "raw_hazards.corg", "gcd.corg" , "factorial.corg", "compiler_test.corg" };
     }else{
         for(int i=1; i < argc; i++){
             paths.push_back(argv[i]);
