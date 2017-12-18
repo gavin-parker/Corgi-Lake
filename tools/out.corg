@@ -1,0 +1,54 @@
+LDI _sp 100 
+LDI _cm1 -1 
+LDI _cz 0 
+LDI  _z0 12
+IADDI _x  __z0 0
+LDI  _z1 12
+LDI  _z2 1
+IADDI _y  __z2 0
+LDI  _z3 1
+LDI  _z4 1
+ICMP _z5 _x _z4
+ICMP _z6 _cz None
+NOP @lbl8
+BLT _z6 _cz ~lbl7
+BLT _cz _z6 ~lbl7
+IMUL  _z9 _y _x
+IADDI _y  __z9 0
+IMUL  _z10 _y _x
+LDI  _z12 1
+ISUB _z11 _x _z12
+IADDI _x  __z11 0
+LDI  _z14 1
+ISUB _z13 _x _z14
+IMUL  _z15 _y _x
+IADDI _y  __z15 0
+IMUL  _z16 _y _x
+LDI  _z18 1
+ISUB _z17 _x _z18
+IADDI _x  __z17 0
+LDI  _z20 1
+ISUB _z19 _x _z20
+BRA ~lbl8
+NOP @lbl7
+LDI  _z21 1
+ICMP _z22 _x _z21
+ICMP _z23 _cz None
+IMUL  _z24 _y _x
+IADDI _y  __z24 0
+IMUL  _z25 _y _x
+LDI  _z27 1
+ISUB _z26 _x _z27
+IADDI _x  __z26 0
+LDI  _z29 1
+ISUB _z28 _x _z29
+IMUL  _z30 _y _x
+IADDI _y  __z30 0
+IMUL  _z31 _y _x
+LDI  _z33 1
+ISUB _z32 _x _z33
+IADDI _x  __z32 0
+LDI  _z35 1
+ISUB _z34 _x _z35
+LDI _fin 0  
+HALTEZ _fin
