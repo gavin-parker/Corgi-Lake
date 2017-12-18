@@ -19,6 +19,16 @@ class CorgiScriptVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by CorgiScriptParser#funcdef.
+    def visitFuncdef(self, ctx:CorgiScriptParser.FuncdefContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CorgiScriptParser#function.
+    def visitFunction(self, ctx:CorgiScriptParser.FunctionContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by CorgiScriptParser#statement.
     def visitStatement(self, ctx:CorgiScriptParser.StatementContext):
         return self.visitChildren(ctx)

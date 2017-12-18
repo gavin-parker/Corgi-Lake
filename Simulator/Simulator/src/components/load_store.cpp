@@ -24,14 +24,16 @@ int LoadStore::execute(Instruction instruction)
 		break;
 	case STR:
 		if (memory->state != EXECUTING) {
-			(*memory)[r0 + r1] = register_file->gp[r2];
+			result = r2;
+            lastTarget = r0 + r1;
 		}
 		break;
 	case STRI:
 		if (memory->state != EXECUTING) {
-			v = r1;
-			(*memory)[v] = register_file->gp[r0];
-		}
+			v = instruction.operands[2];
+			result = r0;
+            lastTarget = v;
+        }
 		break;
 		default:
 			break;
@@ -54,7 +56,7 @@ LoadStore::~LoadStore()
 
 int LoadStore::tick() {
 	if (result_ready) {
-		reorder_buffer->update(lastResult);
+		reorder_buffer->update(lastResult, true, lastTarget);
 		reservation_station.complete(lastResult);
 		result_ready = false;
 	}
@@ -73,10 +75,9 @@ int LoadStore::tick() {
 	case EXECUTING:
 		if (wait_cycles <= 1) {
 			auto result = execute(current_instruction);
-			if (current_instruction.opcode.op != STR && current_instruction.opcode.op != STRI) {
-				lastResult = Result(current_instruction, result);
-				result_ready = true;
-			}
+			lastResult = Result(current_instruction, result);
+			result_ready = true;
+
 
 			state = READY;
 		}

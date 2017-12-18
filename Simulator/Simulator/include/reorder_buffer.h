@@ -20,10 +20,11 @@ private:
 	std::deque<OrderedInstruction> buffer;
 	RegisterFile *register_file_;
 	SimState *sim_state_;
+    Memory *memory;
 	int counter = 0;
-	bool debug_ = false;
+	bool debug_ = true;
 public:
-	ReorderBuffer(RegisterFile *register_file, SimState *sim_state);
+	ReorderBuffer(RegisterFile *register_file, SimState *sim_state, Memory *memory);
 	~ReorderBuffer();
 	void insert(Instruction instruction);
 	void update(Result result, bool success = true, int target=0);

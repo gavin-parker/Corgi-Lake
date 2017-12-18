@@ -2,30 +2,30 @@ LDI _sp 100
 LDI _cm1 -1 
 LDI _c1 -1 
 LDI _cz 0 
-LDI  _z0 12
+BRA ~main
+NOP @testFun
+LD _a _sp 0
+IADDI _sp _sp -1
+LD _b _sp 0
+IADDI _sp _sp -1
+PRNT _a
+PRNT _b
+LD _ret _sp 0
+IADDI _sp _sp -1
+JUM _ret
+NOP @main
+LDI  _z0 1
 IADDI _x _z0  0
-LDI  _z1 1
+LDI  _z1 2
 IADDI _y _z1  0
+IADDI _sp _sp 1
+LDI _retadd ~lbl2
+STR _cz _sp _retadd
+IADDI _sp _sp 1
+STR _cz _sp _x
+IADDI _sp _sp 1
+STR _cz _sp _y
+BRA ~testFun
 NOP @lbl2
-LDI  _z3 1
-ICMP _z4 _x _z3
-JLT _cz _z4 ~lbl6
-JLT _z4 _cz ~lbl6
-LDI _z5 1
-BRA ~lbl7
-NOP @lbl6
-LDI _z5 0
-NOP @lbl7
-JLT _z5 _cz ~lbl8
-JLT _cz _z5 ~lbl8
-PRNT _x
-IMUL  _z9 _y _x
-IADDI _y _z9  0
-LDI  _z11 1
-ISUB _z10 _x _z11
-IADDI _x _z10  0
-BRA ~lbl2
-NOP @lbl8
-PRNT _y
 LDI _fin 0  
 HALTEZ _fin

@@ -7,6 +7,9 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
         self.stack_pointer = 100
         self.registers = [0] * 120
         self.labels = [0] * 100
+        self.functions = {}
+        self.main = False
+
     def getRegister(self):
         for idx, slot in enumerate(self.registers):
             if not slot:
@@ -22,13 +25,21 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
                 self.registers[idx] = 1
                 return 'lbl' + str(idx)
 
+    def getFunctionAddress(self, f):
+        return self.functions.get(f)
+
    # Visit a parse tree produced by CorgiScriptParser#program.
     def visitProgram(self, ctx):
         self.outFile.write('LDI _sp 100 \n')
         self.outFile.write('LDI _cm1 -1 \n')
         self.outFile.write('LDI _c1 -1 \n')
         self.outFile.write('LDI _cz 0 \n')
-        self.visitChildren(ctx)
+        self.writeOp('BRA', ['~main'])
+        for idx,child in enumerate(ctx.getChildren()):
+            if ctx.funcdef(idx):
+                self.visitFuncdef(ctx.funcdef(idx))
+        self.writeOp('NOP', ['@main'])
+        self.visitStatements(ctx.statements())
         self.outFile.write('LDI _fin 0  \n')
         self.outFile.write('HALTEZ _fin')
 
@@ -55,6 +66,18 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
             self.writeOp('BRA', ['~' + after_label])
             self.visitStatement(ctx.statement(1))
             self.writeOp('NOP', ['@' + after_label])
+        elif ctx.function():
+            idents = self.visitFunction(ctx.function())
+            address = idents[0]
+            here = self.getLabel()
+            self.writeOp('IADDI', ['_sp', '_sp', 1])
+            self.writeOp('LDI', ['_retadd', '~' + here])
+            self.writeOp('STR', ['_cz', '_sp', '_retadd'])
+            for ident in idents[1:]:
+                self.writeOp('IADDI', ['_sp', '_sp', 1])
+                self.writeOp('STR', ['_cz', '_sp', '_' + ident])
+            self.writeOp('BRA', ['~' + address])
+            self.writeOp('NOP', ['@' + here])
         elif ctx.WHILE():
             start_label = self.getLabel()
             self.writeOp('NOP', ['@' + start_label])
@@ -74,6 +97,31 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
             exp = self.visitBoolexp(ctx.boolexp())
             self.writeOp('PRNT', [exp])
         return
+
+
+    # Visit a parse tree produced by CorgiScriptParser#function.
+    def visitFunction(self, ctx):
+        idents = []
+        for idx, child in enumerate(ctx.getChildren()):
+            if ctx.IDENT(idx):
+                idents.append(str(ctx.IDENT(idx)))
+        return idents
+
+
+    # Visit a parse tree produced by CorgiScriptParser#function.
+    def visitFuncdef(self, ctx):
+        idents = self.visit(ctx.function())
+        name = idents[0]
+        self.writeOp('NOP', ['@' + name])
+        for ident in idents[1:]:
+            self.writeOp('LD', ['_' + ident, '_sp', 0])
+            self.writeOp('IADDI', ['_sp', '_sp', -1])
+        self.visitStatement(ctx.statement())
+        self.writeOp('LD', ['_ret', '_sp', 0])
+        self.writeOp('IADDI', ['_sp', '_sp', -1])
+        self.writeOp('JUM', ['_ret'])
+        return
+
 
     # Visit a parse tree produced by CorgiScriptParser#exp.
     # term ((PLUS | SUB) term )*

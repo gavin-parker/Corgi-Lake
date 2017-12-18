@@ -1,10 +1,14 @@
 {This is  test program}
+def testFun(a b) (
+    write(a);
+    write(b);
+)
 x := 12;
 y := 1;
 while !(x = 1) do (
-    write (x);
+    testFun (x y);
     y := y * x;
-    x := (x - 1)
+    x := (x - 1);
 );
 write(y);
-writeln
+writeln;

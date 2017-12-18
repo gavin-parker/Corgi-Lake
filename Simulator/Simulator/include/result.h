@@ -4,7 +4,8 @@ class Result {
 public:
 	Instruction instruction;
 	int result;
-	Result(Instruction instruction, int result);
+	int target;
+	Result(Instruction instruction, int result, int target = 0);
 	~Result();
 	Result();
 };

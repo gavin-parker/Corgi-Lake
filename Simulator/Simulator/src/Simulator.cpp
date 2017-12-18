@@ -6,10 +6,10 @@
 
 
 Simulator::Simulator(std::vector<Data> boot_disk) : simState({RegisterFile(), Memory(boot_disk), 0}),
-                                                    reorder_buffer_(&simState.register_file, &simState),
+                                                    reorder_buffer_(&simState.register_file, &simState, &simState.memory),
                                                     alus_(4, ALU(&simState, &reorder_buffer_)),
                                                     fetcher(&simState, &branch_predictor),
-                                                    load_stores_(2, LoadStore(&simState, &reorder_buffer_)),
+                                                    load_stores_(1, LoadStore(&simState, &reorder_buffer_)),
                                                     branch_unit(&reorder_buffer_, &branch_predictor, &simState) {
     for (auto &alu : alus_) {
         simState.register_file.reservation_stations.push_back(&alu.reservation_station);

@@ -7,54 +7,68 @@ import sys
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3 ")
-        buf.write("\u008b\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
-        buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3\2\3\2\3\3\3\3\3\3")
-        buf.write("\7\3\34\n\3\f\3\16\3\37\13\3\3\4\3\4\3\4\3\4\5\4%\n\4")
-        buf.write("\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3")
-        buf.write("\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4")
-        buf.write("\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3")
-        buf.write("\4\3\4\3\4\5\4R\n\4\3\5\3\5\3\5\7\5W\n\5\f\5\16\5Z\13")
-        buf.write("\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6")
-        buf.write("\3\6\5\6j\n\6\3\7\3\7\3\7\5\7o\n\7\3\b\3\b\3\b\7\bt\n")
-        buf.write("\b\f\b\16\bw\13\b\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\5\n")
-        buf.write("\u0081\n\n\3\13\3\13\3\13\7\13\u0086\n\13\f\13\16\13\u0089")
-        buf.write("\13\13\3\13\2\2\f\2\4\6\b\n\f\16\20\22\24\2\4\4\2\24\24")
-        buf.write("\27\27\4\2\26\26\31\32\2\u0097\2\26\3\2\2\2\4\30\3\2\2")
-        buf.write("\2\6Q\3\2\2\2\bS\3\2\2\2\ni\3\2\2\2\fn\3\2\2\2\16p\3\2")
-        buf.write("\2\2\20x\3\2\2\2\22\u0080\3\2\2\2\24\u0082\3\2\2\2\26")
-        buf.write("\27\5\4\3\2\27\3\3\2\2\2\30\35\5\6\4\2\31\32\7\16\2\2")
-        buf.write("\32\34\5\6\4\2\33\31\3\2\2\2\34\37\3\2\2\2\35\33\3\2\2")
-        buf.write("\2\35\36\3\2\2\2\36\5\3\2\2\2\37\35\3\2\2\2 !\7\3\2\2")
-        buf.write("!$\7\17\2\2\"%\7\33\2\2#%\5\20\t\2$\"\3\2\2\2$#\3\2\2")
-        buf.write("\2%&\3\2\2\2&R\7\20\2\2\'R\7\4\2\2()\7\37\2\2)*\7\22\2")
-        buf.write("\2*R\5\b\5\2+,\7\b\2\2,-\5\16\b\2-.\7\n\2\2./\5\6\4\2")
-        buf.write("/\60\7\6\2\2\60\61\5\6\4\2\61R\3\2\2\2\62\63\7\f\2\2\63")
-        buf.write("\64\5\16\b\2\64\65\7\5\2\2\65\66\5\6\4\2\66R\3\2\2\2\67")
-        buf.write("8\7\t\2\289\7\17\2\29:\7\37\2\2:R\7\20\2\2;<\7\3\2\2<")
-        buf.write("=\7\17\2\2=>\5\b\5\2>?\7\20\2\2?R\3\2\2\2@A\7\3\2\2AB")
-        buf.write("\7\17\2\2BC\5\16\b\2CD\7\20\2\2DR\3\2\2\2EF\7\3\2\2FG")
-        buf.write("\7\17\2\2GH\5\20\t\2HI\7\20\2\2IR\3\2\2\2JK\7\17\2\2K")
-        buf.write("L\5\4\3\2LM\7\20\2\2MR\3\2\2\2NO\7\r\2\2OR\7\37\2\2PR")
-        buf.write("\7\37\2\2Q \3\2\2\2Q\'\3\2\2\2Q(\3\2\2\2Q+\3\2\2\2Q\62")
-        buf.write("\3\2\2\2Q\67\3\2\2\2Q;\3\2\2\2Q@\3\2\2\2QE\3\2\2\2QJ\3")
-        buf.write("\2\2\2QN\3\2\2\2QP\3\2\2\2R\7\3\2\2\2SX\5\24\13\2TU\t")
-        buf.write("\2\2\2UW\5\24\13\2VT\3\2\2\2WZ\3\2\2\2XV\3\2\2\2XY\3\2")
-        buf.write("\2\2Y\t\3\2\2\2ZX\3\2\2\2[j\7\13\2\2\\j\7\7\2\2]^\5\b")
-        buf.write("\5\2^_\7\21\2\2_`\5\b\5\2`j\3\2\2\2ab\5\b\5\2bc\7\23\2")
-        buf.write("\2cd\5\b\5\2dj\3\2\2\2ef\7\17\2\2fg\5\16\b\2gh\7\20\2")
-        buf.write("\2hj\3\2\2\2i[\3\2\2\2i\\\3\2\2\2i]\3\2\2\2ia\3\2\2\2")
-        buf.write("ie\3\2\2\2j\13\3\2\2\2kl\7\25\2\2lo\5\n\6\2mo\5\n\6\2")
-        buf.write("nk\3\2\2\2nm\3\2\2\2o\r\3\2\2\2pu\5\f\7\2qr\7\30\2\2r")
-        buf.write("t\5\f\7\2sq\3\2\2\2tw\3\2\2\2us\3\2\2\2uv\3\2\2\2v\17")
-        buf.write("\3\2\2\2wu\3\2\2\2xy\7\34\2\2y\21\3\2\2\2z\u0081\7\37")
-        buf.write("\2\2{\u0081\7\33\2\2|}\7\17\2\2}~\5\b\5\2~\177\7\20\2")
-        buf.write("\2\177\u0081\3\2\2\2\u0080z\3\2\2\2\u0080{\3\2\2\2\u0080")
-        buf.write("|\3\2\2\2\u0081\23\3\2\2\2\u0082\u0087\5\22\n\2\u0083")
-        buf.write("\u0084\t\3\2\2\u0084\u0086\5\22\n\2\u0085\u0083\3\2\2")
-        buf.write("\2\u0086\u0089\3\2\2\2\u0087\u0085\3\2\2\2\u0087\u0088")
-        buf.write("\3\2\2\2\u0088\25\3\2\2\2\u0089\u0087\3\2\2\2\13\35$Q")
-        buf.write("Xinu\u0080\u0087")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3!")
+        buf.write("\u00a6\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\3\2")
+        buf.write("\7\2\34\n\2\f\2\16\2\37\13\2\3\2\3\2\3\3\3\3\3\3\7\3&")
+        buf.write("\n\3\f\3\16\3)\13\3\3\3\3\3\3\4\3\4\3\4\3\4\3\5\3\5\3")
+        buf.write("\5\7\5\64\n\5\f\5\16\5\67\13\5\3\5\3\5\3\6\3\6\3\6\3\6")
+        buf.write("\5\6?\n\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6")
+        buf.write("\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3")
+        buf.write("\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6")
+        buf.write("\3\6\3\6\3\6\3\6\3\6\3\6\5\6m\n\6\3\7\3\7\3\7\7\7r\n\7")
+        buf.write("\f\7\16\7u\13\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3")
+        buf.write("\b\3\b\3\b\3\b\3\b\5\b\u0085\n\b\3\t\3\t\3\t\5\t\u008a")
+        buf.write("\n\t\3\n\3\n\3\n\7\n\u008f\n\n\f\n\16\n\u0092\13\n\3\13")
+        buf.write("\3\13\3\f\3\f\3\f\3\f\3\f\3\f\5\f\u009c\n\f\3\r\3\r\3")
+        buf.write("\r\7\r\u00a1\n\r\f\r\16\r\u00a4\13\r\3\r\2\2\16\2\4\6")
+        buf.write("\b\n\f\16\20\22\24\26\30\2\4\4\2\25\25\30\30\4\2\27\27")
+        buf.write("\32\33\2\u00b3\2\35\3\2\2\2\4\"\3\2\2\2\6,\3\2\2\2\b\60")
+        buf.write("\3\2\2\2\nl\3\2\2\2\fn\3\2\2\2\16\u0084\3\2\2\2\20\u0089")
+        buf.write("\3\2\2\2\22\u008b\3\2\2\2\24\u0093\3\2\2\2\26\u009b\3")
+        buf.write("\2\2\2\30\u009d\3\2\2\2\32\34\5\6\4\2\33\32\3\2\2\2\34")
+        buf.write("\37\3\2\2\2\35\33\3\2\2\2\35\36\3\2\2\2\36 \3\2\2\2\37")
+        buf.write("\35\3\2\2\2 !\5\4\3\2!\3\3\2\2\2\"\'\5\n\6\2#$\7\17\2")
+        buf.write("\2$&\5\n\6\2%#\3\2\2\2&)\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2")
+        buf.write("(*\3\2\2\2)\'\3\2\2\2*+\7\17\2\2+\5\3\2\2\2,-\7\16\2\2")
+        buf.write("-.\5\b\5\2./\5\n\6\2/\7\3\2\2\2\60\61\7 \2\2\61\65\7\20")
+        buf.write("\2\2\62\64\7 \2\2\63\62\3\2\2\2\64\67\3\2\2\2\65\63\3")
+        buf.write("\2\2\2\65\66\3\2\2\2\668\3\2\2\2\67\65\3\2\2\289\7\21")
+        buf.write("\2\29\t\3\2\2\2:;\7\3\2\2;>\7\20\2\2<?\7\34\2\2=?\5\24")
+        buf.write("\13\2><\3\2\2\2>=\3\2\2\2?@\3\2\2\2@m\7\21\2\2Am\7\4\2")
+        buf.write("\2BC\7 \2\2CD\7\23\2\2Dm\5\f\7\2EF\7\b\2\2FG\5\22\n\2")
+        buf.write("GH\7\n\2\2HI\5\n\6\2IJ\7\6\2\2JK\5\n\6\2Km\3\2\2\2Lm\5")
+        buf.write("\b\5\2MN\7\f\2\2NO\5\22\n\2OP\7\5\2\2PQ\5\n\6\2Qm\3\2")
+        buf.write("\2\2RS\7\t\2\2ST\7\20\2\2TU\7 \2\2Um\7\21\2\2VW\7\3\2")
+        buf.write("\2WX\7\20\2\2XY\5\f\7\2YZ\7\21\2\2Zm\3\2\2\2[\\\7\3\2")
+        buf.write("\2\\]\7\20\2\2]^\5\22\n\2^_\7\21\2\2_m\3\2\2\2`a\7\3\2")
+        buf.write("\2ab\7\20\2\2bc\5\24\13\2cd\7\21\2\2dm\3\2\2\2ef\7\20")
+        buf.write("\2\2fg\5\4\3\2gh\7\21\2\2hm\3\2\2\2ij\7\r\2\2jm\7 \2\2")
+        buf.write("km\7 \2\2l:\3\2\2\2lA\3\2\2\2lB\3\2\2\2lE\3\2\2\2lL\3")
+        buf.write("\2\2\2lM\3\2\2\2lR\3\2\2\2lV\3\2\2\2l[\3\2\2\2l`\3\2\2")
+        buf.write("\2le\3\2\2\2li\3\2\2\2lk\3\2\2\2m\13\3\2\2\2ns\5\30\r")
+        buf.write("\2op\t\2\2\2pr\5\30\r\2qo\3\2\2\2ru\3\2\2\2sq\3\2\2\2")
+        buf.write("st\3\2\2\2t\r\3\2\2\2us\3\2\2\2v\u0085\7\13\2\2w\u0085")
+        buf.write("\7\7\2\2xy\5\f\7\2yz\7\22\2\2z{\5\f\7\2{\u0085\3\2\2\2")
+        buf.write("|}\5\f\7\2}~\7\24\2\2~\177\5\f\7\2\177\u0085\3\2\2\2\u0080")
+        buf.write("\u0081\7\20\2\2\u0081\u0082\5\22\n\2\u0082\u0083\7\21")
+        buf.write("\2\2\u0083\u0085\3\2\2\2\u0084v\3\2\2\2\u0084w\3\2\2\2")
+        buf.write("\u0084x\3\2\2\2\u0084|\3\2\2\2\u0084\u0080\3\2\2\2\u0085")
+        buf.write("\17\3\2\2\2\u0086\u0087\7\26\2\2\u0087\u008a\5\16\b\2")
+        buf.write("\u0088\u008a\5\16\b\2\u0089\u0086\3\2\2\2\u0089\u0088")
+        buf.write("\3\2\2\2\u008a\21\3\2\2\2\u008b\u0090\5\20\t\2\u008c\u008d")
+        buf.write("\7\31\2\2\u008d\u008f\5\20\t\2\u008e\u008c\3\2\2\2\u008f")
+        buf.write("\u0092\3\2\2\2\u0090\u008e\3\2\2\2\u0090\u0091\3\2\2\2")
+        buf.write("\u0091\23\3\2\2\2\u0092\u0090\3\2\2\2\u0093\u0094\7\35")
+        buf.write("\2\2\u0094\25\3\2\2\2\u0095\u009c\7 \2\2\u0096\u009c\7")
+        buf.write("\34\2\2\u0097\u0098\7\20\2\2\u0098\u0099\5\f\7\2\u0099")
+        buf.write("\u009a\7\21\2\2\u009a\u009c\3\2\2\2\u009b\u0095\3\2\2")
+        buf.write("\2\u009b\u0096\3\2\2\2\u009b\u0097\3\2\2\2\u009c\27\3")
+        buf.write("\2\2\2\u009d\u00a2\5\26\f\2\u009e\u009f\t\3\2\2\u009f")
+        buf.write("\u00a1\5\26\f\2\u00a0\u009e\3\2\2\2\u00a1\u00a4\3\2\2")
+        buf.write("\2\u00a2\u00a0\3\2\2\2\u00a2\u00a3\3\2\2\2\u00a3\31\3")
+        buf.write("\2\2\2\u00a4\u00a2\3\2\2\2\r\35\'\65>ls\u0084\u0089\u0090")
+        buf.write("\u009b\u00a2")
         return buf.getvalue()
 
 
@@ -70,31 +84,34 @@ class CorgiScriptParser ( Parser ):
 
     literalNames = [ "<INVALID>", "'write'", "'writeln'", "'do'", "'else'", 
                      "'false'", "'if'", "'read'", "'then'", "'true'", "'while'", 
-                     "'goto'", "';'", "'('", "')'", "'='", "':='", "'<='", 
-                     "'+'", "'!'", "'*'", "'-'", "'&'", "'/'", "'%'", "<INVALID>", 
+                     "'goto'", "'def'", "';'", "'('", "')'", "'='", "':='", 
+                     "'<='", "'+'", "'!'", "'*'", "'-'", "'&'", "'/'", "'%'", 
                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                     "':'" ]
+                     "<INVALID>", "':'" ]
 
     symbolicNames = [ "<INVALID>", "WRITE", "WRITELN", "DO", "ELSE", "FALSE", 
-                      "IF", "READ", "THEN", "TRUE", "WHILE", "GOTO", "SEMICOLON", 
-                      "OPENPAREN", "CLOSEPAREN", "EQUAL", "ASSIGNMENT", 
+                      "IF", "READ", "THEN", "TRUE", "WHILE", "GOTO", "DEF", 
+                      "SEMICOLON", "OPENPAREN", "CLOSEPAREN", "EQUAL", "ASSIGNMENT", 
                       "LESSEQUAL", "PLUS", "NOT", "MULTIPLY", "SUB", "AND", 
                       "DIVIDE", "MODULO", "INTNUM", "STRING", "COMMENT", 
                       "WS", "IDENT", "COLON" ]
 
     RULE_program = 0
     RULE_statements = 1
-    RULE_statement = 2
-    RULE_exp = 3
-    RULE_boolean_ = 4
-    RULE_boolterm = 5
-    RULE_boolexp = 6
-    RULE_string = 7
-    RULE_factor = 8
-    RULE_term = 9
+    RULE_funcdef = 2
+    RULE_function = 3
+    RULE_statement = 4
+    RULE_exp = 5
+    RULE_boolean_ = 6
+    RULE_boolterm = 7
+    RULE_boolexp = 8
+    RULE_string = 9
+    RULE_factor = 10
+    RULE_term = 11
 
-    ruleNames =  [ "program", "statements", "statement", "exp", "boolean_", 
-                   "boolterm", "boolexp", "string", "factor", "term" ]
+    ruleNames =  [ "program", "statements", "funcdef", "function", "statement", 
+                   "exp", "boolean_", "boolterm", "boolexp", "string", "factor", 
+                   "term" ]
 
     EOF = Token.EOF
     WRITE=1
@@ -108,25 +125,26 @@ class CorgiScriptParser ( Parser ):
     TRUE=9
     WHILE=10
     GOTO=11
-    SEMICOLON=12
-    OPENPAREN=13
-    CLOSEPAREN=14
-    EQUAL=15
-    ASSIGNMENT=16
-    LESSEQUAL=17
-    PLUS=18
-    NOT=19
-    MULTIPLY=20
-    SUB=21
-    AND=22
-    DIVIDE=23
-    MODULO=24
-    INTNUM=25
-    STRING=26
-    COMMENT=27
-    WS=28
-    IDENT=29
-    COLON=30
+    DEF=12
+    SEMICOLON=13
+    OPENPAREN=14
+    CLOSEPAREN=15
+    EQUAL=16
+    ASSIGNMENT=17
+    LESSEQUAL=18
+    PLUS=19
+    NOT=20
+    MULTIPLY=21
+    SUB=22
+    AND=23
+    DIVIDE=24
+    MODULO=25
+    INTNUM=26
+    STRING=27
+    COMMENT=28
+    WS=29
+    IDENT=30
+    COLON=31
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -146,6 +164,13 @@ class CorgiScriptParser ( Parser ):
             return self.getTypedRuleContext(CorgiScriptParser.StatementsContext,0)
 
 
+        def funcdef(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(CorgiScriptParser.FuncdefContext)
+            else:
+                return self.getTypedRuleContext(CorgiScriptParser.FuncdefContext,i)
+
+
         def getRuleIndex(self):
             return CorgiScriptParser.RULE_program
 
@@ -162,9 +187,20 @@ class CorgiScriptParser ( Parser ):
 
         localctx = CorgiScriptParser.ProgramContext(self, self._ctx, self.state)
         self.enterRule(localctx, 0, self.RULE_program)
+        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 20
+            self.state = 27
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while _la==CorgiScriptParser.DEF:
+                self.state = 24
+                self.funcdef()
+                self.state = 29
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
+            self.state = 30
             self.statements()
         except RecognitionException as re:
             localctx.exception = re
@@ -209,23 +245,135 @@ class CorgiScriptParser ( Parser ):
 
         localctx = CorgiScriptParser.StatementsContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_statements)
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 32
+            self.statement()
+            self.state = 37
+            self._errHandler.sync(self)
+            _alt = self._interp.adaptivePredict(self._input,1,self._ctx)
+            while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
+                if _alt==1:
+                    self.state = 33
+                    self.match(CorgiScriptParser.SEMICOLON)
+                    self.state = 34
+                    self.statement() 
+                self.state = 39
+                self._errHandler.sync(self)
+                _alt = self._interp.adaptivePredict(self._input,1,self._ctx)
+
+            self.state = 40
+            self.match(CorgiScriptParser.SEMICOLON)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+    class FuncdefContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def DEF(self):
+            return self.getToken(CorgiScriptParser.DEF, 0)
+
+        def function(self):
+            return self.getTypedRuleContext(CorgiScriptParser.FunctionContext,0)
+
+
+        def statement(self):
+            return self.getTypedRuleContext(CorgiScriptParser.StatementContext,0)
+
+
+        def getRuleIndex(self):
+            return CorgiScriptParser.RULE_funcdef
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFuncdef" ):
+                return visitor.visitFuncdef(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def funcdef(self):
+
+        localctx = CorgiScriptParser.FuncdefContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 4, self.RULE_funcdef)
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 42
+            self.match(CorgiScriptParser.DEF)
+            self.state = 43
+            self.function()
+            self.state = 44
+            self.statement()
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+    class FunctionContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def IDENT(self, i:int=None):
+            if i is None:
+                return self.getTokens(CorgiScriptParser.IDENT)
+            else:
+                return self.getToken(CorgiScriptParser.IDENT, i)
+
+        def OPENPAREN(self):
+            return self.getToken(CorgiScriptParser.OPENPAREN, 0)
+
+        def CLOSEPAREN(self):
+            return self.getToken(CorgiScriptParser.CLOSEPAREN, 0)
+
+        def getRuleIndex(self):
+            return CorgiScriptParser.RULE_function
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunction" ):
+                return visitor.visitFunction(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def function(self):
+
+        localctx = CorgiScriptParser.FunctionContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 6, self.RULE_function)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 22
-            self.statement()
-            self.state = 27
+            self.state = 46
+            self.match(CorgiScriptParser.IDENT)
+            self.state = 47
+            self.match(CorgiScriptParser.OPENPAREN)
+            self.state = 51
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==CorgiScriptParser.SEMICOLON:
-                self.state = 23
-                self.match(CorgiScriptParser.SEMICOLON)
-                self.state = 24
-                self.statement()
-                self.state = 29
+            while _la==CorgiScriptParser.IDENT:
+                self.state = 48
+                self.match(CorgiScriptParser.IDENT)
+                self.state = 53
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
+            self.state = 54
+            self.match(CorgiScriptParser.CLOSEPAREN)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -289,6 +437,10 @@ class CorgiScriptParser ( Parser ):
         def ELSE(self):
             return self.getToken(CorgiScriptParser.ELSE, 0)
 
+        def function(self):
+            return self.getTypedRuleContext(CorgiScriptParser.FunctionContext,0)
+
+
         def WHILE(self):
             return self.getToken(CorgiScriptParser.WHILE, 0)
 
@@ -320,148 +472,154 @@ class CorgiScriptParser ( Parser ):
     def statement(self):
 
         localctx = CorgiScriptParser.StatementContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 4, self.RULE_statement)
+        self.enterRule(localctx, 8, self.RULE_statement)
         try:
-            self.state = 79
+            self.state = 106
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,2,self._ctx)
+            la_ = self._interp.adaptivePredict(self._input,4,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 30
+                self.state = 56
                 self.match(CorgiScriptParser.WRITE)
-                self.state = 31
+                self.state = 57
                 self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 34
+                self.state = 60
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
                 if token in [CorgiScriptParser.INTNUM]:
-                    self.state = 32
+                    self.state = 58
                     self.match(CorgiScriptParser.INTNUM)
                     pass
                 elif token in [CorgiScriptParser.STRING]:
-                    self.state = 33
+                    self.state = 59
                     self.string()
                     pass
                 else:
                     raise NoViableAltException(self)
 
-                self.state = 36
+                self.state = 62
                 self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 37
+                self.state = 63
                 self.match(CorgiScriptParser.WRITELN)
                 pass
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 38
+                self.state = 64
                 self.match(CorgiScriptParser.IDENT)
-                self.state = 39
+                self.state = 65
                 self.match(CorgiScriptParser.ASSIGNMENT)
-                self.state = 40
+                self.state = 66
                 self.exp()
                 pass
 
             elif la_ == 4:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 41
+                self.state = 67
                 self.match(CorgiScriptParser.IF)
-                self.state = 42
+                self.state = 68
                 self.boolexp()
-                self.state = 43
+                self.state = 69
                 self.match(CorgiScriptParser.THEN)
-                self.state = 44
+                self.state = 70
                 self.statement()
-                self.state = 45
+                self.state = 71
                 self.match(CorgiScriptParser.ELSE)
-                self.state = 46
+                self.state = 72
                 self.statement()
                 pass
 
             elif la_ == 5:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 48
-                self.match(CorgiScriptParser.WHILE)
-                self.state = 49
-                self.boolexp()
-                self.state = 50
-                self.match(CorgiScriptParser.DO)
-                self.state = 51
-                self.statement()
+                self.state = 74
+                self.function()
                 pass
 
             elif la_ == 6:
                 self.enterOuterAlt(localctx, 6)
-                self.state = 53
-                self.match(CorgiScriptParser.READ)
-                self.state = 54
-                self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 55
-                self.match(CorgiScriptParser.IDENT)
-                self.state = 56
-                self.match(CorgiScriptParser.CLOSEPAREN)
+                self.state = 75
+                self.match(CorgiScriptParser.WHILE)
+                self.state = 76
+                self.boolexp()
+                self.state = 77
+                self.match(CorgiScriptParser.DO)
+                self.state = 78
+                self.statement()
                 pass
 
             elif la_ == 7:
                 self.enterOuterAlt(localctx, 7)
-                self.state = 57
-                self.match(CorgiScriptParser.WRITE)
-                self.state = 58
+                self.state = 80
+                self.match(CorgiScriptParser.READ)
+                self.state = 81
                 self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 59
-                self.exp()
-                self.state = 60
+                self.state = 82
+                self.match(CorgiScriptParser.IDENT)
+                self.state = 83
                 self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
 
             elif la_ == 8:
                 self.enterOuterAlt(localctx, 8)
-                self.state = 62
+                self.state = 84
                 self.match(CorgiScriptParser.WRITE)
-                self.state = 63
+                self.state = 85
                 self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 64
-                self.boolexp()
-                self.state = 65
+                self.state = 86
+                self.exp()
+                self.state = 87
                 self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
 
             elif la_ == 9:
                 self.enterOuterAlt(localctx, 9)
-                self.state = 67
+                self.state = 89
                 self.match(CorgiScriptParser.WRITE)
-                self.state = 68
+                self.state = 90
                 self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 69
-                self.string()
-                self.state = 70
+                self.state = 91
+                self.boolexp()
+                self.state = 92
                 self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
 
             elif la_ == 10:
                 self.enterOuterAlt(localctx, 10)
-                self.state = 72
+                self.state = 94
+                self.match(CorgiScriptParser.WRITE)
+                self.state = 95
                 self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 73
-                self.statements()
-                self.state = 74
+                self.state = 96
+                self.string()
+                self.state = 97
                 self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
 
             elif la_ == 11:
                 self.enterOuterAlt(localctx, 11)
-                self.state = 76
-                self.match(CorgiScriptParser.GOTO)
-                self.state = 77
-                self.match(CorgiScriptParser.IDENT)
+                self.state = 99
+                self.match(CorgiScriptParser.OPENPAREN)
+                self.state = 100
+                self.statements()
+                self.state = 101
+                self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
 
             elif la_ == 12:
                 self.enterOuterAlt(localctx, 12)
-                self.state = 78
+                self.state = 103
+                self.match(CorgiScriptParser.GOTO)
+                self.state = 104
+                self.match(CorgiScriptParser.IDENT)
+                pass
+
+            elif la_ == 13:
+                self.enterOuterAlt(localctx, 13)
+                self.state = 105
                 self.match(CorgiScriptParser.IDENT)
                 pass
 
@@ -514,26 +672,26 @@ class CorgiScriptParser ( Parser ):
     def exp(self):
 
         localctx = CorgiScriptParser.ExpContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 6, self.RULE_exp)
+        self.enterRule(localctx, 10, self.RULE_exp)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 81
+            self.state = 108
             self.term()
-            self.state = 86
+            self.state = 113
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==CorgiScriptParser.PLUS or _la==CorgiScriptParser.SUB:
-                self.state = 82
+                self.state = 109
                 _la = self._input.LA(1)
                 if not(_la==CorgiScriptParser.PLUS or _la==CorgiScriptParser.SUB):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 83
+                self.state = 110
                 self.term()
-                self.state = 88
+                self.state = 115
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -595,50 +753,50 @@ class CorgiScriptParser ( Parser ):
     def boolean_(self):
 
         localctx = CorgiScriptParser.Boolean_Context(self, self._ctx, self.state)
-        self.enterRule(localctx, 8, self.RULE_boolean_)
+        self.enterRule(localctx, 12, self.RULE_boolean_)
         try:
-            self.state = 103
+            self.state = 130
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,4,self._ctx)
+            la_ = self._interp.adaptivePredict(self._input,6,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 89
+                self.state = 116
                 self.match(CorgiScriptParser.TRUE)
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 90
+                self.state = 117
                 self.match(CorgiScriptParser.FALSE)
                 pass
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 91
+                self.state = 118
                 self.exp()
-                self.state = 92
+                self.state = 119
                 self.match(CorgiScriptParser.EQUAL)
-                self.state = 93
+                self.state = 120
                 self.exp()
                 pass
 
             elif la_ == 4:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 95
+                self.state = 122
                 self.exp()
-                self.state = 96
+                self.state = 123
                 self.match(CorgiScriptParser.LESSEQUAL)
-                self.state = 97
+                self.state = 124
                 self.exp()
                 pass
 
             elif la_ == 5:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 99
+                self.state = 126
                 self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 100
+                self.state = 127
                 self.boolexp()
-                self.state = 101
+                self.state = 128
                 self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
 
@@ -679,21 +837,21 @@ class CorgiScriptParser ( Parser ):
     def boolterm(self):
 
         localctx = CorgiScriptParser.BooltermContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 10, self.RULE_boolterm)
+        self.enterRule(localctx, 14, self.RULE_boolterm)
         try:
-            self.state = 108
+            self.state = 135
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [CorgiScriptParser.NOT]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 105
+                self.state = 132
                 self.match(CorgiScriptParser.NOT)
-                self.state = 106
+                self.state = 133
                 self.boolean_()
                 pass
             elif token in [CorgiScriptParser.FALSE, CorgiScriptParser.TRUE, CorgiScriptParser.OPENPAREN, CorgiScriptParser.INTNUM, CorgiScriptParser.IDENT]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 107
+                self.state = 134
                 self.boolean_()
                 pass
             else:
@@ -741,21 +899,21 @@ class CorgiScriptParser ( Parser ):
     def boolexp(self):
 
         localctx = CorgiScriptParser.BoolexpContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 12, self.RULE_boolexp)
+        self.enterRule(localctx, 16, self.RULE_boolexp)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 110
+            self.state = 137
             self.boolterm()
-            self.state = 115
+            self.state = 142
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==CorgiScriptParser.AND:
-                self.state = 111
+                self.state = 138
                 self.match(CorgiScriptParser.AND)
-                self.state = 112
+                self.state = 139
                 self.boolterm()
-                self.state = 117
+                self.state = 144
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -791,10 +949,10 @@ class CorgiScriptParser ( Parser ):
     def string(self):
 
         localctx = CorgiScriptParser.StringContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 14, self.RULE_string)
+        self.enterRule(localctx, 18, self.RULE_string)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 118
+            self.state = 145
             self.match(CorgiScriptParser.STRING)
         except RecognitionException as re:
             localctx.exception = re
@@ -841,28 +999,28 @@ class CorgiScriptParser ( Parser ):
     def factor(self):
 
         localctx = CorgiScriptParser.FactorContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 16, self.RULE_factor)
+        self.enterRule(localctx, 20, self.RULE_factor)
         try:
-            self.state = 126
+            self.state = 153
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [CorgiScriptParser.IDENT]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 120
+                self.state = 147
                 self.match(CorgiScriptParser.IDENT)
                 pass
             elif token in [CorgiScriptParser.INTNUM]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 121
+                self.state = 148
                 self.match(CorgiScriptParser.INTNUM)
                 pass
             elif token in [CorgiScriptParser.OPENPAREN]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 122
+                self.state = 149
                 self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 123
+                self.state = 150
                 self.exp()
-                self.state = 124
+                self.state = 151
                 self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
             else:
@@ -922,26 +1080,26 @@ class CorgiScriptParser ( Parser ):
     def term(self):
 
         localctx = CorgiScriptParser.TermContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 18, self.RULE_term)
+        self.enterRule(localctx, 22, self.RULE_term)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 128
+            self.state = 155
             self.factor()
-            self.state = 133
+            self.state = 160
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << CorgiScriptParser.MULTIPLY) | (1 << CorgiScriptParser.DIVIDE) | (1 << CorgiScriptParser.MODULO))) != 0):
-                self.state = 129
+                self.state = 156
                 _la = self._input.LA(1)
                 if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << CorgiScriptParser.MULTIPLY) | (1 << CorgiScriptParser.DIVIDE) | (1 << CorgiScriptParser.MODULO))) != 0)):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 130
+                self.state = 157
                 self.factor()
-                self.state = 135
+                self.state = 162
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 

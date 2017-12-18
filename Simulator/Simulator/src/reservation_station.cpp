@@ -31,8 +31,10 @@ bool ReservationStation::is_ready()
         }
         bool isLoad = op == LD || op == LDI;
         for(auto rs : register_file->reservation_stations){
-            if(rs->is_memory_dependency(isLoad, target)){
-                return false;
+            if(rs != this) {
+                if (rs->is_memory_dependency(isLoad, target)) {
+                    return false;
+                }
             }
         }
     }
@@ -127,7 +129,7 @@ void ReservationStation::clear()
  *
  */
 bool ReservationStation::is_memory_dependency(bool isLoad, int target) {
-    if(!is_free() || current_instruction.opcode.settings.unit != LDSTR){
+    if(is_free() || current_instruction.opcode.settings.unit != LDSTR){
         return false;
     }
     OP op = current_instruction.opcode.op;

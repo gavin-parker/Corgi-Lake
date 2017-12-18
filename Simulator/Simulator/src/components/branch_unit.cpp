@@ -29,7 +29,7 @@ void BranchUnit::execute(Instruction current_instruction) {
 		state = READY;
 		break;
 	case JUM:
-		target = current_instruction.location + current_instruction.operands[0];
+		target = r0;
 		state = READY;
 		break;
 	case BLT:

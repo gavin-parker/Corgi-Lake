@@ -2,11 +2,17 @@ grammar CorgiScript;
 /*
  * Parser Rules
  */
- 
-program : statements ;
+
+
+program : (funcdef )* statements ;
 
 statements :
-statement ( SEMICOLON statement )*
+statement ( SEMICOLON statement )* SEMICOLON
+;
+
+funcdef : DEF function statement ;
+
+function : IDENT OPENPAREN (IDENT)* CLOSEPAREN
 ;
 
 statement :
@@ -14,6 +20,7 @@ WRITE OPENPAREN ( INTNUM | string ) CLOSEPAREN
 | WRITELN
 | IDENT  ASSIGNMENT exp
 | IF boolexp THEN statement ELSE statement
+| function
 | WHILE boolexp DO statement
 | READ OPENPAREN IDENT CLOSEPAREN
 | WRITE OPENPAREN exp CLOSEPAREN
@@ -71,6 +78,7 @@ THEN 		: 'then';
 TRUE 		: 'true';
 WHILE 		: 'while';
 GOTO		: 'goto';
+DEF         : 'def';
 
 //---------------------------------------------------------------------------
 // OPERATORS

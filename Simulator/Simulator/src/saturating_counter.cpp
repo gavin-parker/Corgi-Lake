@@ -30,7 +30,7 @@ CounterState iterate(CounterState state, bool taken )
 
 bool SaturatingCounter::predict(const Instruction instruction)
 {
-	if(instruction.opcode.op == HALTEZ || instruction.opcode.op == HALTEQ)
+	if(instruction.opcode.op == HALTEZ || instruction.opcode.op == HALTEQ || instruction.opcode.op == JUM)
 	{
 		return false;
 	}

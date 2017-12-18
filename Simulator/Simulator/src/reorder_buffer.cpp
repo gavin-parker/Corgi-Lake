@@ -2,7 +2,7 @@
 #include <cassert>
 
 
-ReorderBuffer::ReorderBuffer(RegisterFile *register_file, SimState *sim_state) : register_file_(register_file), sim_state_(sim_state)
+ReorderBuffer::ReorderBuffer(RegisterFile *register_file, SimState *sim_state, Memory *memory) : register_file_(register_file), sim_state_(sim_state), memory(memory)
 {
 }
 
@@ -56,6 +56,11 @@ void ReorderBuffer::writeback()
 				if(!ordered_instruction.instruction.opcode.writes.empty()) {
 					const auto destination = ordered_instruction.instruction.operands[0];
 					register_file_->gp[destination].data = ordered_instruction.result;
+				}
+				OP op = ordered_instruction.instruction.opcode.op;
+				if(op == STR || op == STRI){
+					Data res = {Instruction(Opcode(NOP)), ordered_instruction.result};
+					(*memory)[ordered_instruction.target] = res;
 				}
 				buffer.pop_front();
 			}

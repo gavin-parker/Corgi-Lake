@@ -16,7 +16,7 @@ std::unordered_map<OP, OP_SETTINGS> op_map = {
 	{ LDI	,{ 1	,2	,LDSTR		,{}			,{ 0 }	, "LDI" } },
 	{ STRI	,{ 1	,2	,LDSTR		,{ 0 }		,{}		, "STRI" } },
 	{ BRA	,{ 1	,1	,BRANCH		,{}			,{}		, "BRA" } },
-	{ JUM	,{ 1	,1	,BRANCH		,{}			,{}		, "JUM" } },
+	{ JUM	,{ 1	,1	,BRANCH		,{0}		,{}		, "JUM" } },
 	{ BLT	,{ 1	,3	,BRANCH		,{ 0,1 }	,{}		, "BLT" } },
 	{ HALTEZ,{ 1	,1	,BRANCH		,{ 0 }		,{}		, "HALTEZ" } },
 	{ HALTEQ,{1		,2	,BRANCH		,{ 0 }		,{}		, "HALTEQ" } },

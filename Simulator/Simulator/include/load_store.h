@@ -23,6 +23,7 @@ public:
 	ReservationStation reservation_station;
 	bool result_ready = false;
 	Result lastResult;
+	int lastTarget = 0;
 	ReorderBuffer *reorder_buffer;
 	LoadStore(SimState *simState, ReorderBuffer *reorder_buffer);
 	~LoadStore();
