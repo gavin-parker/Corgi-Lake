@@ -136,7 +136,23 @@ bool ReservationStation::is_memory_dependency(bool isLoad, int target) {
     bool isLoad_b = op == LD || op == LDI;
     if(isLoad && isLoad_b) return false;
     if(!ready_args[0]) return true;
-    int target_b = args[0];
+    int target_b;
+    switch(op){
+        case LD:
+            if(!ready_args[1]) return true;
+            target_b = args[1] + current_instruction.operands[2];
+            break;
+        case LDI:
+            target_b = current_instruction.operands[1];
+            break;
+        case STR:
+            if(!ready_args[0] || !ready_args[1]) return true;
+            target_b = args[0] + args[1];
+            break;
+        case STRI:
+            target_b = current_instruction.operands[1];
+            break;
+    }
     if(op == LD || op == STR){
         if(!ready_args[1]) return true;
         target_b += args[1];
