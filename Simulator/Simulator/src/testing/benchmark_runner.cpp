@@ -71,7 +71,6 @@ int main(int argc, char *argv[])
 	for (auto failure : failed_tests) {
 		std::cout << "failed " << failure << std::endl;
 	}
-	getchar();
 	return 0;
 }
 

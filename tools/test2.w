@@ -1,7 +1,10 @@
-def testFun(a b) (
-    write(a);
-    write(b);
+def testFun(x y) (
+    write(x);
+    write(x);
+    write(y);
+    y := 5;
 )
 x := 1;
 y := 2;
-testFun(x y);
+z := testFun(x y);
+write(z);

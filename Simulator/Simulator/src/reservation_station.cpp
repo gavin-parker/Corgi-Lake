@@ -24,15 +24,26 @@ bool ReservationStation::is_ready()
 		}
 	}
     if(current_instruction.opcode.settings.unit == LDSTR){
-        int target = args[0];
         OP op = current_instruction.opcode.op;
-        if (op == LD || op == STR){
-            target = args[0] + args[1];
-        }
+		int target = 0;
+		switch(op){
+			case LD:
+				target = args[1] + current_instruction.operands[2];
+				break;
+			case LDI:
+				target = current_instruction.operands[1];
+				break;
+			case STR:
+				target = args[0] + args[1];
+				break;
+			case STRI:
+				target = current_instruction.operands[1];
+				break;
+		}
         bool isLoad = op == LD || op == LDI;
         for(auto rs : register_file->reservation_stations){
             if(rs != this) {
-                if (rs->is_memory_dependency(isLoad, target)) {
+                if (rs->is_memory_dependency(isLoad, target) && rs->current_instruction.tag < current_instruction.tag) {
                     return false;
                 }
             }
@@ -152,10 +163,6 @@ bool ReservationStation::is_memory_dependency(bool isLoad, int target) {
         case STRI:
             target_b = current_instruction.operands[1];
             break;
-    }
-    if(op == LD || op == STR){
-        if(!ready_args[1]) return true;
-        target_b += args[1];
     }
     return target == target_b;
 }

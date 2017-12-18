@@ -18,6 +18,7 @@ function : IDENT OPENPAREN (IDENT)* CLOSEPAREN
 statement :
 WRITE OPENPAREN ( INTNUM | string ) CLOSEPAREN
 | WRITELN
+| IDENT  ASSIGNMENT function
 | IDENT  ASSIGNMENT exp
 | IF boolexp THEN statement ELSE statement
 | function
