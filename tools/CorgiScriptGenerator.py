@@ -18,8 +18,10 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
                 return '_z' + self.functionTag + str(idx)
 
     def freeRegister(self, idx):
-        regNum = int(re.search(r'\d+', idx).group())
-        self.registers[regNum] = 0
+        search = re.search(r'\d+', idx)
+        if search:
+            regNum = int(search.group())
+            self.registers[regNum] = 0
 
     def getLabel(self):
         for idx, slot in enumerate(self.registers):
