@@ -10,7 +10,6 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
         self.functions = {}
         self.main = False
         self.scopeDeclarations = []             #identifiers declared in this scope
-
     def getRegister(self):
         for idx, slot in enumerate(self.registers):
             if not slot:
@@ -18,9 +17,9 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
                 return '_z' + str(idx)
 
     def freeRegister(self, idx):
-        search = re.search(r'\d+', idx)
+        search = re.search(r'_z\d+', idx)
         if search:
-            regNum = int(search.group())
+            regNum = int(search.group()[2:])
             self.registers[regNum] = 0
 
     def getLabel(self):
@@ -35,8 +34,9 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
    # Visit a parse tree produced by CorgiScriptParser#program.
     def visitProgram(self, ctx):
         self.outFile.write('LDI _sp 100 \n')
+        self.outFile.write('LDI _hp 400 \n')
         self.outFile.write('LDI _cm1 -1 \n')
-        self.outFile.write('LDI _c1 -1 \n')
+        self.outFile.write('LDI _c1 1 \n')
         self.outFile.write('LDI _cz 0 \n')
         self.writeOp('BRA', ['~main'])
         for idx,child in enumerate(ctx.getChildren()):
@@ -80,14 +80,29 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
         val = '_retVal'
         return val
 
+    def createArray(self, ctx):
+        reg = self.getRegister()
+        self.writeOp('IADDI', [reg, '_hp', 0])
+        self.writeOp('IADDI', ['_hp', '_hp', ctx.INTNUM()])
+        return reg
     # Visit a parse tree produced by CorgiScriptParser#statement.
     def visitStatement(self, ctx):
         if ctx.IDENT():
             assert(ctx.ASSIGNMENT())
-            if ctx.exp():
-                val = self.visit(ctx.exp())
+            if  ctx.OPENARRAY() and ctx.exp(0) and ctx.exp(1):
+                baseReg = '_' + str(ctx.IDENT())
+                indexReg = self.visitExp(ctx.exp(0))
+                valReg = self.visitExp(ctx.exp(1))
+                self.writeOp('STR', [baseReg, indexReg, valReg])
+                self.freeRegister(indexReg)
+                self.freeRegister(valReg)
+                return
+            elif ctx.exp():
+                val = self.visit(ctx.exp(0))
             elif ctx.function():
                 val = self.handleFunction(ctx)
+            elif ctx.OPENARRAY():
+                val = self.createArray(ctx)
             ident = ctx.IDENT().getText()
             self.writeOp('IADDI', ['_' + str(ident) , str(val), ' 0'])
             self.scopeDeclarations.append(ident)
@@ -117,7 +132,7 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
         elif ctx.statements():
             self.visitStatements(ctx.statements())
         elif ctx.exp():
-            exp = self.visitExp(ctx.exp())
+            exp = self.visit(ctx.exp(0))
             self.writeOp('PRNT', [exp])
         elif ctx.boolexp():
             exp = self.visitBoolexp(ctx.boolexp())
@@ -179,19 +194,14 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
             return '_cz'
         if ctx.FALSE():
             return '_cm1'
-        if ctx.EQUAL() or ctx.LESSEQUAL():
+        if ctx.EQUAL() or ctx.LESS():
             exp1 = self.visitExp(ctx.exp(0))
             exp2 = self.visitExp(ctx.exp(1))
             outReg = self.getRegister()
+            self.writeOp('ICMP', [outReg, exp1, exp2])
             if ctx.EQUAL():
-                self.writeOp('ICMP', [outReg, exp1, exp2])
                 return outReg
-            regb = self.getRegister()
-            self.writeOp('IADDI', [regb, exp2, 1])
-            assert (outReg is not None)
-            self.writeOp('ICMP', [outReg, exp1, regb])
-            self.writeOp('ICMP', [outReg, outReg, '_cm1'])
-            self.freeRegister(regb)
+            self.writeOp('IADDI', [outReg, outReg, 1])
             return outReg
         return self.visitBoolexp(ctx.boolexp())
 
@@ -201,15 +211,7 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
         boolean = self.visitBoolean_(ctx.boolean_())
         if ctx.NOT():
             outReg = self.getRegister()
-            label_a = self.getLabel()
-            label_b = self.getLabel()
-            self.writeOp('JLT', ['_cz', boolean, '~' + label_a])
-            self.writeOp('JLT', [boolean, '_cz', '~' + label_a])
-            self.writeOp('LDI', [outReg, 1])
-            self.writeOp('BRA', ['~' + label_b])
-            self.writeOp('NOP', ['@' + label_a])
-            self.writeOp('LDI', [outReg, 0])
-            self.writeOp('NOP', ['@' + label_b])
+            self.writeOp('NOT', [outReg, boolean])
             return outReg
         return boolean
 
@@ -223,6 +225,7 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
             for op, t in zip(children[1::2], children[2::2]):
                 tReg = self.visitBoolterm(t)
                 self.writeOp('IADD', [outReg, tReg, boolean])
+                self.freeRegister(tReg)
                 boolean = outReg
             return outReg
         return boolean
@@ -241,11 +244,19 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
     #exp
     #CLOSEPAREN
     def visitFactor(self, ctx):
-        if ctx.INTNUM():
+        if ctx.OPENARRAY():
+            reg = self.getRegister()
+            baseReg = '_' + str(ctx.IDENT())
+            indexReg = self.visitExp(ctx.exp())
+            self.writeOp('IADD', [reg, baseReg, indexReg])
+            self.writeOp('LD', [reg, reg, '0'])
+            self.freeRegister(indexReg)
+            return reg
+        elif ctx.INTNUM():
             reg = self.getRegister()
             self.writeOp('LDI ', [reg, str(ctx.INTNUM())])
             return reg
-        if ctx.IDENT():
+        elif ctx.IDENT():
             reg = '_' + str(ctx.IDENT())
             return reg
         return self.visit(ctx.exp())

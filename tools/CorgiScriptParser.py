@@ -7,8 +7,8 @@ import sys
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3!")
-        buf.write("\u00a9\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3#")
+        buf.write("\u00ba\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\3\2")
         buf.write("\7\2\34\n\2\f\2\16\2\37\13\2\3\2\3\2\3\3\3\3\3\3\7\3&")
         buf.write("\n\3\f\3\16\3)\13\3\3\3\3\3\3\4\3\4\3\4\3\4\3\5\3\5\3")
@@ -16,60 +16,69 @@ def serializedATN():
         buf.write("\5\6?\n\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6")
         buf.write("\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3")
         buf.write("\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6")
-        buf.write("\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6p\n\6\3\7\3\7")
-        buf.write("\3\7\7\7u\n\7\f\7\16\7x\13\7\3\b\3\b\3\b\3\b\3\b\3\b\3")
-        buf.write("\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\b\u0088\n\b\3\t\3\t\3")
-        buf.write("\t\5\t\u008d\n\t\3\n\3\n\3\n\7\n\u0092\n\n\f\n\16\n\u0095")
-        buf.write("\13\n\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\5\f\u009f\n\f")
-        buf.write("\3\r\3\r\3\r\7\r\u00a4\n\r\f\r\16\r\u00a7\13\r\3\r\2\2")
-        buf.write("\16\2\4\6\b\n\f\16\20\22\24\26\30\2\4\4\2\25\25\30\30")
-        buf.write("\4\2\27\27\32\33\2\u00b7\2\35\3\2\2\2\4\"\3\2\2\2\6,\3")
-        buf.write("\2\2\2\b\60\3\2\2\2\no\3\2\2\2\fq\3\2\2\2\16\u0087\3\2")
-        buf.write("\2\2\20\u008c\3\2\2\2\22\u008e\3\2\2\2\24\u0096\3\2\2")
-        buf.write("\2\26\u009e\3\2\2\2\30\u00a0\3\2\2\2\32\34\5\6\4\2\33")
-        buf.write("\32\3\2\2\2\34\37\3\2\2\2\35\33\3\2\2\2\35\36\3\2\2\2")
-        buf.write("\36 \3\2\2\2\37\35\3\2\2\2 !\5\4\3\2!\3\3\2\2\2\"\'\5")
-        buf.write("\n\6\2#$\7\17\2\2$&\5\n\6\2%#\3\2\2\2&)\3\2\2\2\'%\3\2")
-        buf.write("\2\2\'(\3\2\2\2(*\3\2\2\2)\'\3\2\2\2*+\7\17\2\2+\5\3\2")
-        buf.write("\2\2,-\7\16\2\2-.\5\b\5\2./\5\n\6\2/\7\3\2\2\2\60\61\7")
-        buf.write(" \2\2\61\65\7\20\2\2\62\64\7 \2\2\63\62\3\2\2\2\64\67")
-        buf.write("\3\2\2\2\65\63\3\2\2\2\65\66\3\2\2\2\668\3\2\2\2\67\65")
-        buf.write("\3\2\2\289\7\21\2\29\t\3\2\2\2:;\7\3\2\2;>\7\20\2\2<?")
-        buf.write("\7\34\2\2=?\5\24\13\2><\3\2\2\2>=\3\2\2\2?@\3\2\2\2@p")
-        buf.write("\7\21\2\2Ap\7\4\2\2BC\7 \2\2CD\7\23\2\2Dp\5\b\5\2EF\7")
-        buf.write(" \2\2FG\7\23\2\2Gp\5\f\7\2HI\7\b\2\2IJ\5\22\n\2JK\7\n")
-        buf.write("\2\2KL\5\n\6\2LM\7\6\2\2MN\5\n\6\2Np\3\2\2\2Op\5\b\5\2")
-        buf.write("PQ\7\f\2\2QR\5\22\n\2RS\7\5\2\2ST\5\n\6\2Tp\3\2\2\2UV")
-        buf.write("\7\t\2\2VW\7\20\2\2WX\7 \2\2Xp\7\21\2\2YZ\7\3\2\2Z[\7")
-        buf.write("\20\2\2[\\\5\f\7\2\\]\7\21\2\2]p\3\2\2\2^_\7\3\2\2_`\7")
-        buf.write("\20\2\2`a\5\22\n\2ab\7\21\2\2bp\3\2\2\2cd\7\3\2\2de\7")
-        buf.write("\20\2\2ef\5\24\13\2fg\7\21\2\2gp\3\2\2\2hi\7\20\2\2ij")
-        buf.write("\5\4\3\2jk\7\21\2\2kp\3\2\2\2lm\7\r\2\2mp\7 \2\2np\7 ")
-        buf.write("\2\2o:\3\2\2\2oA\3\2\2\2oB\3\2\2\2oE\3\2\2\2oH\3\2\2\2")
-        buf.write("oO\3\2\2\2oP\3\2\2\2oU\3\2\2\2oY\3\2\2\2o^\3\2\2\2oc\3")
-        buf.write("\2\2\2oh\3\2\2\2ol\3\2\2\2on\3\2\2\2p\13\3\2\2\2qv\5\30")
-        buf.write("\r\2rs\t\2\2\2su\5\30\r\2tr\3\2\2\2ux\3\2\2\2vt\3\2\2")
-        buf.write("\2vw\3\2\2\2w\r\3\2\2\2xv\3\2\2\2y\u0088\7\13\2\2z\u0088")
-        buf.write("\7\7\2\2{|\5\f\7\2|}\7\22\2\2}~\5\f\7\2~\u0088\3\2\2\2")
-        buf.write("\177\u0080\5\f\7\2\u0080\u0081\7\24\2\2\u0081\u0082\5")
-        buf.write("\f\7\2\u0082\u0088\3\2\2\2\u0083\u0084\7\20\2\2\u0084")
-        buf.write("\u0085\5\22\n\2\u0085\u0086\7\21\2\2\u0086\u0088\3\2\2")
-        buf.write("\2\u0087y\3\2\2\2\u0087z\3\2\2\2\u0087{\3\2\2\2\u0087")
-        buf.write("\177\3\2\2\2\u0087\u0083\3\2\2\2\u0088\17\3\2\2\2\u0089")
-        buf.write("\u008a\7\26\2\2\u008a\u008d\5\16\b\2\u008b\u008d\5\16")
-        buf.write("\b\2\u008c\u0089\3\2\2\2\u008c\u008b\3\2\2\2\u008d\21")
-        buf.write("\3\2\2\2\u008e\u0093\5\20\t\2\u008f\u0090\7\31\2\2\u0090")
-        buf.write("\u0092\5\20\t\2\u0091\u008f\3\2\2\2\u0092\u0095\3\2\2")
-        buf.write("\2\u0093\u0091\3\2\2\2\u0093\u0094\3\2\2\2\u0094\23\3")
-        buf.write("\2\2\2\u0095\u0093\3\2\2\2\u0096\u0097\7\35\2\2\u0097")
-        buf.write("\25\3\2\2\2\u0098\u009f\7 \2\2\u0099\u009f\7\34\2\2\u009a")
-        buf.write("\u009b\7\20\2\2\u009b\u009c\5\f\7\2\u009c\u009d\7\21\2")
-        buf.write("\2\u009d\u009f\3\2\2\2\u009e\u0098\3\2\2\2\u009e\u0099")
-        buf.write("\3\2\2\2\u009e\u009a\3\2\2\2\u009f\27\3\2\2\2\u00a0\u00a5")
-        buf.write("\5\26\f\2\u00a1\u00a2\t\3\2\2\u00a2\u00a4\5\26\f\2\u00a3")
-        buf.write("\u00a1\3\2\2\2\u00a4\u00a7\3\2\2\2\u00a5\u00a3\3\2\2\2")
-        buf.write("\u00a5\u00a6\3\2\2\2\u00a6\31\3\2\2\2\u00a7\u00a5\3\2")
-        buf.write("\2\2\r\35\'\65>ov\u0087\u008c\u0093\u009e\u00a5")
+        buf.write("\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3")
+        buf.write("\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6|\n\6\3\7\3\7\3\7\7")
+        buf.write("\7\u0081\n\7\f\7\16\7\u0084\13\7\3\b\3\b\3\b\3\b\3\b\3")
+        buf.write("\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\b\u0094\n\b\3\t\3")
+        buf.write("\t\3\t\5\t\u0099\n\t\3\n\3\n\3\n\7\n\u009e\n\n\f\n\16")
+        buf.write("\n\u00a1\13\n\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3")
+        buf.write("\f\3\f\3\f\3\f\5\f\u00b0\n\f\3\r\3\r\3\r\7\r\u00b5\n\r")
+        buf.write("\f\r\16\r\u00b8\13\r\3\r\2\2\16\2\4\6\b\n\f\16\20\22\24")
+        buf.write("\26\30\2\4\4\2\27\27\32\32\4\2\31\31\34\35\2\u00cb\2\35")
+        buf.write("\3\2\2\2\4\"\3\2\2\2\6,\3\2\2\2\b\60\3\2\2\2\n{\3\2\2")
+        buf.write("\2\f}\3\2\2\2\16\u0093\3\2\2\2\20\u0098\3\2\2\2\22\u009a")
+        buf.write("\3\2\2\2\24\u00a2\3\2\2\2\26\u00af\3\2\2\2\30\u00b1\3")
+        buf.write("\2\2\2\32\34\5\6\4\2\33\32\3\2\2\2\34\37\3\2\2\2\35\33")
+        buf.write("\3\2\2\2\35\36\3\2\2\2\36 \3\2\2\2\37\35\3\2\2\2 !\5\4")
+        buf.write("\3\2!\3\3\2\2\2\"\'\5\n\6\2#$\7\17\2\2$&\5\n\6\2%#\3\2")
+        buf.write("\2\2&)\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2(*\3\2\2\2)\'\3\2")
+        buf.write("\2\2*+\7\17\2\2+\5\3\2\2\2,-\7\16\2\2-.\5\b\5\2./\5\n")
+        buf.write("\6\2/\7\3\2\2\2\60\61\7\"\2\2\61\65\7\20\2\2\62\64\7\"")
+        buf.write("\2\2\63\62\3\2\2\2\64\67\3\2\2\2\65\63\3\2\2\2\65\66\3")
+        buf.write("\2\2\2\668\3\2\2\2\67\65\3\2\2\289\7\21\2\29\t\3\2\2\2")
+        buf.write(":;\7\3\2\2;>\7\20\2\2<?\7\36\2\2=?\5\24\13\2><\3\2\2\2")
+        buf.write(">=\3\2\2\2?@\3\2\2\2@|\7\21\2\2A|\7\4\2\2BC\7\"\2\2CD")
+        buf.write("\7\25\2\2D|\5\b\5\2EF\7\"\2\2FG\7\25\2\2G|\5\f\7\2HI\7")
+        buf.write("\"\2\2IJ\7\25\2\2JK\7\22\2\2KL\7\36\2\2L|\7\23\2\2MN\7")
+        buf.write("\"\2\2NO\7\22\2\2OP\5\f\7\2PQ\7\23\2\2QR\7\25\2\2RS\5")
+        buf.write("\f\7\2S|\3\2\2\2TU\7\b\2\2UV\5\22\n\2VW\7\n\2\2WX\5\n")
+        buf.write("\6\2XY\7\6\2\2YZ\5\n\6\2Z|\3\2\2\2[|\5\b\5\2\\]\7\f\2")
+        buf.write("\2]^\5\22\n\2^_\7\5\2\2_`\5\n\6\2`|\3\2\2\2ab\7\t\2\2")
+        buf.write("bc\7\20\2\2cd\7\"\2\2d|\7\21\2\2ef\7\3\2\2fg\7\20\2\2")
+        buf.write("gh\5\f\7\2hi\7\21\2\2i|\3\2\2\2jk\7\3\2\2kl\7\20\2\2l")
+        buf.write("m\5\22\n\2mn\7\21\2\2n|\3\2\2\2op\7\3\2\2pq\7\20\2\2q")
+        buf.write("r\5\24\13\2rs\7\21\2\2s|\3\2\2\2tu\7\20\2\2uv\5\4\3\2")
+        buf.write("vw\7\21\2\2w|\3\2\2\2xy\7\r\2\2y|\7\"\2\2z|\7\"\2\2{:")
+        buf.write("\3\2\2\2{A\3\2\2\2{B\3\2\2\2{E\3\2\2\2{H\3\2\2\2{M\3\2")
+        buf.write("\2\2{T\3\2\2\2{[\3\2\2\2{\\\3\2\2\2{a\3\2\2\2{e\3\2\2")
+        buf.write("\2{j\3\2\2\2{o\3\2\2\2{t\3\2\2\2{x\3\2\2\2{z\3\2\2\2|")
+        buf.write("\13\3\2\2\2}\u0082\5\30\r\2~\177\t\2\2\2\177\u0081\5\30")
+        buf.write("\r\2\u0080~\3\2\2\2\u0081\u0084\3\2\2\2\u0082\u0080\3")
+        buf.write("\2\2\2\u0082\u0083\3\2\2\2\u0083\r\3\2\2\2\u0084\u0082")
+        buf.write("\3\2\2\2\u0085\u0094\7\13\2\2\u0086\u0094\7\7\2\2\u0087")
+        buf.write("\u0088\5\f\7\2\u0088\u0089\7\24\2\2\u0089\u008a\5\f\7")
+        buf.write("\2\u008a\u0094\3\2\2\2\u008b\u008c\5\f\7\2\u008c\u008d")
+        buf.write("\7\26\2\2\u008d\u008e\5\f\7\2\u008e\u0094\3\2\2\2\u008f")
+        buf.write("\u0090\7\20\2\2\u0090\u0091\5\22\n\2\u0091\u0092\7\21")
+        buf.write("\2\2\u0092\u0094\3\2\2\2\u0093\u0085\3\2\2\2\u0093\u0086")
+        buf.write("\3\2\2\2\u0093\u0087\3\2\2\2\u0093\u008b\3\2\2\2\u0093")
+        buf.write("\u008f\3\2\2\2\u0094\17\3\2\2\2\u0095\u0096\7\30\2\2\u0096")
+        buf.write("\u0099\5\16\b\2\u0097\u0099\5\16\b\2\u0098\u0095\3\2\2")
+        buf.write("\2\u0098\u0097\3\2\2\2\u0099\21\3\2\2\2\u009a\u009f\5")
+        buf.write("\20\t\2\u009b\u009c\7\33\2\2\u009c\u009e\5\20\t\2\u009d")
+        buf.write("\u009b\3\2\2\2\u009e\u00a1\3\2\2\2\u009f\u009d\3\2\2\2")
+        buf.write("\u009f\u00a0\3\2\2\2\u00a0\23\3\2\2\2\u00a1\u009f\3\2")
+        buf.write("\2\2\u00a2\u00a3\7\37\2\2\u00a3\25\3\2\2\2\u00a4\u00b0")
+        buf.write("\7\"\2\2\u00a5\u00b0\7\36\2\2\u00a6\u00a7\7\20\2\2\u00a7")
+        buf.write("\u00a8\5\f\7\2\u00a8\u00a9\7\21\2\2\u00a9\u00b0\3\2\2")
+        buf.write("\2\u00aa\u00ab\7\"\2\2\u00ab\u00ac\7\22\2\2\u00ac\u00ad")
+        buf.write("\5\f\7\2\u00ad\u00ae\7\23\2\2\u00ae\u00b0\3\2\2\2\u00af")
+        buf.write("\u00a4\3\2\2\2\u00af\u00a5\3\2\2\2\u00af\u00a6\3\2\2\2")
+        buf.write("\u00af\u00aa\3\2\2\2\u00b0\27\3\2\2\2\u00b1\u00b6\5\26")
+        buf.write("\f\2\u00b2\u00b3\t\3\2\2\u00b3\u00b5\5\26\f\2\u00b4\u00b2")
+        buf.write("\3\2\2\2\u00b5\u00b8\3\2\2\2\u00b6\u00b4\3\2\2\2\u00b6")
+        buf.write("\u00b7\3\2\2\2\u00b7\31\3\2\2\2\u00b8\u00b6\3\2\2\2\r")
+        buf.write("\35\'\65>{\u0082\u0093\u0098\u009f\u00af\u00b6")
         return buf.getvalue()
 
 
@@ -85,17 +94,17 @@ class CorgiScriptParser ( Parser ):
 
     literalNames = [ "<INVALID>", "'write'", "'writeln'", "'do'", "'else'", 
                      "'false'", "'if'", "'read'", "'then'", "'true'", "'while'", 
-                     "'goto'", "'def'", "';'", "'('", "')'", "'='", "':='", 
-                     "'<='", "'+'", "'!'", "'*'", "'-'", "'&'", "'/'", "'%'", 
-                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                     "<INVALID>", "':'" ]
+                     "'goto'", "'def'", "';'", "'('", "')'", "'['", "']'", 
+                     "'='", "':='", "'<'", "'+'", "'!'", "'*'", "'-'", "'&'", 
+                     "'/'", "'%'", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "<INVALID>", "<INVALID>", "':'" ]
 
     symbolicNames = [ "<INVALID>", "WRITE", "WRITELN", "DO", "ELSE", "FALSE", 
                       "IF", "READ", "THEN", "TRUE", "WHILE", "GOTO", "DEF", 
-                      "SEMICOLON", "OPENPAREN", "CLOSEPAREN", "EQUAL", "ASSIGNMENT", 
-                      "LESSEQUAL", "PLUS", "NOT", "MULTIPLY", "SUB", "AND", 
-                      "DIVIDE", "MODULO", "INTNUM", "STRING", "COMMENT", 
-                      "WS", "IDENT", "COLON" ]
+                      "SEMICOLON", "OPENPAREN", "CLOSEPAREN", "OPENARRAY", 
+                      "CLOSEARRAY", "EQUAL", "ASSIGNMENT", "LESS", "PLUS", 
+                      "NOT", "MULTIPLY", "SUB", "AND", "DIVIDE", "MODULO", 
+                      "INTNUM", "STRING", "COMMENT", "WS", "IDENT", "COLON" ]
 
     RULE_program = 0
     RULE_statements = 1
@@ -130,22 +139,24 @@ class CorgiScriptParser ( Parser ):
     SEMICOLON=13
     OPENPAREN=14
     CLOSEPAREN=15
-    EQUAL=16
-    ASSIGNMENT=17
-    LESSEQUAL=18
-    PLUS=19
-    NOT=20
-    MULTIPLY=21
-    SUB=22
-    AND=23
-    DIVIDE=24
-    MODULO=25
-    INTNUM=26
-    STRING=27
-    COMMENT=28
-    WS=29
-    IDENT=30
-    COLON=31
+    OPENARRAY=16
+    CLOSEARRAY=17
+    EQUAL=18
+    ASSIGNMENT=19
+    LESS=20
+    PLUS=21
+    NOT=22
+    MULTIPLY=23
+    SUB=24
+    AND=25
+    DIVIDE=26
+    MODULO=27
+    INTNUM=28
+    STRING=29
+    COMMENT=30
+    WS=31
+    IDENT=32
+    COLON=33
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -418,9 +429,18 @@ class CorgiScriptParser ( Parser ):
             return self.getTypedRuleContext(CorgiScriptParser.FunctionContext,0)
 
 
-        def exp(self):
-            return self.getTypedRuleContext(CorgiScriptParser.ExpContext,0)
+        def exp(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(CorgiScriptParser.ExpContext)
+            else:
+                return self.getTypedRuleContext(CorgiScriptParser.ExpContext,i)
 
+
+        def OPENARRAY(self):
+            return self.getToken(CorgiScriptParser.OPENARRAY, 0)
+
+        def CLOSEARRAY(self):
+            return self.getToken(CorgiScriptParser.CLOSEARRAY, 0)
 
         def IF(self):
             return self.getToken(CorgiScriptParser.IF, 0)
@@ -475,7 +495,7 @@ class CorgiScriptParser ( Parser ):
         localctx = CorgiScriptParser.StatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 8, self.RULE_statement)
         try:
-            self.state = 109
+            self.state = 121
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,4,self._ctx)
             if la_ == 1:
@@ -531,106 +551,136 @@ class CorgiScriptParser ( Parser ):
             elif la_ == 5:
                 self.enterOuterAlt(localctx, 5)
                 self.state = 70
-                self.match(CorgiScriptParser.IF)
+                self.match(CorgiScriptParser.IDENT)
                 self.state = 71
-                self.boolexp()
+                self.match(CorgiScriptParser.ASSIGNMENT)
                 self.state = 72
-                self.match(CorgiScriptParser.THEN)
+                self.match(CorgiScriptParser.OPENARRAY)
                 self.state = 73
-                self.statement()
+                self.match(CorgiScriptParser.INTNUM)
                 self.state = 74
-                self.match(CorgiScriptParser.ELSE)
-                self.state = 75
-                self.statement()
+                self.match(CorgiScriptParser.CLOSEARRAY)
                 pass
 
             elif la_ == 6:
                 self.enterOuterAlt(localctx, 6)
+                self.state = 75
+                self.match(CorgiScriptParser.IDENT)
+                self.state = 76
+                self.match(CorgiScriptParser.OPENARRAY)
                 self.state = 77
-                self.function()
+                self.exp()
+                self.state = 78
+                self.match(CorgiScriptParser.CLOSEARRAY)
+                self.state = 79
+                self.match(CorgiScriptParser.ASSIGNMENT)
+                self.state = 80
+                self.exp()
                 pass
 
             elif la_ == 7:
                 self.enterOuterAlt(localctx, 7)
-                self.state = 78
-                self.match(CorgiScriptParser.WHILE)
-                self.state = 79
+                self.state = 82
+                self.match(CorgiScriptParser.IF)
+                self.state = 83
                 self.boolexp()
-                self.state = 80
-                self.match(CorgiScriptParser.DO)
-                self.state = 81
+                self.state = 84
+                self.match(CorgiScriptParser.THEN)
+                self.state = 85
+                self.statement()
+                self.state = 86
+                self.match(CorgiScriptParser.ELSE)
+                self.state = 87
                 self.statement()
                 pass
 
             elif la_ == 8:
                 self.enterOuterAlt(localctx, 8)
-                self.state = 83
-                self.match(CorgiScriptParser.READ)
-                self.state = 84
-                self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 85
-                self.match(CorgiScriptParser.IDENT)
-                self.state = 86
-                self.match(CorgiScriptParser.CLOSEPAREN)
+                self.state = 89
+                self.function()
                 pass
 
             elif la_ == 9:
                 self.enterOuterAlt(localctx, 9)
-                self.state = 87
-                self.match(CorgiScriptParser.WRITE)
-                self.state = 88
-                self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 89
-                self.exp()
                 self.state = 90
-                self.match(CorgiScriptParser.CLOSEPAREN)
+                self.match(CorgiScriptParser.WHILE)
+                self.state = 91
+                self.boolexp()
+                self.state = 92
+                self.match(CorgiScriptParser.DO)
+                self.state = 93
+                self.statement()
                 pass
 
             elif la_ == 10:
                 self.enterOuterAlt(localctx, 10)
-                self.state = 92
-                self.match(CorgiScriptParser.WRITE)
-                self.state = 93
-                self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 94
-                self.boolexp()
                 self.state = 95
+                self.match(CorgiScriptParser.READ)
+                self.state = 96
+                self.match(CorgiScriptParser.OPENPAREN)
+                self.state = 97
+                self.match(CorgiScriptParser.IDENT)
+                self.state = 98
                 self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
 
             elif la_ == 11:
                 self.enterOuterAlt(localctx, 11)
-                self.state = 97
-                self.match(CorgiScriptParser.WRITE)
-                self.state = 98
-                self.match(CorgiScriptParser.OPENPAREN)
                 self.state = 99
-                self.string()
+                self.match(CorgiScriptParser.WRITE)
                 self.state = 100
+                self.match(CorgiScriptParser.OPENPAREN)
+                self.state = 101
+                self.exp()
+                self.state = 102
                 self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
 
             elif la_ == 12:
                 self.enterOuterAlt(localctx, 12)
-                self.state = 102
-                self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 103
-                self.statements()
                 self.state = 104
+                self.match(CorgiScriptParser.WRITE)
+                self.state = 105
+                self.match(CorgiScriptParser.OPENPAREN)
+                self.state = 106
+                self.boolexp()
+                self.state = 107
                 self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
 
             elif la_ == 13:
                 self.enterOuterAlt(localctx, 13)
-                self.state = 106
-                self.match(CorgiScriptParser.GOTO)
-                self.state = 107
-                self.match(CorgiScriptParser.IDENT)
+                self.state = 109
+                self.match(CorgiScriptParser.WRITE)
+                self.state = 110
+                self.match(CorgiScriptParser.OPENPAREN)
+                self.state = 111
+                self.string()
+                self.state = 112
+                self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
 
             elif la_ == 14:
                 self.enterOuterAlt(localctx, 14)
-                self.state = 108
+                self.state = 114
+                self.match(CorgiScriptParser.OPENPAREN)
+                self.state = 115
+                self.statements()
+                self.state = 116
+                self.match(CorgiScriptParser.CLOSEPAREN)
+                pass
+
+            elif la_ == 15:
+                self.enterOuterAlt(localctx, 15)
+                self.state = 118
+                self.match(CorgiScriptParser.GOTO)
+                self.state = 119
+                self.match(CorgiScriptParser.IDENT)
+                pass
+
+            elif la_ == 16:
+                self.enterOuterAlt(localctx, 16)
+                self.state = 120
                 self.match(CorgiScriptParser.IDENT)
                 pass
 
@@ -687,22 +737,22 @@ class CorgiScriptParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 111
+            self.state = 123
             self.term()
-            self.state = 116
+            self.state = 128
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==CorgiScriptParser.PLUS or _la==CorgiScriptParser.SUB:
-                self.state = 112
+                self.state = 124
                 _la = self._input.LA(1)
                 if not(_la==CorgiScriptParser.PLUS or _la==CorgiScriptParser.SUB):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 113
+                self.state = 125
                 self.term()
-                self.state = 118
+                self.state = 130
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -736,8 +786,8 @@ class CorgiScriptParser ( Parser ):
         def EQUAL(self):
             return self.getToken(CorgiScriptParser.EQUAL, 0)
 
-        def LESSEQUAL(self):
-            return self.getToken(CorgiScriptParser.LESSEQUAL, 0)
+        def LESS(self):
+            return self.getToken(CorgiScriptParser.LESS, 0)
 
         def OPENPAREN(self):
             return self.getToken(CorgiScriptParser.OPENPAREN, 0)
@@ -766,48 +816,48 @@ class CorgiScriptParser ( Parser ):
         localctx = CorgiScriptParser.Boolean_Context(self, self._ctx, self.state)
         self.enterRule(localctx, 12, self.RULE_boolean_)
         try:
-            self.state = 133
+            self.state = 145
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,6,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 119
+                self.state = 131
                 self.match(CorgiScriptParser.TRUE)
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 120
+                self.state = 132
                 self.match(CorgiScriptParser.FALSE)
                 pass
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 121
+                self.state = 133
                 self.exp()
-                self.state = 122
+                self.state = 134
                 self.match(CorgiScriptParser.EQUAL)
-                self.state = 123
+                self.state = 135
                 self.exp()
                 pass
 
             elif la_ == 4:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 125
+                self.state = 137
                 self.exp()
-                self.state = 126
-                self.match(CorgiScriptParser.LESSEQUAL)
-                self.state = 127
+                self.state = 138
+                self.match(CorgiScriptParser.LESS)
+                self.state = 139
                 self.exp()
                 pass
 
             elif la_ == 5:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 129
+                self.state = 141
                 self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 130
+                self.state = 142
                 self.boolexp()
-                self.state = 131
+                self.state = 143
                 self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
 
@@ -850,19 +900,19 @@ class CorgiScriptParser ( Parser ):
         localctx = CorgiScriptParser.BooltermContext(self, self._ctx, self.state)
         self.enterRule(localctx, 14, self.RULE_boolterm)
         try:
-            self.state = 138
+            self.state = 150
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [CorgiScriptParser.NOT]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 135
+                self.state = 147
                 self.match(CorgiScriptParser.NOT)
-                self.state = 136
+                self.state = 148
                 self.boolean_()
                 pass
             elif token in [CorgiScriptParser.FALSE, CorgiScriptParser.TRUE, CorgiScriptParser.OPENPAREN, CorgiScriptParser.INTNUM, CorgiScriptParser.IDENT]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 137
+                self.state = 149
                 self.boolean_()
                 pass
             else:
@@ -914,17 +964,17 @@ class CorgiScriptParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 140
+            self.state = 152
             self.boolterm()
-            self.state = 145
+            self.state = 157
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==CorgiScriptParser.AND:
-                self.state = 141
+                self.state = 153
                 self.match(CorgiScriptParser.AND)
-                self.state = 142
+                self.state = 154
                 self.boolterm()
-                self.state = 147
+                self.state = 159
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -963,7 +1013,7 @@ class CorgiScriptParser ( Parser ):
         self.enterRule(localctx, 18, self.RULE_string)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 148
+            self.state = 160
             self.match(CorgiScriptParser.STRING)
         except RecognitionException as re:
             localctx.exception = re
@@ -995,6 +1045,12 @@ class CorgiScriptParser ( Parser ):
         def CLOSEPAREN(self):
             return self.getToken(CorgiScriptParser.CLOSEPAREN, 0)
 
+        def OPENARRAY(self):
+            return self.getToken(CorgiScriptParser.OPENARRAY, 0)
+
+        def CLOSEARRAY(self):
+            return self.getToken(CorgiScriptParser.CLOSEARRAY, 0)
+
         def getRuleIndex(self):
             return CorgiScriptParser.RULE_factor
 
@@ -1012,30 +1068,43 @@ class CorgiScriptParser ( Parser ):
         localctx = CorgiScriptParser.FactorContext(self, self._ctx, self.state)
         self.enterRule(localctx, 20, self.RULE_factor)
         try:
-            self.state = 156
+            self.state = 173
             self._errHandler.sync(self)
-            token = self._input.LA(1)
-            if token in [CorgiScriptParser.IDENT]:
+            la_ = self._interp.adaptivePredict(self._input,9,self._ctx)
+            if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 150
+                self.state = 162
                 self.match(CorgiScriptParser.IDENT)
                 pass
-            elif token in [CorgiScriptParser.INTNUM]:
+
+            elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 151
+                self.state = 163
                 self.match(CorgiScriptParser.INTNUM)
                 pass
-            elif token in [CorgiScriptParser.OPENPAREN]:
+
+            elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 152
+                self.state = 164
                 self.match(CorgiScriptParser.OPENPAREN)
-                self.state = 153
+                self.state = 165
                 self.exp()
-                self.state = 154
+                self.state = 166
                 self.match(CorgiScriptParser.CLOSEPAREN)
                 pass
-            else:
-                raise NoViableAltException(self)
+
+            elif la_ == 4:
+                self.enterOuterAlt(localctx, 4)
+                self.state = 168
+                self.match(CorgiScriptParser.IDENT)
+                self.state = 169
+                self.match(CorgiScriptParser.OPENARRAY)
+                self.state = 170
+                self.exp()
+                self.state = 171
+                self.match(CorgiScriptParser.CLOSEARRAY)
+                pass
+
 
         except RecognitionException as re:
             localctx.exception = re
@@ -1095,22 +1164,22 @@ class CorgiScriptParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 158
+            self.state = 175
             self.factor()
-            self.state = 163
+            self.state = 180
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << CorgiScriptParser.MULTIPLY) | (1 << CorgiScriptParser.DIVIDE) | (1 << CorgiScriptParser.MODULO))) != 0):
-                self.state = 159
+                self.state = 176
                 _la = self._input.LA(1)
                 if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << CorgiScriptParser.MULTIPLY) | (1 << CorgiScriptParser.DIVIDE) | (1 << CorgiScriptParser.MODULO))) != 0)):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 160
+                self.state = 177
                 self.factor()
-                self.state = 165
+                self.state = 182
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 

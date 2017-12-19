@@ -1,6 +1,7 @@
 LDI _sp 100 
+LDI _hp 400 
 LDI _cm1 -1 
-LDI _c1 -1 
+LDI _c1 1 
 LDI _cz 0 
 BRA ~main
 NOP @print

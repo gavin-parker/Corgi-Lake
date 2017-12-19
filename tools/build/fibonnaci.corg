@@ -1,15 +1,15 @@
 LDI _sp 100 
+LDI _hp 400 
 LDI _cm1 -1 
-LDI _c1 -1 
+LDI _c1 1 
 LDI _cz 0 
 BRA ~main
 NOP @fib
 LD _n _sp 0
 IADDI _sp _sp -1
-LDI  _z0 1
-IADDI _z2 _z0 1
-ICMP _z1 _n _z2
-ICMP _z1 _z1 _cm1
+LDI  _z0 2
+ICMP _z1 _n _z0
+IADDI _z1 _z1 1
 JLT _z1 _cz ~lbl3
 JLT _cz _z1 ~lbl3
 IADDI _e _n  0
@@ -22,9 +22,9 @@ LDI  _z7 2
 ISUB _z6 _n _z7
 IADDI _b _z6  0
 IADDI _sp _sp 1
-STR _cz _sp _a
-IADDI _sp _sp 1
 STR _cz _sp _e
+IADDI _sp _sp 1
+STR _cz _sp _a
 IADDI _sp _sp 1
 STR _cz _sp _b
 IADDI _sp _sp 1
@@ -36,19 +36,19 @@ BRA ~fib
 NOP @lbl8
 LD _retVal _sp 0
 IADDI _sp _sp -1
-LD _a _sp 0
-IADDI _sp _sp -1
 LD _e _sp 0
+IADDI _sp _sp -1
+LD _a _sp 0
 IADDI _sp _sp -1
 LD _b _sp 0
 IADDI _sp _sp -1
 IADDI _c _retVal  0
 IADDI _sp _sp 1
-STR _cz _sp _a
-IADDI _sp _sp 1
 STR _cz _sp _c
 IADDI _sp _sp 1
 STR _cz _sp _e
+IADDI _sp _sp 1
+STR _cz _sp _a
 IADDI _sp _sp 1
 STR _cz _sp _b
 IADDI _sp _sp 1
@@ -60,11 +60,11 @@ BRA ~fib
 NOP @lbl9
 LD _retVal _sp 0
 IADDI _sp _sp -1
-LD _a _sp 0
-IADDI _sp _sp -1
 LD _c _sp 0
 IADDI _sp _sp -1
 LD _e _sp 0
+IADDI _sp _sp -1
+LD _a _sp 0
 IADDI _sp _sp -1
 LD _b _sp 0
 IADDI _sp _sp -1

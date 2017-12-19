@@ -1,0 +1,59 @@
+LDI _sp 100 
+LDI _hp 400 
+LDI _cm1 -1 
+LDI _c1 1 
+LDI _cz 0 
+BRA ~main
+NOP @main
+IADDI _z0 _hp 0
+IADDI _hp _hp 10
+IADDI _array _z0  0
+LDI  _z1 0
+LDI  _z2 5
+STR _array _z1 _z2
+LDI  _z1 1
+LDI  _z2 3
+STR _array _z1 _z2
+LDI  _z1 2
+LDI  _z2 7
+STR _array _z1 _z2
+LDI  _z1 3
+LDI  _z2 4
+STR _array _z1 _z2
+LDI  _z1 4
+LDI  _z2 9
+STR _array _z1 _z2
+LDI  _z1 5
+LDI  _z2 2
+STR _array _z1 _z2
+LDI  _z1 6
+LDI  _z2 11
+STR _array _z1 _z2
+LDI  _z1 7
+LDI  _z2 1
+STR _array _z1 _z2
+LDI  _z1 8
+LDI  _z2 9
+STR _array _z1 _z2
+LDI  _z1 9
+LDI  _z2 4
+STR _array _z1 _z2
+LDI  _z1 0
+IADDI _i _z1  0
+LDI  _z2 10
+IADDI _max _z2  0
+NOP @lbl3
+ICMP _z4 _i _max
+IADDI _z4 _z4 1
+JLT _z4 _cz ~lbl5
+JLT _cz _z4 ~lbl5
+IADD _z6 _array _i
+LD _z6 _z6 0
+PRNT _z6
+LDI  _z8 1
+IADD _z7 _i _z8
+IADDI _i _z7  0
+BRA ~lbl3
+NOP @lbl5
+LDI _fin 0  
+HALTEZ _fin

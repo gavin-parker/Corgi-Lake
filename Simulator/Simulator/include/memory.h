@@ -21,6 +21,6 @@ public:
 		return main_memory.size();
 	}
 	void extend(int amount){
-		main_memory.resize(main_memory.size() + amount, { Instruction(DATA, 0, 0, 0, 0), 0});
+		main_memory.resize(amount, { Instruction(DATA, 0, 0, 0, 0), 0});
 	}
 };

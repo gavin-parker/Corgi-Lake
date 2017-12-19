@@ -1,4 +1,5 @@
 
+#include <assert.h>
 #include "../../include/load_store.h"
 
 int LoadStore::execute(Instruction instruction)
@@ -25,8 +26,8 @@ int LoadStore::execute(Instruction instruction)
 	case STR:
 		if (memory->state != EXECUTING) {
 			result = r2;
-            lastTarget = r0 + r1;
-		}
+			lastTarget = r0 + r1;
+        }
 		break;
 	case STRI:
 		if (memory->state != EXECUTING) {

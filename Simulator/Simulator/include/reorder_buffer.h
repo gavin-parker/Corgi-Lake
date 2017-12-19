@@ -22,7 +22,7 @@ private:
 	SimState *sim_state_;
     Memory *memory;
 	int counter = 0;
-	bool debug_ = true;
+	bool debug_ = false;
 public:
 	ReorderBuffer(RegisterFile *register_file, SimState *sim_state, Memory *memory);
 	~ReorderBuffer();

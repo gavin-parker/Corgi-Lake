@@ -41,9 +41,9 @@ int ALU::execute(Instruction instruction) {
 	case ICMP:
 	{
         result = 0;
-        if (r1 - r2 < 0) {
+        if (r1 < r2 ) {
 			result = -1;
-		}else if (r1 - r2 > 0) {
+		}else if (r1 > r2 ) {
 			result = 1;
 		}
 		state = READY;
@@ -61,7 +61,11 @@ int ALU::execute(Instruction instruction) {
         result = r1 & r2;
         break;
     case NOT:
-        result = !r1;
+		if(r1 != 0){
+			result = 0;
+		}else{
+			result = 1;
+		}
         break;
 
 	default: ;

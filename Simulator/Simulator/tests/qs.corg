@@ -1,0 +1,245 @@
+LDI _sp 100 
+LDI _hp 400 
+LDI _cm1 -1 
+LDI _c1 1 
+LDI _cz 0 
+BRA ~main
+NOP @partition
+LD _hi _sp 0
+IADDI _sp _sp -1
+LD _lo _sp 0
+IADDI _sp _sp -1
+LD _a _sp 0
+IADDI _sp _sp -1
+IADD _z0 _a _hi
+LD _z0 _z0 0
+IADDI _pivot _z0  0
+LDI  _z2 1
+ISUB _z1 _lo _z2
+IADDI _i _z1  0
+IADDI _j _lo  0
+NOP @lbl3
+ICMP _z4 _j _hi
+IADDI _z4 _z4 1
+JLT _z4 _cz ~lbl5
+JLT _cz _z4 ~lbl5
+IADD _z6 _a _j
+LD _z6 _z6 0
+ICMP _z7 _z6 _pivot
+IADDI _z7 _z7 1
+JLT _z7 _cz ~lbl9
+JLT _cz _z7 ~lbl9
+LDI  _z11 1
+IADD _z10 _i _z11
+IADDI _i _z10  0
+IADD _z12 _a _i
+LD _z12 _z12 0
+IADDI _temp _z12  0
+IADD _z13 _a _j
+LD _z13 _z13 0
+STR _a _i _z13
+STR _a _j _temp
+BRA ~lbl8
+NOP @lbl9
+NOP @lbl8
+BRA ~lbl3
+NOP @lbl5
+IADD _z13 _a _hi
+LD _z13 _z13 0
+LDI  _z16 1
+IADD _z15 _i _z16
+IADD _z14 _a _z15
+LD _z14 _z14 0
+ICMP _z15 _z13 _z14
+IADDI _z15 _z15 1
+JLT _z15 _cz ~lbl18
+JLT _cz _z15 ~lbl18
+LDI  _z21 1
+IADD _z20 _i _z21
+IADD _z19 _a _z20
+LD _z19 _z19 0
+IADDI _temp2 _z19  0
+LDI  _z22 1
+IADD _z20 _i _z22
+IADD _z23 _a _hi
+LD _z23 _z23 0
+STR _a _z20 _z23
+STR _a _hi _temp2
+BRA ~lbl17
+NOP @lbl18
+NOP @lbl17
+LDI  _z23 1
+IADD _z20 _i _z23
+IADDI _hi _z20  0
+LD _ret _sp 0
+STR _cz _sp _hi
+JUM _ret
+NOP @quicksort
+LD _hi _sp 0
+IADDI _sp _sp -1
+LD _lo _sp 0
+IADDI _sp _sp -1
+LD _a _sp 0
+IADDI _sp _sp -1
+ICMP _z24 _lo _hi
+IADDI _z24 _z24 1
+JLT _z24 _cz ~lbl26
+JLT _cz _z24 ~lbl26
+IADDI _sp _sp 1
+LDI _retadd ~lbl27
+STR _cz _sp _retadd
+IADDI _sp _sp 1
+STR _cz _sp _a
+IADDI _sp _sp 1
+STR _cz _sp _lo
+IADDI _sp _sp 1
+STR _cz _sp _hi
+BRA ~partition
+NOP @lbl27
+LD _retVal _sp 0
+IADDI _sp _sp -1
+IADDI _p _retVal  0
+LDI  _z29 1
+ISUB _z28 _p _z29
+IADDI _pl _z28  0
+LDI  _z31 1
+IADD _z30 _p _z31
+IADDI _ph _z30  0
+IADDI _sp _sp 1
+STR _cz _sp _pl
+IADDI _sp _sp 1
+STR _cz _sp _p
+IADDI _sp _sp 1
+STR _cz _sp _ph
+IADDI _sp _sp 1
+LDI _retadd ~lbl32
+STR _cz _sp _retadd
+IADDI _sp _sp 1
+STR _cz _sp _a
+IADDI _sp _sp 1
+STR _cz _sp _lo
+IADDI _sp _sp 1
+STR _cz _sp _pl
+BRA ~quicksort
+NOP @lbl32
+LD _retVal _sp 0
+IADDI _sp _sp -1
+LD _pl _sp 0
+IADDI _sp _sp -1
+LD _p _sp 0
+IADDI _sp _sp -1
+LD _ph _sp 0
+IADDI _sp _sp -1
+IADDI _sp _sp 1
+STR _cz _sp _pl
+IADDI _sp _sp 1
+STR _cz _sp _p
+IADDI _sp _sp 1
+STR _cz _sp _ph
+IADDI _sp _sp 1
+LDI _retadd ~lbl33
+STR _cz _sp _retadd
+IADDI _sp _sp 1
+STR _cz _sp _a
+IADDI _sp _sp 1
+STR _cz _sp _ph
+IADDI _sp _sp 1
+STR _cz _sp _hi
+BRA ~quicksort
+NOP @lbl33
+LD _retVal _sp 0
+IADDI _sp _sp -1
+LD _pl _sp 0
+IADDI _sp _sp -1
+LD _p _sp 0
+IADDI _sp _sp -1
+LD _ph _sp 0
+IADDI _sp _sp -1
+BRA ~lbl25
+NOP @lbl26
+NOP @lbl25
+LD _ret _sp 0
+STR _cz _sp _hi
+JUM _ret
+NOP @main
+IADDI _z34 _hp 0
+IADDI _hp _hp 10
+IADDI _a _z34  0
+LDI  _z35 0
+LDI  _z36 5
+STR _a _z35 _z36
+LDI  _z35 1
+LDI  _z36 3
+STR _a _z35 _z36
+LDI  _z35 2
+LDI  _z36 7
+STR _a _z35 _z36
+LDI  _z35 3
+LDI  _z36 4
+STR _a _z35 _z36
+LDI  _z35 4
+LDI  _z36 9
+STR _a _z35 _z36
+LDI  _z35 5
+LDI  _z36 2
+STR _a _z35 _z36
+LDI  _z35 6
+LDI  _z36 11
+STR _a _z35 _z36
+LDI  _z35 7
+LDI  _z36 1
+STR _a _z35 _z36
+LDI  _z35 8
+LDI  _z36 9
+STR _a _z35 _z36
+LDI  _z35 9
+LDI  _z36 4
+STR _a _z35 _z36
+LDI  _z35 0
+IADDI _lo _z35  0
+LDI  _z36 9
+IADDI _hi _z36  0
+IADDI _sp _sp 1
+STR _cz _sp _hi
+IADDI _sp _sp 1
+STR _cz _sp _a
+IADDI _sp _sp 1
+STR _cz _sp _lo
+IADDI _sp _sp 1
+LDI _retadd ~lbl37
+STR _cz _sp _retadd
+IADDI _sp _sp 1
+STR _cz _sp _a
+IADDI _sp _sp 1
+STR _cz _sp _lo
+IADDI _sp _sp 1
+STR _cz _sp _hi
+BRA ~quicksort
+NOP @lbl37
+LD _retVal _sp 0
+IADDI _sp _sp -1
+LD _hi _sp 0
+IADDI _sp _sp -1
+LD _a _sp 0
+IADDI _sp _sp -1
+LD _lo _sp 0
+IADDI _sp _sp -1
+LDI  _z38 0
+IADDI _i _z38  0
+LDI  _z39 10
+IADDI _max _z39  0
+NOP @lbl40
+ICMP _z41 _i _max
+IADDI _z41 _z41 1
+JLT _z41 _cz ~lbl42
+JLT _cz _z41 ~lbl42
+IADD _z43 _a _i
+LD _z43 _z43 0
+PRNT _z43
+LDI  _z45 1
+IADD _z44 _i _z45
+IADDI _i _z44  0
+BRA ~lbl40
+NOP @lbl42
+LDI _fin 0  
+HALTEZ _fin

@@ -20,6 +20,8 @@ WRITE OPENPAREN ( INTNUM | string ) CLOSEPAREN
 | WRITELN
 | IDENT  ASSIGNMENT function
 | IDENT  ASSIGNMENT exp
+| IDENT ASSIGNMENT OPENARRAY INTNUM CLOSEARRAY
+| IDENT OPENARRAY exp CLOSEARRAY ASSIGNMENT exp
 | IF boolexp THEN statement ELSE statement
 | function
 | WHILE boolexp DO statement
@@ -39,7 +41,7 @@ boolean_ :
 TRUE
 | FALSE
 | exp EQUAL exp
-| exp LESSEQUAL exp
+| exp LESS exp
 | OPENPAREN boolexp CLOSEPAREN
 ;
 boolterm :
@@ -55,6 +57,7 @@ factor :
 IDENT
 | INTNUM
 | OPENPAREN exp CLOSEPAREN
+| IDENT OPENARRAY exp CLOSEARRAY
 ;
 term :
 factor ( (MULTIPLY|DIVIDE|MODULO) factor )*
@@ -88,9 +91,11 @@ SEMICOLON    : ';' ;
 OPENPAREN    : '(' ;
 CLOSEPAREN   : ')' ;
 
+OPENARRAY    : '[';
+CLOSEARRAY   : ']';
 EQUAL        : '=';
 ASSIGNMENT   : ':=';
-LESSEQUAL    : '<=';
+LESS    : '<';
 PLUS         : '+';
 NOT 		 : '!';
 

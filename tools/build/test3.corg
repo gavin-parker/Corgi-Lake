@@ -1,0 +1,29 @@
+LDI _sp 100 
+LDI _hp 400 
+LDI _cm1 -1 
+LDI _c1 1 
+LDI _cz 0 
+BRA ~main
+NOP @main
+LDI  _z0 0
+IADDI _a _z0  0
+LDI  _z1 1
+IADDI _b _z1  0
+NOP @lbl2
+LDI  _z3 5
+ICMP _z4 _a _z3
+IADDI _z4 _z4 1
+JLT _z4 _cz ~lbl5
+JLT _cz _z4 ~lbl5
+PRNT _a
+IMUL  _z6 _b _a
+IADDI _b _z6  0
+LDI  _z8 1
+IADD _z7 _a _z8
+IADDI _a _z7  0
+BRA ~lbl2
+NOP @lbl5
+PRNT _a
+PRNT _b
+LDI _fin 0  
+HALTEZ _fin

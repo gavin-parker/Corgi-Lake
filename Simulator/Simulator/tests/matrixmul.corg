@@ -1,0 +1,172 @@
+LDI _sp 100 
+LDI _hp 400 
+LDI _cm1 -1 
+LDI _c1 1 
+LDI _cz 0 
+BRA ~main
+NOP @main
+IADDI _z0 _hp 0
+IADDI _hp _hp 16
+IADDI _aA _z0  0
+LDI  _z1 0
+LDI  _z2 5
+STR _aA _z1 _z2
+LDI  _z1 1
+LDI  _z2 3
+STR _aA _z1 _z2
+LDI  _z1 2
+LDI  _z2 7
+STR _aA _z1 _z2
+LDI  _z1 3
+LDI  _z2 4
+STR _aA _z1 _z2
+LDI  _z1 4
+LDI  _z2 9
+STR _aA _z1 _z2
+LDI  _z1 5
+LDI  _z2 2
+STR _aA _z1 _z2
+LDI  _z1 6
+LDI  _z2 11
+STR _aA _z1 _z2
+LDI  _z1 7
+LDI  _z2 1
+STR _aA _z1 _z2
+LDI  _z1 8
+LDI  _z2 9
+STR _aA _z1 _z2
+LDI  _z1 9
+LDI  _z2 4
+STR _aA _z1 _z2
+LDI  _z1 10
+LDI  _z2 5
+STR _aA _z1 _z2
+LDI  _z1 11
+LDI  _z2 3
+STR _aA _z1 _z2
+LDI  _z1 12
+LDI  _z2 7
+STR _aA _z1 _z2
+LDI  _z1 13
+LDI  _z2 4
+STR _aA _z1 _z2
+LDI  _z1 14
+LDI  _z2 9
+STR _aA _z1 _z2
+LDI  _z1 15
+LDI  _z2 2
+STR _aA _z1 _z2
+IADDI _z1 _hp 0
+IADDI _hp _hp 16
+IADDI _aB _z1  0
+LDI  _z2 0
+LDI  _z3 5
+STR _aB _z2 _z3
+LDI  _z2 1
+LDI  _z3 3
+STR _aB _z2 _z3
+LDI  _z2 2
+LDI  _z3 7
+STR _aB _z2 _z3
+LDI  _z2 3
+LDI  _z3 4
+STR _aB _z2 _z3
+LDI  _z2 4
+LDI  _z3 9
+STR _aB _z2 _z3
+LDI  _z2 5
+LDI  _z3 2
+STR _aB _z2 _z3
+LDI  _z2 6
+LDI  _z3 11
+STR _aB _z2 _z3
+LDI  _z2 7
+LDI  _z3 1
+STR _aB _z2 _z3
+LDI  _z2 8
+LDI  _z3 9
+STR _aB _z2 _z3
+LDI  _z2 9
+LDI  _z3 4
+STR _aB _z2 _z3
+LDI  _z2 10
+LDI  _z3 5
+STR _aB _z2 _z3
+LDI  _z2 11
+LDI  _z3 3
+STR _aB _z2 _z3
+LDI  _z2 12
+LDI  _z3 7
+STR _aB _z2 _z3
+LDI  _z2 13
+LDI  _z3 4
+STR _aB _z2 _z3
+LDI  _z2 14
+LDI  _z3 9
+STR _aB _z2 _z3
+LDI  _z2 15
+LDI  _z3 2
+STR _aB _z2 _z3
+IADDI _z2 _hp 0
+IADDI _hp _hp 16
+IADDI _aC _z2  0
+LDI  _z3 0
+IADDI _i _z3  0
+NOP @lbl4
+LDI  _z5 4
+ICMP _z6 _i _z5
+IADDI _z6 _z6 1
+JLT _z6 _cz ~lbl7
+JLT _cz _z6 ~lbl7
+LDI  _z8 0
+IADDI _j _z8  0
+NOP @lbl9
+LDI  _z10 4
+ICMP _z11 _j _z10
+IADDI _z11 _z11 1
+JLT _z11 _cz ~lbl12
+JLT _cz _z11 ~lbl12
+LDI  _z14 4
+IMUL  _z13 _i _z14
+IADD _z14 _z13 _j
+IADDI _idx1 _z14  0
+LDI  _z16 4
+IMUL  _z15 _j _z16
+IADD _z16 _z15 _i
+IADDI _idx2 _z16  0
+IADD _z17 _aA _idx1
+LD _z17 _z17 0
+IADD _z19 _aB _idx2
+LD _z19 _z19 0
+IMUL  _z18 _z17 _z19
+IADDI _c _z18  0
+PRNT _c
+STR _aC _idx1 _c
+LDI  _z20 1
+IADD _z19 _j _z20
+IADDI _j _z19  0
+BRA ~lbl9
+NOP @lbl12
+LDI  _z22 1
+IADD _z21 _i _z22
+IADDI _i _z21  0
+BRA ~lbl4
+NOP @lbl7
+LDI  _z23 0
+IADDI _b _z23  0
+NOP @lbl24
+LDI  _z25 16
+ICMP _z26 _b _z25
+IADDI _z26 _z26 1
+JLT _z26 _cz ~lbl27
+JLT _cz _z26 ~lbl27
+IADD _z28 _aC _b
+LD _z28 _z28 0
+PRNT _z28
+LDI  _z30 1
+IADD _z29 _b _z30
+IADDI _b _z29  0
+BRA ~lbl24
+NOP @lbl27
+LDI _fin 0  
+HALTEZ _fin

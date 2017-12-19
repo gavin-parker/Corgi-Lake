@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iterator>
 #include <sstream>
+#include <assert.h>
 
 using std::string;
 using std::istream_iterator;
@@ -116,6 +117,7 @@ uint32_t Assembler::assign_register(const std::string word)
 				return i;
 			}
 		}
+        assert(false);
 	}
 	else {
 		return vars_[word];

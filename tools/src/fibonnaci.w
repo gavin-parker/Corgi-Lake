@@ -1,6 +1,6 @@
 {Computes the first 500 fib numbers}
 def fib(n) (
-    if (n <= 1) then (
+    if (n < 2) then (
         e := n;
     ) else (
         a := n-1;
