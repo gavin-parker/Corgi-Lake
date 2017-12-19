@@ -3,37 +3,138 @@ LDI _cm1 -1
 LDI _c1 -1 
 LDI _cz 0 
 BRA ~main
-NOP @testFun
-LD _testFuny _sp 0
+NOP @print
+LD _x _sp 0
 IADDI _sp _sp -1
-LD _testFunx _sp 0
-IADDI _sp _sp -1
-PRNT _testFunx
-PRNT _testFunx
-PRNT _testFuny
-LDI  _ztestFun0 5
-IADDI _y _ztestFun0  0
+PRNT _x
 LD _ret _sp 0
+STR _cz _sp _x
+JUM _ret
+NOP @testFun
+LD _x _sp 0
 IADDI _sp _sp -1
-STR _cz _sp _y
+LDI  _z0 2
+ICMP _z1 _x _z0
+JLT _z1 _cz ~lbl3
+JLT _cz _z1 ~lbl3
+IADDI _sp _sp 1
+LDI _retadd ~lbl4
+STR _cz _sp _retadd
+IADDI _sp _sp 1
+STR _cz _sp _x
+BRA ~print
+NOP @lbl4
+LD _retVal _sp 0
+IADDI _sp _sp -1
+LDI  _z5 5
+IADDI _x _z5  0
+BRA ~lbl2
+NOP @lbl3
+IADDI _sp _sp 1
+STR _cz _sp _x
+IADDI _sp _sp 1
+LDI _retadd ~lbl6
+STR _cz _sp _retadd
+IADDI _sp _sp 1
+STR _cz _sp _x
+BRA ~print
+NOP @lbl6
+LD _retVal _sp 0
+IADDI _sp _sp -1
+LD _x _sp 0
+IADDI _sp _sp -1
+LDI  _z7 2
+IADDI _x _z7  0
+NOP @lbl2
+LD _ret _sp 0
+STR _cz _sp _x
 JUM _ret
 NOP @main
-LDI  _z1 1
-IADDI _x _z1  0
-LDI  _z2 2
-IADDI _y _z2  0
-IADDI _sp _sp 1
-LDI _retadd ~lbl3
-STR _cz _sp _retadd
+LDI  _z8 1
+IADDI _x _z8  0
+LDI  _z9 2
+IADDI _y _z9  0
 IADDI _sp _sp 1
 STR _cz _sp _x
 IADDI _sp _sp 1
 STR _cz _sp _y
+IADDI _sp _sp 1
+LDI _retadd ~lbl10
+STR _cz _sp _retadd
+IADDI _sp _sp 1
+STR _cz _sp _y
 BRA ~testFun
-NOP @lbl3
+NOP @lbl10
 LD _retVal _sp 0
 IADDI _sp _sp -1
+LD _x _sp 0
+IADDI _sp _sp -1
+LD _y _sp 0
+IADDI _sp _sp -1
 IADDI _z _retVal  0
-PRNT _z
+IADDI _sp _sp 1
+STR _cz _sp _z
+IADDI _sp _sp 1
+STR _cz _sp _x
+IADDI _sp _sp 1
+STR _cz _sp _y
+IADDI _sp _sp 1
+LDI _retadd ~lbl11
+STR _cz _sp _retadd
+IADDI _sp _sp 1
+STR _cz _sp _z
+BRA ~print
+NOP @lbl11
+LD _retVal _sp 0
+IADDI _sp _sp -1
+LD _z _sp 0
+IADDI _sp _sp -1
+LD _x _sp 0
+IADDI _sp _sp -1
+LD _y _sp 0
+IADDI _sp _sp -1
+IADDI _sp _sp 1
+STR _cz _sp _z
+IADDI _sp _sp 1
+STR _cz _sp _x
+IADDI _sp _sp 1
+STR _cz _sp _y
+IADDI _sp _sp 1
+LDI _retadd ~lbl12
+STR _cz _sp _retadd
+IADDI _sp _sp 1
+STR _cz _sp _z
+BRA ~testFun
+NOP @lbl12
+LD _retVal _sp 0
+IADDI _sp _sp -1
+LD _z _sp 0
+IADDI _sp _sp -1
+LD _x _sp 0
+IADDI _sp _sp -1
+LD _y _sp 0
+IADDI _sp _sp -1
+IADDI _z _retVal  0
+IADDI _sp _sp 1
+STR _cz _sp _z
+IADDI _sp _sp 1
+STR _cz _sp _x
+IADDI _sp _sp 1
+STR _cz _sp _y
+IADDI _sp _sp 1
+LDI _retadd ~lbl13
+STR _cz _sp _retadd
+IADDI _sp _sp 1
+STR _cz _sp _z
+BRA ~print
+NOP @lbl13
+LD _retVal _sp 0
+IADDI _sp _sp -1
+LD _z _sp 0
+IADDI _sp _sp -1
+LD _x _sp 0
+IADDI _sp _sp -1
+LD _y _sp 0
+IADDI _sp _sp -1
 LDI _fin 0  
 HALTEZ _fin

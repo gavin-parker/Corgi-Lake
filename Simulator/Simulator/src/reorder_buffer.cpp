@@ -60,6 +60,9 @@ void ReorderBuffer::writeback()
 				OP op = ordered_instruction.instruction.opcode.op;
 				if(op == STR || op == STRI){
 					Data res = {Instruction(Opcode(NOP)), ordered_instruction.result};
+                    if(ordered_instruction.target > (*memory).size()){
+                        memory->extend(static_cast<int>(ordered_instruction.target - memory->size()));
+                    }
 					(*memory)[ordered_instruction.target] = res;
 				}
 				buffer.pop_front();

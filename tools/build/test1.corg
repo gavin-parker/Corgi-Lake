@@ -4,14 +4,13 @@ LDI _c1 -1
 LDI _cz 0 
 BRA ~main
 NOP @testFun
-LD _testFunb _sp 0
+LD _b _sp 0
 IADDI _sp _sp -1
-LD _testFuna _sp 0
+LD _a _sp 0
 IADDI _sp _sp -1
-PRNT _testFuna
-PRNT _testFunb
+PRNT _a
+PRNT _b
 LD _ret _sp 0
-IADDI _sp _sp -1
 STR _cz _sp _b
 JUM _ret
 NOP @main
@@ -32,6 +31,10 @@ NOP @lbl7
 JLT _z5 _cz ~lbl8
 JLT _cz _z5 ~lbl8
 IADDI _sp _sp 1
+STR _cz _sp _x
+IADDI _sp _sp 1
+STR _cz _sp _y
+IADDI _sp _sp 1
 LDI _retadd ~lbl9
 STR _cz _sp _retadd
 IADDI _sp _sp 1
@@ -41,6 +44,10 @@ STR _cz _sp _y
 BRA ~testFun
 NOP @lbl9
 LD _retVal _sp 0
+IADDI _sp _sp -1
+LD _x _sp 0
+IADDI _sp _sp -1
+LD _y _sp 0
 IADDI _sp _sp -1
 IMUL  _z10 _y _x
 IADDI _y _z10  0

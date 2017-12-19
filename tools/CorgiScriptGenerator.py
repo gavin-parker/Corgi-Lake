@@ -9,13 +9,13 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
         self.labels = [0] * 100
         self.functions = {}
         self.main = False
-        self.functionTag = ''
+        self.scopeDeclarations = []             #identifiers declared in this scope
 
     def getRegister(self):
         for idx, slot in enumerate(self.registers):
             if not slot:
                 self.registers[idx] = 1
-                return '_z' + self.functionTag + str(idx)
+                return '_z' + str(idx)
 
     def freeRegister(self, idx):
         search = re.search(r'\d+', idx)
@@ -56,16 +56,27 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
         idents = self.visitFunction(ctx.function())
         address = idents[0]
         here = self.getLabel()
+        # Stack scope variables
+        for dec in list(set(self.scopeDeclarations)):
+            self.writeOp('IADDI', ['_sp', '_sp', 1])
+            self.writeOp('STR', ['_cz', '_sp', '_' + dec])
+        # Stack return address
         self.writeOp('IADDI', ['_sp', '_sp', 1])
         self.writeOp('LDI', ['_retadd', '~' + here])
         self.writeOp('STR', ['_cz', '_sp', '_retadd'])
+        # Stack arguments
         for ident in idents[1:]:
             self.writeOp('IADDI', ['_sp', '_sp', 1])
             self.writeOp('STR', ['_cz', '_sp', '_' + ident])
         self.writeOp('BRA', ['~' + address])
         self.writeOp('NOP', ['@' + here])
+        # Pop return value
         self.writeOp('LD', ['_retVal', '_sp', 0])
         self.writeOp('IADDI', ['_sp', '_sp', -1])
+        # Pop scope variables
+        for dec in list(set(self.scopeDeclarations)):
+            self.writeOp('LD', ['_' + dec, '_sp', 0])
+            self.writeOp('IADDI', ['_sp', '_sp', -1])
         val = '_retVal'
         return val
 
@@ -79,6 +90,7 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
                 val = self.handleFunction(ctx)
             ident = ctx.IDENT().getText()
             self.writeOp('IADDI', ['_' + str(ident) , str(val), ' 0'])
+            self.scopeDeclarations.append(ident)
         elif ctx.IF():
             boolean = self.visitBoolexp(ctx.boolexp())
             after_label = self.getLabel()
@@ -87,11 +99,11 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
             self.writeOp('JLT', ['_cz', boolean, '~' + else_label])
             self.visitStatement(ctx.statement(0))
             self.writeOp('BRA', ['~' + after_label])
+            self.writeOp('NOP', ['@' + else_label])
             self.visitStatement(ctx.statement(1))
             self.writeOp('NOP', ['@' + after_label])
         elif ctx.function():
             val = self.handleFunction(ctx)
-
         elif ctx.WHILE():
             start_label = self.getLabel()
             self.writeOp('NOP', ['@' + start_label])
@@ -126,16 +138,16 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
     def visitFuncdef(self, ctx):
         idents = self.visit(ctx.function())
         name = idents[0]
-        funcTag = self.functionTag
-        self.functionTag = name
         self.writeOp('NOP', ['@' + name])
         for ident in reversed(idents[1:]):
-            self.writeOp('LD', ['_' + self.functionTag + ident, '_sp', 0])
+            self.writeOp('LD', ['_' + ident, '_sp', 0])
             self.writeOp('IADDI', ['_sp', '_sp', -1])
+        decs = self.scopeDeclarations
+        self.scopeDeclarations = []
         self.visitStatement(ctx.statement())
-        self.functionTag = funcTag
+        self.scopeDeclarations = decs
         self.writeOp('LD', ['_ret', '_sp', 0])
-        self.writeOp('IADDI', ['_sp', '_sp', -1])
+        #self.writeOp('IADDI', ['_sp', '_sp', -1])
         self.writeOp('STR', ['_cz', '_sp', '_' + idents[-1]])
         self.writeOp('JUM', ['_ret'])
         return
@@ -234,7 +246,7 @@ class CorgiScriptGenerator(CorgiScriptVisitor):
             self.writeOp('LDI ', [reg, str(ctx.INTNUM())])
             return reg
         if ctx.IDENT():
-            reg = '_' + self.functionTag + str(ctx.IDENT())
+            reg = '_' + str(ctx.IDENT())
             return reg
         return self.visit(ctx.exp())
 

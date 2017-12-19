@@ -102,7 +102,7 @@ std::vector<Data> Assembler::load_assembly_file(const std::string path) {
 			line_number++;
 		}
 	}
-	disk.resize(200, { Instruction(DATA, 0, 0, 0, 0), 0});
+	disk.resize(1024, { Instruction(DATA, 0, 0, 0, 0), 0});
 	return disk;
 }
 

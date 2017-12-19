@@ -46,7 +46,7 @@ bool SaturatingCounter::predict(const Instruction instruction)
 
 bool SaturatingCounter::getPrediction(Instruction instruction)
 {
-	if (instruction.opcode.op == HALTEZ || instruction.opcode.op == HALTEQ)
+	if (instruction.opcode.op == HALTEZ || instruction.opcode.op == HALTEQ || instruction.opcode.op == JUM)
 	{
 		return false;
 	}

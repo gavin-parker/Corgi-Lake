@@ -42,7 +42,7 @@ int Fetcher::tick() {
 						target = next.instruction.operands[0];
 					}
 					else if(opcode.op == JUM){
-						target = next.instruction.location + next.instruction.operands[0];
+						target = next.instruction.location + 1;
 					}
 					assert(target > 0);
 					simState->program_counter = target;
