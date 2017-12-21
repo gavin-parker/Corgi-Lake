@@ -30,7 +30,7 @@ class Simulator : public Component
 public:	
 	SimState simState;
 	int ticks = 0;
-	explicit Simulator(std::vector<Data> boot_disk);
+	explicit Simulator(std::vector<Data> boot_disk, ulong alu_count, ulong ldstr_count);
 	~Simulator();
 	void simulate();
     int tick();

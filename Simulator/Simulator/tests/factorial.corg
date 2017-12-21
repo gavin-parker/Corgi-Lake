@@ -1,9 +1,10 @@
 #
-LDI _in 12
 LDI _total 1
 LDI _i 1
-LDI _max 13
+LDI _max 256
 IMUL _total _total _i
 IADDI _i _i 1
 BLT _i _max -2
-HALTEQ _total 479001600
+LDI _j 0
+PRNT _total
+HALTEZ _j16 16

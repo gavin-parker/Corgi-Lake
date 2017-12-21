@@ -140,7 +140,7 @@ IADD _z19 _aB _idx2
 LD _z19 _z19 0
 IMUL  _z18 _z17 _z19
 IADDI _c _z18  0
-PRNT _c
+#PRNT _c
 STR _aC _idx1 _c
 LDI  _z20 1
 IADD _z19 _j _z20
@@ -162,7 +162,7 @@ JLT _z26 _cz ~lbl27
 JLT _cz _z26 ~lbl27
 IADD _z28 _aC _b
 LD _z28 _z28 0
-PRNT _z28
+#PRNT _z28
 LDI  _z30 1
 IADD _z29 _b _z30
 IADDI _b _z29  0

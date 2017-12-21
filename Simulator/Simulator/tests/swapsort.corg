@@ -1,0 +1,262 @@
+LDI _sp 100 
+LDI _hp 400 
+LDI _cm1 -1 
+LDI _c1 1 
+LDI _cz 0 
+BRA ~main
+NOP @main
+LDI  _z0 64
+IADDI _elements _z0  0
+IADDI _z1 _hp 0
+IADDI _hp _hp 64
+IADDI _a _z1  0
+LDI  _z2 0
+LDI  _z3 5
+STR _a _z2 _z3
+LDI  _z2 1
+LDI  _z3 36
+STR _a _z2 _z3
+LDI  _z2 2
+LDI  _z3 7
+STR _a _z2 _z3
+LDI  _z2 3
+LDI  _z3 4
+STR _a _z2 _z3
+LDI  _z2 4
+LDI  _z3 9
+STR _a _z2 _z3
+LDI  _z2 5
+LDI  _z3 2
+STR _a _z2 _z3
+LDI  _z2 6
+LDI  _z3 11
+STR _a _z2 _z3
+LDI  _z2 7
+LDI  _z3 1
+STR _a _z2 _z3
+LDI  _z2 8
+LDI  _z3 9
+STR _a _z2 _z3
+LDI  _z2 9
+LDI  _z3 4
+STR _a _z2 _z3
+LDI  _z2 10
+LDI  _z3 5
+STR _a _z2 _z3
+LDI  _z2 11
+LDI  _z3 30
+STR _a _z2 _z3
+LDI  _z2 12
+LDI  _z3 7
+STR _a _z2 _z3
+LDI  _z2 13
+LDI  _z3 4
+STR _a _z2 _z3
+LDI  _z2 14
+LDI  _z3 9
+STR _a _z2 _z3
+LDI  _z2 15
+LDI  _z3 21
+STR _a _z2 _z3
+LDI  _z2 16
+LDI  _z3 11
+STR _a _z2 _z3
+LDI  _z2 17
+LDI  _z3 1
+STR _a _z2 _z3
+LDI  _z2 18
+LDI  _z3 9
+STR _a _z2 _z3
+LDI  _z2 19
+LDI  _z3 24
+STR _a _z2 _z3
+LDI  _z2 20
+LDI  _z3 5
+STR _a _z2 _z3
+LDI  _z2 21
+LDI  _z3 3
+STR _a _z2 _z3
+LDI  _z2 22
+LDI  _z3 17
+STR _a _z2 _z3
+LDI  _z2 23
+LDI  _z3 14
+STR _a _z2 _z3
+LDI  _z2 24
+LDI  _z3 9
+STR _a _z2 _z3
+LDI  _z2 25
+LDI  _z3 2
+STR _a _z2 _z3
+LDI  _z2 26
+LDI  _z3 11
+STR _a _z2 _z3
+LDI  _z2 27
+LDI  _z3 1
+STR _a _z2 _z3
+LDI  _z2 28
+LDI  _z3 9
+STR _a _z2 _z3
+LDI  _z2 29
+LDI  _z3 14
+STR _a _z2 _z3
+LDI  _z2 30
+LDI  _z3 1
+STR _a _z2 _z3
+LDI  _z2 31
+LDI  _z3 9
+STR _a _z2 _z3
+LDI  _z2 32
+LDI  _z3 5
+STR _a _z2 _z3
+LDI  _z2 33
+LDI  _z3 36
+STR _a _z2 _z3
+LDI  _z2 34
+LDI  _z3 6
+STR _a _z2 _z3
+LDI  _z2 35
+LDI  _z3 4
+STR _a _z2 _z3
+LDI  _z2 36
+LDI  _z3 3
+STR _a _z2 _z3
+LDI  _z2 37
+LDI  _z3 2
+STR _a _z2 _z3
+LDI  _z2 38
+LDI  _z3 13
+STR _a _z2 _z3
+LDI  _z2 39
+LDI  _z3 1
+STR _a _z2 _z3
+LDI  _z2 40
+LDI  _z3 19
+STR _a _z2 _z3
+LDI  _z2 41
+LDI  _z3 41
+STR _a _z2 _z3
+LDI  _z2 42
+LDI  _z3 25
+STR _a _z2 _z3
+LDI  _z2 43
+LDI  _z3 30
+STR _a _z2 _z3
+LDI  _z2 44
+LDI  _z3 7
+STR _a _z2 _z3
+LDI  _z2 45
+LDI  _z3 44
+STR _a _z2 _z3
+LDI  _z2 46
+LDI  _z3 9
+STR _a _z2 _z3
+LDI  _z2 47
+LDI  _z3 21
+STR _a _z2 _z3
+LDI  _z2 48
+LDI  _z3 11
+STR _a _z2 _z3
+LDI  _z2 49
+LDI  _z3 1
+STR _a _z2 _z3
+LDI  _z2 50
+LDI  _z3 92
+STR _a _z2 _z3
+LDI  _z2 51
+LDI  _z3 23
+STR _a _z2 _z3
+LDI  _z2 52
+LDI  _z3 5
+STR _a _z2 _z3
+LDI  _z2 53
+LDI  _z3 31
+STR _a _z2 _z3
+LDI  _z2 54
+LDI  _z3 17
+STR _a _z2 _z3
+LDI  _z2 55
+LDI  _z3 14
+STR _a _z2 _z3
+LDI  _z2 56
+LDI  _z3 15
+STR _a _z2 _z3
+LDI  _z2 57
+LDI  _z3 22
+STR _a _z2 _z3
+LDI  _z2 58
+LDI  _z3 11
+STR _a _z2 _z3
+LDI  _z2 59
+LDI  _z3 11
+STR _a _z2 _z3
+LDI  _z2 60
+LDI  _z3 8
+STR _a _z2 _z3
+LDI  _z2 61
+LDI  _z3 14
+STR _a _z2 _z3
+LDI  _z2 62
+LDI  _z3 10
+STR _a _z2 _z3
+LDI  _z2 63
+LDI  _z3 3
+STR _a _z2 _z3
+LDI  _z2 0
+IADDI _i _z2  0
+NOP @lbl3
+ICMP _z4 _i _elements
+IADDI _z4 _z4 1
+JLT _z4 _cz ~lbl5
+JLT _cz _z4 ~lbl5
+LDI  _z7 1
+IADD _z6 _i _z7
+IADDI _j _z6  0
+IADD _z8 _a _i
+LD _z8 _z8 0
+IADDI _smallest _z8  0
+NOP @lbl9
+ICMP _z10 _j _elements
+IADDI _z10 _z10 1
+JLT _z10 _cz ~lbl11
+JLT _cz _z10 ~lbl11
+IADD _z12 _a _j
+LD _z12 _z12 0
+IADDI _item _z12  0
+ICMP _z13 _item _smallest
+IADDI _z13 _z13 1
+JLT _z13 _cz ~lbl15
+JLT _cz _z13 ~lbl15
+STR _a _j _smallest
+IADDI _smallest _item  0
+STR _a _i _smallest
+BRA ~lbl14
+NOP @lbl15
+NOP @lbl14
+LDI  _z17 1
+IADD _z16 _j _z17
+IADDI _j _z16  0
+BRA ~lbl9
+NOP @lbl11
+LDI  _z19 1
+IADD _z18 _i _z19
+IADDI _i _z18  0
+BRA ~lbl3
+NOP @lbl5
+LDI  _z20 0
+IADDI _b _z20  0
+NOP @lbl21
+ICMP _z22 _b _elements
+IADDI _z22 _z22 1
+JLT _z22 _cz ~lbl23
+JLT _cz _z22 ~lbl23
+IADD _z24 _a _b
+LD _z24 _z24 0
+PRNT _z24
+LDI  _z26 1
+IADD _z25 _b _z26
+IADDI _b _z25  0
+BRA ~lbl21
+NOP @lbl23
+LDI _fin 0  
+HALTEZ _fin
