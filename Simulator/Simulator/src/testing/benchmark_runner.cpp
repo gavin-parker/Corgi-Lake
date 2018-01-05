@@ -24,8 +24,8 @@ BenchmarkRunner::~BenchmarkRunner()
 int main(int argc, char *argv[])
 {
     std::vector<std::string> paths;
-    ulong alu_count=16;
-    ulong ldstr_count=16;
+    uint64_t alu_count=16;
+    uint64_t ldstr_count=16;
     if(argc == 1){
         paths = { "vector_add.corg", "vector_sum.corg", "dot_product.corg", "raw_hazards.corg", "gcd.corg" , "factorial.corg", "matrixmul.corg", "swapsort.corg"};
     }else{
@@ -33,10 +33,10 @@ int main(int argc, char *argv[])
             string arg(argv[i]);
             if(arg.find("--alus=") != string::npos){
                 auto val = arg.substr(7,string::npos);
-                alu_count = static_cast<ulong>(std::stoi(val));
+                alu_count = static_cast<uint64_t>(std::stoi(val));
             }else if(arg.find("--ldstrs=") != string::npos){
                 auto val = arg.substr(9, string::npos);
-                ldstr_count = static_cast<ulong>(std::stoi(val));
+                ldstr_count = static_cast<uint64_t>(std::stoi(val));
             }else {
                 paths.push_back(argv[i]);
             }
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 	std::vector<benchmark_result> results;
 	for (const auto &path : paths) {
         std::cout << "Executing: " << path << " ALUS: " << alu_count << " LDSTRS: " << ldstr_count << std::endl;
-		std::vector<Data> disk = assembler.load_assembly_file(std::string("/home/gavin/workspace/Advanced-Architecture/Simulator/Simulator/tests/" + path));
+		std::vector<Data> disk = assembler.load_assembly_file(std::string(getenv("$AA_TESTS") + path));
 		Simulator simulator(disk, alu_count, ldstr_count);
 		try {
 			simulator.simulate();
@@ -65,7 +65,8 @@ int main(int argc, char *argv[])
 		<< std::setw(14) << "INSTRUCTIONS"
 		<< std::setw(14) << "TICKS"
 		<< std::setw(14) << "MISPREDICTS"
-		<< std::endl;
+        << std::setw(14) << "IPC"
+            << std::endl;
 
 	for (auto result : results) {
 		std::cout
@@ -73,6 +74,7 @@ int main(int argc, char *argv[])
 			<< std::setw(14) << result.instructions
 			<< std::setw(14) << result.ticks
 			<< std::setw(14) << result.mispredicts
+            << std::setw(14) << std::setprecision(2) << result.instructions / (float) result.ticks
 			<< std::endl;
 	}
 

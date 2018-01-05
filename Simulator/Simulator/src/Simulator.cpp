@@ -5,7 +5,7 @@
 #include <algorithm>
 
 
-Simulator::Simulator(std::vector<Data> boot_disk, ulong alu_count, ulong ldstr_count) : simState({RegisterFile(), Memory(boot_disk), 0}),
+Simulator::Simulator(std::vector<Data> boot_disk, uint64_t alu_count, uint64_t ldstr_count) : simState({RegisterFile(), Memory(boot_disk), 0}),
                                                     reorder_buffer_(&simState.register_file, &simState, &simState.memory),
                                                     alus_(alu_count, ALU(&simState, &reorder_buffer_)),
                                                     fetcher(&simState, &branch_predictor),
