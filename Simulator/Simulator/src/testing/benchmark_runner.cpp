@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     uint64_t alu_count=16;
     uint64_t ldstr_count=16;
     if(argc == 1){
-        paths = { "vector_add.corg", "vector_sum.corg", "dot_product.corg", "raw_hazards.corg", "gcd.corg" , "factorial.corg", "matrixmul.corg", "swapsort.corg"};
+        paths = { "vector_add.corg", "vector_sum.corg", "dot_product.corg", "raw_hazards.corg", "gcd.corg" , "factorial.corg", "matrixmul.corg", "swapsort.corg",  "max_ipc.corg"};
     }else{
         for(int i=1; i < argc; i++){
             string arg(argv[i]);
@@ -46,9 +46,9 @@ int main(int argc, char *argv[])
 	int tests_passed = 0;
 	int tests_failed = 0;
 	std::vector<std::string> failed_tests;
-	Assembler assembler;
 	std::vector<benchmark_result> results;
 	for (const auto &path : paths) {
+        Assembler assembler;
         std::cout << "Executing: " << path << " ALUS: " << alu_count << " LDSTRS: " << ldstr_count << std::endl;
 		std::vector<Data> disk = assembler.load_assembly_file(std::string(getenv("$AA_TESTS") + path));
 		Simulator simulator(disk, alu_count, ldstr_count);

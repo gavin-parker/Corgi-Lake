@@ -24,7 +24,7 @@ class Simulator : public Component
 	SaturatingCounter branch_predictor;
 	std::vector<ALU> alus_;
 	ReorderBuffer reorder_buffer_;
-	const int max_issue = 8;
+	const int max_issue = 16;
 	int counter = 0;
 	const int max_instruction_queue_length = 40;
 public:	
