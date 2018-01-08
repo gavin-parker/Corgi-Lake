@@ -24,8 +24,8 @@ BenchmarkRunner::~BenchmarkRunner()
 int main(int argc, char *argv[])
 {
     std::vector<std::string> paths;
-    uint64_t alu_count=16;
-    uint64_t ldstr_count=16;
+    uint64_t alu_count=8;
+    uint64_t ldstr_count=8;
     if(argc == 1){
         paths = { "vector_add.corg", "vector_sum.corg", "dot_product.corg", "raw_hazards.corg", "gcd.corg" , "factorial.corg", "matrixmul.corg", "swapsort.corg",  "max_ipc.corg"};
     }else{

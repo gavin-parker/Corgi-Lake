@@ -20,7 +20,7 @@ int Fetcher::tick() {
 		break;
 	case EXECUTING:
 		state = DONE;
-		while (register_file->fetch_buffer.size() < 5) {
+		while (register_file->fetch_buffer.size() < max_fetch) {
 			if(simState->program_counter >= memory->size())
 			{
 				return 0;
