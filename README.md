@@ -1,6 +1,18 @@
-# Advanced-Architecture 
+# Corgi Lake
 
-ACA Simulator
+Superscalar CPU simulator written in C++ featuring:
+* Multiple execution units
+* Out-of-Order execution
+* Pipelining
+* Dynamic branch prediction
+* Register renaming
+* Shelving
+* Out-of-Order Load/Stores
+* A rudimentary 'CorgiScript' compiler
+* 3+ IPC!
+
+# Build instructions
+Compiled on linux with CMake and C++14. Execute test suite via 'benchmark_runner.cpp'
 
 ## Instruction Set: CORG-V
 
