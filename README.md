@@ -1,4 +1,5 @@
 # Corgi Lake
+![alt text](https://png.pngtree.com/element_origin_min_pic/16/10/09/1457f9e071aae35.jpg)
 
 Superscalar CPU simulator written in C++ featuring:
 * Multiple execution units
